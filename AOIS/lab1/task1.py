@@ -53,6 +53,13 @@ class Hash_tabl:
 
         global num_of_appeals
         num_of_appeals += 1
+
+    def edit(self, key, val, name):
+        index = get_index(key)
+        if self.tabl[index].key == key:
+            self.tabl[index].TO_SET(key, val, name)
+        else:
+            self.tabl[index].link.TO_SET(key, val, name)
     
     def delete(self, key):
         index = get_index(key)
@@ -85,7 +92,7 @@ def get_index(key):
 hash_tabl = Hash_tabl(20)
 
 while True:
-    menu = input("1. Добавление записи\n2. Удаление записи\n3. Вывод таблицы\n4. Выход из программы, провести расчеты\n>> ")
+    menu = input("1. Добавление записи\n2. Редактирование записи\n3. Удаление записи\n4. Вывод таблицы\n5. Выход из программы, провести расчеты\n>> ")
     system('cls')
     match menu:
         case '1':
@@ -95,14 +102,20 @@ while True:
 
             hash_tabl.add(key, val, name)   
 
-            num_of_records += 1         
+            num_of_records += 1   
         case '2':
             key = input("Введите ключ: ")
-            hash_tabl.delete(key)
+            val = input("Введите значение: ")
+            name = input("Введите имя: ")
+
+            hash_tabl.edit(key, val, name)
         case '3':
             key = input("Введите ключ: ")
-            hash_tabl.show(key)
+            hash_tabl.delete(key)
         case '4':
+            key = input("Введите ключ: ")
+            hash_tabl.show(key)
+        case '5':
             break
 
 system('cls')
