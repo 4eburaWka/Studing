@@ -1,8 +1,73 @@
+from os import system
+num_of_colls, num_of_records, num_of_appeals = 0, 0, 0
+
 class HashItem:
-    def __init__(self, key, value, name) -> None:
-        self.key = key
-        self.value = value
-        self.name = name
+    def __init__(self, key="", val="", name="") -> None:
+        self.key, self.val, self.name = key, val, name
+        self.link = None
+
+    def TO_SET(self, key, val, name):
+        self.key, self.val, self.name = key, val, name
+    
+    def TO_CLEAR(self, key):
+        if self.key == key:
+            self.key, self.val, self.name = "", "", ""
+            print("Удалено:", key)
+            num_of_records -= 1
+        elif self.link == None:
+            print("Такого ключа не существует")
+        else:
+            self.link.TO_CLEAR(key)
+    
+    def TO_SHOW(self, key):
+        if self.key == key:
+            print(f"{self.val=}\t{self.name=}")
+        elif self.link == None:
+            print("Такого ключа не существует")
+        else:
+            self.link.TO_SHOW(key)
+    
+    def make_link(self, link):
+        if self.link is None:
+            self.link = link
+
+            global num_of_colls
+            num_of_colls += 1 
+        else:
+            self.link.make_link(link)
+
+    def is_empty(self):
+        return self.key == self.val == self.name == ""
+
+
+class Hash_tabl:
+    def __init__(self, length: int) -> None:
+        self.tabl = [HashItem() for _ in range(length)]
+    
+    def add(self, key, val, name):
+        index = get_index(key)
+        if self.tabl[index].is_empty():
+            self.tabl[index].TO_SET(key, val, name)
+        else:
+            self.tabl[index].make_link(HashItem(key, val, name))
+
+        global num_of_appeals
+        num_of_appeals += 1
+    
+    def delete(self, key):
+        index = get_index(key)
+        self.tabl[index].TO_CLEAR(key)
+
+        global num_of_appeals
+        num_of_appeals += 1
+    
+    def show(self, key):
+        index = get_index(key)
+        self.tabl[index].TO_SHOW(key)
+
+        global num_of_appeals
+        num_of_appeals += 1
+
 
 def get_index(key):
     arr = [ord(x) for x in key]
@@ -15,25 +80,36 @@ def get_index(key):
     print(f"Индекс ключа \"{key}\" : {mult}")
     return mult
 
-hash_tabl = [None for _ in range(20)]
+1
+
+hash_tabl = Hash_tabl(20)
 
 while True:
-    menu = input("1. Добавление записи\n2. Удаление записи\n3. Вывод таблицы\n4. Выход из программы\n> ")
+    menu = input("1. Добавление записи\n2. Удаление записи\n3. Вывод таблицы\n4. Выход из программы, провести расчеты\n>> ")
+    system('cls')
     match menu:
         case '1':
             key = input("Введите ключ: ")
             val = input("Введите значение: ")
             name = input("Введите имя: ")
-            hash_tabl[get_index(key)] = HashItem(key, val, name)
+
+            hash_tabl.add(key, val, name)   
+
+            num_of_records += 1         
         case '2':
             key = input("Введите ключ: ")
-            hash_tabl[get_index(key)] = None
+            hash_tabl.delete(key)
         case '3':
             key = input("Введите ключ: ")
-            el = hash_tabl[get_index(key)]
-            if el is not None:
-                print(el.value, el.name, sep="\t")
-            else:
-                print("Ничего не найдено")
+            hash_tabl.show(key)
         case '4':
             break
+
+system('cls')
+print(
+f"""Всего коллизий: {num_of_colls}.
+Всего записей в таблице: {num_of_records}.
+Всего обращений к таблице: {num_of_appeals}.
+Вероятность возникновения коллизий: {num_of_colls/num_of_records}.
+Среднее количество обращений к таблице во время поиска записи по ключу: {num_of_appeals/num_of_records}."""
+)
