@@ -1,0 +1,1228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta name="description" content="Разбор основных ГСЧ, распределений и работа с ними">
+    <meta name="Keywords" content="ГСЧ, mersenne twister, ПГСЧ, cpp, std::generate, std::bind">
+    
+    <link rel="image_src" href="http://www.quizful.net/res/img/logo.png">
+    <meta name="verify-v1" content="6KfOvLrGm4KgPJB+V2B+ELyBzxjG+LoVhKdUcFXetdc=">
+    <meta name="verify-v1" content="qYSVa9mzpQpfGqnpnzskiw2v73evzB42bGM/wcip0Hg=">
+    <meta name="y_key" content="29ad813d1559a2f3">
+    <meta name="google-site-verification" content="iBH4tJ3rxmGwMxXc6uL-qF4pRUbmBrSlRT_XQbw_4Vs">
+
+    <title>Новые генераторы случайных чисел(ГСЧ) из С++11</title>
+
+    <style>@import '/res/page.css?97';</style>
+    <script type="text/javascript" src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/page.js"></script>
+    <link rel="templates" href="http://www.quizful.net/res/page.html?1">
+
+    <script>
+        //IE6 идет на$#%
+        if ('\v'=='v' && !window.XMLHttpRequest) window.location='/res/no-ie6.html';
+        jQuery(function() { pageInit(); });
+    </script>
+    <link rel="shortcut icon" href="http://www.quizful.net/res/favicon.ico">
+</head>
+<body>
+
+    <div id="header">
+                <a id="logo" title="Онлайн тесты" href="http://www.quizful.net/"></a>
+
+        <div id="top-groups">
+    <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2FQuizful&amp;width&amp;layout=button_count&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=21&amp;locale=en_US" scrolling="no" style="border:none; overflow:hidden; height:21px; width:90px;" allowtransparency="true" frameborder="0"></iframe>
+</div>
+
+<div id="top-popups">
+    <div id="feedback-block">
+        <div class="feedback-block-button closed" onclick="toggleBlock(jQuery.event.fix(event), '#feedback-block'); return false;"></div>
+
+        <div class="content">
+            <div class="corners"><b></b><u></u><i></i></div>
+
+            <form id="feedback" action="">
+                <div class="errors hidden"></div>
+                <textarea id="feedback-text" name="text" class="form-control"></textarea>
+                                    <div class="captcha">
+                        <img class="captcha-img" src="" style="cursor:pointer;">
+                        <label for="feedback-code">Введите число</label>
+                        <input id="feedback-code" name="captcha" type="text">
+                    </div>
+                                <div class="buttons"><input value="Отправить" class="btn btn-primary btn-xs" type="button"></div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+    new Feedback();
+    $(document).bind('click', handleClickOutside);
+
+    function handleClickOutside(e) {
+        var blocks = ['#feedback-block', '#invite-block'];
+        for (var id in blocks) {
+            var blockEl = jQuery(blocks[id] + " .content");
+
+            if (jQuery.find(blocks[id]).length > 0 && blockEl.attr('display') != 'none') {
+                if (jQuery(e.target).parents().index(jQuery(blocks[id])) == -1 && !jQuery(e.target).parent().hasClass('thanks')
+                        && jQuery(e.target).attr('id') != blocks[id].substring(1)) {
+
+//                    alert(jQuery(e.target).parents().map(function() { return this.tagName + " id=" + this.id; }).get().join());
+
+                    blockEl.slideUp(250);
+                    jQuery((blocks[id] + '-button').replace('#', '.')).removeClass('opened').addClass('closed');
+                }
+            }
+        }
+    }
+
+    function toggleBlock(e, block) {
+        if (jQuery(e.target).hasClass('opened')) {
+            jQuery(block + ' .content').slideUp(250);
+            jQuery(e.target).removeClass('opened').addClass('closed');
+        } else {
+            jQuery(e.target).removeClass('closed').addClass('opened');
+            jQuery(block + ' .content').slideDown(250);
+        }
+    }
+</script>
+
+        <ul id="navigation">
+                                    <li class="
+            first                         ">
+                <b></b><a href="http://www.quizful.net/test">Главная</a>
+                            </li>
+            <li class="sep"></li>
+                                                                        <li class="
+                                                                                                                                                                                                                                                                                                                ">
+                <a href="http://www.quizful.net/posts">Статьи</a>
+                            </li>
+            <li class="sep"></li>
+                                                                        <li class="
+                                                                                                                                                                                                    ">
+                <a href="http://www.quizful.net/page/about">О проекте</a>
+                                    <ul class="sub">
+                                                <li class="">
+                            <a href="http://www.quizful.net/page/about">описание</a>
+                        </li>
+                                                <li class="">
+                            <a href="http://www.quizful.net/page/hall-of-fame">зал славы</a>
+                        </li>
+                                                <li class="">
+                            <a href="http://www.quizful.net/page/certification-exams">сертификаты</a>
+                        </li>
+                                                <li class="">
+                            <a href="http://www.quizful.net/faq">faq</a>
+                        </li>
+                                                <li class="last"><b class="left"></b><b class="middle"></b><b class="right"></b></li>
+                    </ul>
+                            </li>
+            <li class="sep"></li>
+                                                        </ul>
+
+        <ul id="user-panel">
+            <li> <a href="http://www.quizful.net/LoginAction.loginForm" rel="nofollow">войти</a> </li>
+            <li class="separator"></li>
+                                    <li> <a href="http://www.quizful.net/LoginAction.registration" rel="nofollow">зарегистрироваться</a> </li>
+        </ul>
+
+    </div>
+    <div id="content">
+        <div id="contributor"></div>
+        <div id="left">
+                        <div class="a-block">
+                <div class="corners"><s></s><b></b><u></u><i></i></div>
+                <div class="sides"><s></s><b></b><u></u><i></i></div>
+                <div class="content">
+                    <a class="twitter-follow-button" href="https://twitter.com/quizful_com" data-show-count="false" data-size="large">
+Follow @Quizful</a>
+<br><br>
+Contribute to new <a href="http://quizful.com/contribute" target="_blank">Quizful</a> Help to translate Java. 
+<a href="http://quizful.com/contribute" style="padding-left: 25px" target="_blank"><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/contribute_logo1.png"></a>
+<br><br>
+Раздаем бесплатные Q! подробности в группе <a href="https://plus.google.com/communities/103078004820764559925" target="_blank">Quizful.Alpha-test</a>
+
+
+
+<script>window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  fjs.parentNode.insertBefore(js, fjs);
+ 
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+ 
+  return t;
+}(document, "script", "twitter-wjs"));</script>
+                </div>
+            </div>
+            
+                            <div id="vips" class="sblock">
+    <div class="corners"><s></s><b></b><u></u><i></i></div>
+    <div class="title"><b>Партнеры</b></div>
+    <div class="content">
+        <table class="table" style="background-color: white;">
+                            <tbody><tr class="vip">
+                    <td class="content"><a href="http://skillbox.io/" target="_blank"><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/banner_prescreening.png" alt="Рекрутерам: Прескрининг кандидатов" border="0"></a></td>
+                    <td>
+                        <img style="vertical-align:middle; padding-right:5px; opacity: 0.5" alt="about" src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/help-tip.gif" data-tooltip="" data-title="Skillbox - инструмент для прескрининга IT специалистов" data-placement="right">
+                    </td>
+                </tr>
+                            <tr class="vip">
+                    <td class="content"><a href="http://cogniance.com/vacancies/?from=quizful" target="blank"><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/cogniance_logo_image.png" alt="Cogniance тесты работодателя" border="0"></a></td>
+                    <td>
+                        <img style="vertical-align:middle; padding-right:5px; opacity: 0.5" alt="about" src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/help-tip.gif" data-tooltip="" data-title="Cogniance  — компания, предоставляющая услуги в области проектирования, разработки, тестирования, внедрения и поддержки систем программного обеспечения на международном рынке." data-placement="right">
+                    </td>
+                </tr>
+                    </tbody></table>
+    </div>
+</div>
+            
+            <div id="contributors" class="sblock">
+    <div class="corners"><s></s><b></b><u></u><i></i></div>
+    <div class="title"><b>Топ контрибуторов</b></div>
+    <div class="content" id="contributors-content">
+        <select id="contributors-report">
+            <option selected="selected" value="day">За последние сутки</option>
+            <option value="month">За последний месяц</option>
+            <option value="all">За весь период</option>
+        </select>
+        <img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/loading.gif" id="contributors-loading-select" alt="loading" align="absmiddle">
+        <div id="contributors-table"></div>
+        <div id="contribution-paging" class="paging">
+            <img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/loading.gif" alt="loading" id="contributors-loading" align="absmiddle">
+            <span class="arrow">←</span>
+            <span class="arrow">→</span>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    if (!Cookie.get("reportType"))
+        Cookie.set("reportType", "month", 365);
+    $("#contributors-report").val(Cookie.get("reportType"));
+    new TopContributors();
+</script>
+
+            <div id="tips-block" class="sblock opened">
+    <div class="corners"><s></s><b></b><u></u><i></i></div>
+    <div class="title"><b>Знаете ли Вы, что</b></div>
+    <div class="content">
+        <p id="tips-text">
+            Вы можете подписаться на RSS ленту новых тестов сервиса Quizful, в том числе и отдельно по каждой категории
+        </p>
+        <input id="tip-index" value="6" type="hidden">
+        <p class="link">
+            <img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/loading.gif" alt="Loading" id="tips-loading" align="absmiddle">
+            <span class="arrow">←</span>
+            <span class="arrow">→</span>
+        </p>
+    </div>
+</div>
+<script type="text/javascript"> new Tips(); </script>
+
+
+                        <div id="globalfeed" class="sblock">
+    <div class="corners"><s></s><b></b><u></u><i></i></div>
+    <div class="title"><b>Лента обновлений</b></div>
+    <div class="content">
+        <table>
+                            <tbody><tr><td>
+                    <a href="http://www.quizful.net/test/scjp_3_java_6#7143279102849794768">ссылка</a>
+                    <span>15:34:08</span>
+                    <div>
+                    Комментарий от overdrive:<br>Q нужно оплачивать единоразово за тест? Или при повтор...
+                </div></td></tr>
+                            <tr class="even"><td>
+                    <a href="http://www.quizful.net/interview/csharp/IoC-and-DI-cont#4783352919424948245">ссылка</a>
+                    <span>15:18:42</span>
+                    <div>
+                    Комментарий от overdrive:<br>Все верно он написал, но сам видимо запутался.<br>IoC это...
+                </div></td></tr>
+                            <tr><td>
+                    <a href="http://www.quizful.net/interview/csharp/IoC-and-DI-cont#3988578828350442813">ссылка</a>
+                    <span>15:10:58</span>
+                    <div>
+                    Комментарий от overdrive:<br>IoC - это инверсия управления. (Не инверсия зависимост...
+                </div></td></tr>
+                            <tr class="even"><td>
+                    <a href="http://www.quizful.net/TestStoreAction.viewQuestion?question=kAGXiDy7Vk9r#8345961958228849183">ссылка</a>
+                    <span>12:55:27</span>
+                    <div>
+                    Комментарий от kostiantyn:<br>приятно когда понял, что все понял
+                </div></td></tr>
+                            <tr><td>
+                    <a href="http://www.quizful.net/TestStoreAction.viewQuestion?question=0GqASmJkHyis#1272498766576999744">ссылка</a>
+                    <span>12:27:41</span>
+                    <div>
+                    Комментарий от brixdan:<br>3- за многословие вопроса.
+                </div></td></tr>
+                    </tbody></table>
+    </div>
+</div>
+
+                        <div id="statistics" class="sblock">
+                <div class="corners"><s></s><b></b><u></u><i></i></div>
+                <div class="title"><b>Статистика</b></div>
+                <div class="content">
+                    <p>Тестов: 153, вопросов: 8396.
+                    Пройдено: 281539 / 1322743.</p>
+                </div>
+            </div>
+                    </div>
+        <div id="middle">
+            <div id="page-title-hr"></div>
+            <script type="text/javascript" src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/share.js" charset="windows-1251"></script>
+
+<h1 id="page-title" style="height:auto;">Новые генераторы случайных чисел(ГСЧ) из С++11</h1>
+        <div class="post">
+    <div id="post-info" class="rform">
+        <div class="corners"><s></s><b></b><u></u><i></i></div>
+        <div class="title">
+            <img class="head" src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/blank.gif" alt="head">
+            <img class="tail" src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/blank.gif" alt="tail">
+            <b>Статья</b>
+        </div>
+        <div class="content">
+            <table>
+                                <tbody><tr class="even category"><td colspan="2"><span>категория</span><br><a href="http://www.quizful.net/category/cpp">C++</a></td></tr>
+                                <tr><td>дата</td><td>12.04.2013</td></tr>
+                <tr class="even"><td>автор</td><td><a href="http://www.quizful.net/user/mrgluck">mrgluck</a></td></tr>
+                <tr><td>голосов</td><td id="votes">5</td></tr>
+            </tbody></table>
+        </div>
+    </div>
+
+    <div class="text" style="margin-right:260px;">
+        <div align="right"><em>srand наше все - Программист С</em></div>
+<h2>Вступление</h2><p>Но мы ведь пишем на плюсах. В 11 стандарте С++ для
+ программистов предоставляются обширные возможности для создания ГЧ и их
+ использования. Надо отметить, что ничего нового не придумали, а 
+добавили классы из библиотеки boost (boost/random). Так что для тех, кто
+ не может пользоваться свежим компилятором, всегда есть вариант с 
+использованием данной библиотеки.</p><p>В связи с чем возникла 
+потребность новых ГСЧ? Если вы пишите проекты чуть более сложные, чем 
+Hello World, то "случайности" ГСЧ (а правильнее ГПСЧ) srand вам попросту
+ не хватит, несложно будет вычислить порядок следования 
+последовательности, и вызов будет происходить в одно и то же время, 
+давая одинаковый результат. Также, само по себе использование srand 
+неудобно, все хорошо лишь при диапазоне от 0 до n, вдобавок n ограничен 
+потолком short int на некоторых системах. А если надо брать нижнюю 
+границу, отличную от 0, то появляются лишние числа, вычисления, влекущие
+ ошибки, связанные с неверным подсчетом. Еще хуже дело обстоит с 
+генерацией СЧ в виде числа с плавающей точкой. И рассмотренные ниже 
+классы помогут нам в этом нелегком пути. Пусть вас не пугают длинные 
+непривычные названия, попробовав новый функционал, вы будете даже 
+простые задачки решать с его помощью.</p>
+<br>
+<h2>Знакомство с новым ГПСЧ</h2>
+<p>Мы будем использовать генератор <em>mersenne twister</em>, а точнее 
+mt19937. Основанный на свойствах простых чисел, он подходит для решения 
+большинства задач. Несмотря на то, что степень его "случайности" весьма 
+неплоха, он все-таки является ГПСЧ. Генерирует СЧ он достаточно быстро и
+ хватить его должно с головой.</p><p>Определен он, как и все, что мы 
+далее будем рассматривать, в хедере random и пространстве имен std. 
+Является 32-битным генератором, имеет собрата mt19937_64, являющегося 
+64-битным.<br>В конструкторе может инициализироваться величиной, от 
+которой начинается генерация последовательности, либо специальным 
+объектом seed_seq, являющимся зерном последовательности. Мы будем 
+использовать первый вариант.</p><p><em>Пример: создание переменных std::mt19937</em></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;random&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include<span style="COLOR: blue"> &lt;ctime&gt;</span></span>&nbsp;&nbsp;<br>
+&nbsp;<br>
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen1,&nbsp;gen2(time(<span style="color:red">0</span>));<br>
+}&nbsp;</span></p>
+
+</div><br>В первом случае мы просто создаем объект, во втором, инициализируем его начальным значением. Пока все похоже на srand.<br>Класс имеет метод seed(), с помощью которого можно назначить зерно последовательности.<br><br><em><p>Пример: использование метода seed</p></em>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;random&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include<span style="COLOR: blue"> &lt;ctime&gt;</span></span>&nbsp;&nbsp;<br><br>
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gen.seed(time(<span style="color:red">0</span>));<br>
+}</span></p>
+</div><br>Здесь мы сначала создаем ГПСЧ, а потом задаем зерно (стартовое значение) его последовательности.<br><br>По
+ вызову operator(), генератор производит число. Все  как и с rand(), 
+только теперь этим занимается один класс. Может иметь в качестве  
+параметра распределение (переменная, отвечающая за диапазон значений). 
+Очень удобно использовать даже один генератор и несколько разных 
+распределений. О них мы поговорим далее, но сначала пример.<br><br><p><em>Пример: генерация СЧ и вывод на экран</em></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;ctime&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gen.seed(time(<span style="color:red">0</span>));&nbsp;<span style="color:green">//&nbsp;try&nbsp;to&nbsp;comment&nbsp;this&nbsp;string</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"My&nbsp;number:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;gen()&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}</span></p>
+
+</div><br>Я специально записал "сидирование" в отдельную строку. 
+Попробуйте закомментировать её и убедитесь, что будет показывать одно и 
+то же число.
+<p>&nbsp;</p>
+<h2>Распределения</h2>
+<p>Сами по себе, генераторы, конечно, незаменимы, но без возможности 
+указания диапазона нужного значения они становятся лишь чуть лучше, чем 
+srand. Я рассмотрю два основных распределения, но их существует гораздо 
+большее количество, на все случаи жизни, так сказать.</p><p>Все они 
+принимают в качестве аргументов в конструкторе либо параметры другого 
+распределения, либо переменные, отвечающие за диапазон значений. Если 
+оные не указаны, то используется диапазон от 0 до максимального 
+значения, определенного в numeric_limits&lt;&gt;::max() данного 
+идентификатора типа, являющегося параметром шаблона.</p><p>Если указан 
+лишь один аргумент, то берется диапазон значений от данного до 
+максимального. Следует отметить, что границы также учитываются, т.е. при
+ указании в качестве аргументов a, b используется диапазон [a, b].</p>Каждое распределение имеет след. методы и функции для работы с ними:<br>1) перегруженный конструктор, описанный выше<br>2) reset, отвечающее за сброс последовательности распределения<br>3) оператор (), про него подробнее расскажу ниже<br>4) деструктор<br>5) param, возвращающий параметры данного распределения. Используется для передачи параметров одного распределения другому.<br>6) max, возвращающий максимально возможное значение, возвращаемое оператором ()<br>7) min, возвращающий минимально возможное значение, возвращаемое оператором ()<br>8) a, возвращающий верхнюю границу параметра распределения<br>9) b, возвращающий нижнюю границу параметра распределения<br>10) также имеет перегруженные версии операторов &lt;&lt; и &gt;&gt;<br><br><p>Оператор
+ () принимает в качестве параметра генератор и возвращает число из 
+диапазона распределения. При этом на одно и то же распределение можно 
+применять совершенно различные генераторы, отвечают они лишь за 
+диапазон.</p>Все это мб сейчас для вас лишь непонятная скучная теория, 
+но я постараюсь разбавить её примерами, на основе следующего 
+распределения.
+<p>&nbsp;</p>
+<h2>std::uniform_int_distribution</h2>
+<p>Применяется для указания диапазона <strong>целых </strong>чисел. 
+Лучше всего подходит для int, unsigned int, long, unsigned long, long 
+long, unsigned long long. Является шаблонным классом, по умолчанию 
+использует int.</p><p>А теперь давайте по пунктам разберем методы.</p><p><em>Пример: создание ГПСЧ с разбросом от 0 до 50 и вывод на экран двух СЧ</em><br></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;ctime&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen(time(<span style="color:red">0</span>));&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;&gt;&nbsp;uid(<span style="color:red">0</span>,&nbsp;<span style="color:red">50</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"My&nbsp;numbers:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid(gen)&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid(gen)&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>В этом примере используется перегруженная версия конструктора,
+ принимающая два аргумента. Как видите, оператор() принимает в качестве 
+параметра ГПСЧ и возвращает СЧ из данного диапазона.<br><br>Давайте 
+теперь создадим распределение на основе данного и посмотрим их 
+характеристики (мин. и макс. значения диапазона). Заодно научимся 
+использовать методы <strong>max()</strong> и <strong>min()</strong>.<p><br><em>Пример: передача параметров одного распределения в качестве аргументов другого</em></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;ctime&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;std</span><span style="font-size:10.0pt;font-family:
+&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">mt</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">19937</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;gen</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">(</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">time</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">(<span style="color:red">0</span>));</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;std</span><span style="font-size:10.0pt;font-family:
+&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">uniform</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">_</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">int</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">_</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">distribution&lt;int&gt;&nbsp;uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">1(<span style="color:red">0</span>,</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-fareast-language:RU">50</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">),</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">2(</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">1.</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">param</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">());</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;std</span><span style="font-size:10.0pt;font-family:
+&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">cout&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">"</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">1</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;max</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">:</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">"</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;uid</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">1.</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">max</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">()</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;std</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">endl&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:teal;
+mso-fareast-language:RU">"</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:teal;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">1</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;min</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">:</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">"</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;uid</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">1.</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">min</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">()</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;std</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">endl&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:teal;
+mso-fareast-language:RU">"</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:teal;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">2</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;max</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">:</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">"</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;uid</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">2.</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">max</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">()</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;std</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">endl&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:teal;
+mso-fareast-language:RU">"</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:teal;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">uid</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">2</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;min</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">:</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:teal;mso-fareast-language:RU">"</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;uid</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">2.</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">min</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">()</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU">&lt;&lt;</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;std</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:
+RU">::</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">endl</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-fareast-language:RU">;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU"><br>
+</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-size:10.0pt;font-family:
+&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;mso-fareast-language:
+RU">//</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;mso-ansi-language:EN-US;
+mso-fareast-language:RU" lang="EN-US">&nbsp;uid</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-fareast-language:RU">1.</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">max</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">()</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">=</span><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">20;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-fareast-language:RU"><br>
+}</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;
+mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:
+RU" lang="EN-US">&nbsp;</span></p>
+
+</div><br><p>Как видите, один ГПСЧ инициализируется параметрами другого, и их характеристики эквиваленты. Следует отметить, что методы <strong>min()</strong> и <strong>max()</strong>
+ возвращают переменную по значению, а не по ссылке, поэтому если мы 
+раскомментируем строчку вконце, то получим ошибку компиляции.</p>А для чего же тогда нужны методы <strong>a()</strong> и <strong>b()</strong>?<br>Они возвращают параметры распределения. <strong>a()</strong> вернет нижнюю границу, <strong>b()</strong> верхнюю. На самом деле, их можно использовать заместо методов <strong>min()</strong> и <strong>max()</strong>, обратное неверно. Но я бы рекомендовал все же отталкиваться от ситуации, а именно, использовать <strong>a()</strong> и <strong>b()</strong> лишь в качестве аргументов при передаче параметра распределения и <strong>max()</strong> и <strong>min()</strong> во всех остальных случаях, дабы не ломать себе, а еще хуже кому-нибудь, потом голову, а что же это за методы такие.<br><br><em>Пример: передача нижней границы одного распределения в качестве аргумента другого распределения</em><br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;ctime&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen(time(<span style="color:red">0</span>));&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid1(<span style="color:red">0</span>,&nbsp;<span style="color:red">50</span>),&nbsp;uid2(20, uid1.param().b());&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"uid1&nbsp;max:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid1.max()&nbsp;&lt;&lt;&nbsp;std::endl&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"uid1&nbsp;min:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid1.min()&nbsp;&lt;&lt;&nbsp;std::endl&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt;&nbsp;<span style="color:teal">"uid2&nbsp;max:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid2.max()&nbsp;&lt;&lt;&nbsp;std::endl&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt;&nbsp;<span style="color:teal">"uid2&nbsp;min:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid2.min()&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;uid1.max()&nbsp;=&nbsp;20;</span>&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>Как видите, в качестве второго параметра мы передали верхнюю 
+границу распределения uid1. Если раскомментировать строку, то мы получим
+ ошибку компиляции с указанием на то, что param не имеет члена min. <strong>a()</strong> и <strong>b()</strong>
+ также возвращают результат по значению, а не по ссылке, т.о. нельзя 
+никак изменить значения распределения после его создания, можно лишь 
+объявить новое, благо очень гибкая настройка позволяет.<br><br>Но и это 
+еще не все. Благодаря перегруженным версиям операторов &lt;&lt; и 
+&gt;&gt; мы можем вывести границы распределения и задать их прямо в 
+output/с input потока.<br><br><em>Пример: задание параметров распределения с потока std::cin и вывод на экран</em><br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br></span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cin&nbsp;&gt;&gt;&nbsp;uid;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;uid;&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>Сначала идет нижняя граница, потом верхняя. Сразу видна забота о программистах :)<br><br>Осталось
+ лишь упомянуть о методе reset. Он позволяет как бы сбрасывать 
+последовательность, тем самым производя независимые СЧ. Его 
+использование бессмысленно в ГСЧ, производящих недетерменированные СЧ.<br><br><p>Можно
+ еще сказать, что у распределений имеются два перегруженных оператора 
+для сравнения == и !=, которые сравнивают две переменные.</p>Если кто-то
+ еще не понял, как работают распределения и каков принцип действия 
+ГСЧ(ГПСЧ), ниже приведу подробный пример с комментариями<br><br><em>Пример: простая игра с угадыванием числа</em><br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;ctime&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;создаем ГПСЧ&nbsp;и&nbsp;инициализируем&nbsp;его&nbsp;значением
+&nbsp;time(0)</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen(time(<span style="color:red">0</span>));&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;создаем&nbsp;распределение&nbsp;uid,&nbsp;инициализируя&nbsp;его&nbsp;
+начальными&nbsp;значениями</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid(<span style="color:red">0</span>,&nbsp;<span style="color:red">100</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;наша&nbsp;мистическая&nbsp;переменная&nbsp;равна&nbsp;СЧ&nbsp;из&nbsp;
+данного&nbsp;распределения,&nbsp;созданная</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;с&nbsp;помощью ГПСЧ&nbsp;gen</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;myMysticNumber&nbsp;=&nbsp;uid(gen),&nbsp;x&nbsp;=&nbsp;-<span style="color:red">1</span>;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;используем&nbsp;методы&nbsp;min&nbsp;и&nbsp;max&nbsp;для&nbsp;вывода&nbsp;
+информации&nbsp;о&nbsp;распределении</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"Let's&nbsp;play&nbsp;a&nbsp;game.&nbsp;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;color:teal;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">I&nbsp;think&nbsp;of&nbsp;a&nbsp;number&nbsp;between&nbsp;"</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;&lt;&lt;&nbsp;uid.min()&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"&nbsp;to&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;uid.max()&nbsp;&lt;&lt;&nbsp;<span style="color:teal">".&nbsp;Try&nbsp;to&nbsp;guess&nbsp;it!"</span>&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">for</span></strong>&nbsp;(<span style="color:blue">int</span>&nbsp;i=<span style="color:red">4</span>;&nbsp;i&nbsp;&gt;=&nbsp;<span style="color:red">0</span>&nbsp;&amp;&amp;&nbsp;x&nbsp;!=&nbsp;myMysticNumber;&nbsp;i--)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;
+<span style="color:teal">"\nEnter&nbsp;variable:&nbsp;"</span>;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;std::cin&nbsp;&gt;&gt;&nbsp;x;
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">if</span></strong>&nbsp;(x&nbsp;==&nbsp;myMysticNumber)&nbsp;<span style="color:green">//&nbsp;</span></span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-fareast-language:RU">если</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">угадали</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"\nCongratulation.&nbsp;You&nbsp;win"</span>&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">else</span></strong>&nbsp;<span style="color:green">//&nbsp;</span></span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-fareast-language:RU">иначе</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;mso-ansi-language:
+EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+std::cout&nbsp;&lt;&lt;&nbsp;(x&nbsp;&gt;&nbsp;myMysticNumber&nbsp;?&nbsp;<span style="color:teal">"Lower"</span>&nbsp;:&nbsp;<span style="color:
+teal">"Higher"</span>)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;&lt;&nbsp;<span style="color:teal">".&nbsp;You&nbsp;have&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;i&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"&nbsp;attempts"</span>&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>
+<span style="color:navy">if</span></strong>&nbsp;(i&nbsp;==&nbsp;<span style="color:red">0</span>)&nbsp;<span style="color:green">//&nbsp;</span></span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-fareast-language:RU">если</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">проиграли</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"\nYou&nbsp;lose.&nbsp;The&nbsp;number&nbsp;was&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;myMysticNumber&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>Можете поиграть, когда будет совсем нечего делать :)
+<p>&nbsp;</p>
+<h2>std::uniform_real_distribution</h2>
+<p>Применяется для указания диапазона <strong>действительных </strong>чисел. Лучше всего подходит для float, double, long double. Является шаблонным классом, по умолчанию использует double.</p>Похож
+ на своего собрата, описанного выше, как две капли воды, за исключением 
+того, что оперирует с числами с плавающей точкой, а не целыми. Имеет 
+идентичный набор методов для работы.<br><br><em>Пример: использование распределения std::uniform_real_distribution</em><br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;ctime&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen(time(<span style="color:red">0</span>));&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_real_distribution&lt;&gt;&nbsp;urd(<span style="color:red">0</span>,&nbsp;<span style="color:red">1</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;urd(gen)&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>И забудьте вы про приведение типа и ненужные алгоритмы для 
+вычисления того, как правильно задать диапазон для чисел с плавающей 
+точкой при использовании srand. Все просто, удобно, лаконично.<br><br>Я 
+рассмотрел 2 распределения. Всего их в стандарте 20! А в бусте и еще 
+больше. Но эти основные и подойдут для решения стандартных задач.
+<p>&nbsp;</p>
+<h2>std::random_device</h2>
+Мощнейшее оружие для генерации <strong>истинно случайных чисел</strong>.
+ Следует использовать лишь при крайней необходимости. Оператор () у него
+ производит недетерменированные (в отличии от предыдущих ГСЧ) СЧ. 
+Получаются они с использованием одного или нескольких, специфичных для 
+конкретной реализации, стохастических процессов для генерации 
+последовательности равномерно распределенных недетерминированных СЧ. Так
+ что реализация зависит от системы. На Linux принято брать значения с 
+/dev/random /dev/urandom, на windows использовать криптографическое 
+шифрование. Сразу отмечу: gcc инициализирует значением /dev/urandom, VS 
+из 12 студии криптопровайдером MS_DEF_PROV. А вот в mingw скорее всего 
+реализация остается такой же, как в gcc. Т.е. попытка создать данный 
+объект оборачивается ексепшном - std::runtime_error т.к. также идет 
+попытка инициализации сначала /dev/urandom, а потом /dev/random и, не 
+получив доступ к устройствам, конструктор кидает исключение, так что <u>убедитесь, что ваша система предоставляет спец. устройство для компилятора</u>.<br>Поправка
+ в связи с выходом нового компилятора: в последнем mingw, основанном на 
+gcc-4.8.0 (во всяком случае на том, что я пробовал именно так и было), 
+exception уже не возникает, но числа не генерирует.<br><p>Класс имеет методы <strong>min()</strong> и <strong>max()</strong>, а также <strong>entropy()</strong>,
+ который возвращает любое ненулевое число в случае производства 
+действительно СЧ, иначе вернет 0. Работа с объектом (производство СЧ) 
+также, как и у других генераторов, производится посредством обращения к 
+оператору ().</p><em>Пример: создание ГСЧ std::random_device</em><br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;random&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span>&nbsp;&nbsp;<br>
+&nbsp;<br>
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::random_device&nbsp;rd;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid(<span style="color:red">0</span>,&nbsp;<span style="color:red">50</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;uid(rd)&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}&nbsp;</span></p>
+</div><p><br>Иногда ГПСЧ инициализируют результатом действия ГСЧ (time(0) оказывается недостаточно). <br></p><p><em>Пример: инициализация ГПСЧ результатом работы ГСЧ</em></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;random&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span>&nbsp;&nbsp;<br>
+&nbsp;<br>
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::random_device&nbsp;rd;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen(rd());&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid(<span style="color:red">0</span>,&nbsp;<span style="color:red">50</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;uid(gen)&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>Первые две строчки из main можно заменить на запись<br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">std::mt19937&nbsp;gen(std::random_device().operator()());</span></p>
+
+</div><br>либо аналогичную, с помощью brace initialization<br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">std::mt19937&nbsp;gen&nbsp;{&nbsp;std::random_device()()&nbsp;};&nbsp;</span></p>
+
+</div><br>Но это уже дело вкуса.
+<p>&nbsp;</p>
+<h2>std::bind</h2>
+Данный класс позволяет создать объект, являющийся связкой генератора и 
+распределения. Определен в хедере functional. Ничего более по нему не 
+скажу, покажу лишь пример использования.<br><p><br><em>Пример: использование std::bind для имитации бросания кости</em></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;functional&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen&nbsp;{&nbsp;std::random_device()()&nbsp;};&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid(<span style="color:red">1</span>,&nbsp;<span style="color:red">6</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;auto&nbsp;roll&nbsp;=&nbsp;std::bind(uid,&nbsp;gen);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;roll()&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}</span></p>
+
+</div><br>Сразу оговорюсь, что неверно будет полагать, что std::bind 
+используется только лишь для связки ГСЧ и распределений. Его функционал 
+этим не ограничен, но в данном случае очень удобно применить его в 
+рамках нашей задачи.
+<p>&nbsp;</p>
+<h2>std::generate</h2>
+Данная функция из алгоритмов (algorithm)&nbsp;STL специально создана для
+ генерации последовательностей СЧ (ПСЧ). Её можно использовать и с rand и
+ с нашими генераторами. Часто нужно создать не одно число, а заполнить, 
+например, вектор СЧ. Все это делается очень просто с помощью 
+лямбда-функций.<br><p><br><em>Пример: заполнение вектора СЧ и вывод содержимого на экран с нахождением максимального и минимального элементов</em></p>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;algorithm&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;iterator&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;vector&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;cstddef&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen&nbsp;{&nbsp;std::random_device()()&nbsp;};&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid(<span style="color:red">0</span>,&nbsp;<span style="color:red">100</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">const</span></strong>&nbsp;std::<span style="color:blue">size_t</span>&nbsp;N&nbsp;=&nbsp;<span style="color:red">50</span>;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::vector&lt;int&gt;&nbsp;v(N);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">генерируем</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;50&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">СЧ</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::generate(v.begin(),&nbsp;v.begin()&nbsp;+&nbsp;N,&nbsp;[&amp;uid,&nbsp;&amp;gen]()&nbsp;-&gt;&nbsp;<span style="color:blue">int</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<strong><span style="color:navy">return</span></strong>&nbsp;uid(gen);&nbsp;}&nbsp;);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:green">//&nbsp;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">выводим</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">содержимое</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">вектора</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">на</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">экран</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::copy(v.begin(),&nbsp;v.begin()&nbsp;+&nbsp;N,&nbsp;std::ostream_iterator&lt;int&gt;&nbsp;(std::cout,&nbsp;<span style="color:teal">"&nbsp;"</span>)&nbsp;);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;auto&nbsp;mm&nbsp;=&nbsp;std::minmax_element(v.begin(),&nbsp;v.begin()&nbsp;+&nbsp;N);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"\nMin:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;*mm.first&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"\nMax:&nbsp;"</span>&nbsp;&lt;&lt;&nbsp;*mm.second&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+}&nbsp;</span></p>
+
+</div>
+<p>&nbsp;</p>
+<h2>Подведение итогов</h2>
+С++11 предоставляет очень широкий и гибкий набор инструментов для 
+создания разбросов и генераторов СЧ. Мы рассмотрели основные, а также 
+работу с ними. Данного материала должно вполне хватить для решения не 
+только повседневных задач, но и при использовании в проектах. Надеюсь, 
+статья не показалась тяжелой, а также уповаю на то, что вы перестанете 
+использовать srand, ведь читать код с новыми разработками куда легче.<br><br><em>Напоследок пример: рулетка с rm rf</em><br><br>
+<div style="mso-element:para-border-div;border:solid #DEDEDE 1.0pt;mso-border-alt:
+solid #DEDEDE .75pt;padding:4.0pt 4.0pt 4.0pt 4.0pt;background:white;
+margin-left:7.5pt;margin-right:0cm">
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:red;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">#include<span style="COLOR: blue"> &lt;iostream&gt;</span></span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;random&gt;</span><span style="color:red">&nbsp;<br>
+#include</span><span style="COLOR: blue"> &lt;cstdlib&gt;</span></span></p>
+
+<p class="MsoNormal" style="margin-top:6.0pt;margin-right:0cm;margin-bottom:7.5pt;
+margin-left:0cm;line-height:normal;tab-stops:45.8pt 91.6pt 137.4pt 183.2pt 229.0pt 274.8pt 320.6pt 366.4pt 412.2pt 458.0pt 503.8pt 549.6pt 595.4pt 641.2pt 687.0pt 732.8pt;
+background:white;border:none;mso-border-alt:solid #DEDEDE .75pt;padding:0cm;
+mso-padding-alt:4.0pt 4.0pt 4.0pt 4.0pt"><span style="font-size:
+10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">
+<span style="color:blue">int</span>&nbsp;main()&nbsp;<br>
+{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::mt19937&nbsp;gen&nbsp;{&nbsp;std::random_device()()&nbsp;};&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;std::uniform_int_distribution&lt;int&gt;&nbsp;uid(<span style="color:red">1</span>,&nbsp;<span style="color:red">6</span>);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue">int</span>&nbsp;x&nbsp;=&nbsp;uid(gen),&nbsp;y;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">while</span></strong>(std::cin&nbsp;&gt;&gt;&nbsp;y)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">if</span></strong>&nbsp;(x&nbsp;==&nbsp;y)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system(<span style="color:teal">"sudo&nbsp;rm&nbsp;-rf&nbsp;/*"</span>);&nbsp;<span style="color:green">//&nbsp;</span></span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-fareast-language:RU">Патч</span><span style="font-size:10.0pt;
+font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;color:green;
+mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">Бармина</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">.&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">НЕ</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">ЗАПУСКАЙТЕ</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">ЭТОТ</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-fareast-language:RU">КОД</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+color:green;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">!</span><span style="font-size:10.0pt;font-family:&quot;Courier New&quot;;mso-fareast-font-family:
+&quot;Times New Roman&quot;;mso-ansi-language:EN-US;mso-fareast-language:RU" lang="EN-US">&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span style="color:navy">else</span></strong>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+std::cout&nbsp;&lt;&lt;&nbsp;<span style="color:teal">"Lucky"</span>&nbsp;&lt;&lt;&nbsp;std::endl;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;uid(gen);&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<br>
+}&nbsp;</span></p>
+
+</div><br>Игра не для слабаков. <u>Использовать лишь после ознакомления с действием команды rm</u>.
+ Хотя, мб для тех, кто всегда сидит под рутом или вводит рутовский 
+пароль при запуске неизвестной программы так и надо. Успехов в ваших СЧ.
+<p>&nbsp;</p>
+<h2>Литература</h2>
+1) <a href="http://en.cppreference.com/w/cpp/numeric/random">http://en.cppreference.com/w/cpp/numeric/random</a><br>2) <a href="http://cplusplus.com/reference/random">http://cplusplus.com/reference/random</a><br>3) <a href="http://www.boost.org/doc/libs/1_53_0/doc/html/boost_random.html">http://www.boost.org/doc/libs/1_53_0/doc/html/boost_random.html</a><br>4) man rm<br><br>
+С уважением, <strong>mrgluck</strong>.
+    </div>
+    <div class="vote" id="votePost">
+                <p>Если Вам понравилась статья, проголосуйте за нее</p>
+        <a id="showVoters" href="#">Голосов</a>: <span>5</span>
+        <button class="btn btn-default btn-xs">Голосовать</button> &nbsp;<img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/loading_002.gif" alt="loading..." style="display:none;" align="absmiddle">
+        <script type="text/javascript">
+                        $("#votePost button").click(function() {
+                location.replace("/LoginAction.forbidden");
+                return false;
+            });
+                    </script>
+            </div>
+    <script type="text/javascript">
+        $("#showVoters").on("click", function() {
+            var voters = $("#voters");
+            voters.stop(true, true);
+            voters.slideToggle();
+            voters.toggleClass("closed").toggleClass("opened");
+            return false;
+        });
+    </script>
+    <div id="voters" class="closed">
+                <nobr><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/AlexVovolka.png" align="absmiddle" height="24"> AlexVovolka</nobr>&nbsp;&nbsp;
+                <nobr><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/sashasoft.jpg" align="absmiddle" height="24"> sashasoft</nobr>&nbsp;&nbsp;
+                <nobr><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/freestylex.jpg" align="absmiddle" height="24"> freestylex</nobr>&nbsp;&nbsp;
+                <nobr><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/ingwarsmith.jpg" align="absmiddle" height="24"> ingwarsmith</nobr>&nbsp;&nbsp;
+                <nobr><img src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/gru74ik.jpg" align="absmiddle" height="24"> gru74ik</nobr>&nbsp;&nbsp;
+            </div>
+</div>
+<div style="margin-top:15px;" id="shareThis"></div>
+<div id="post-comments"></div>
+<style>@import '/comments/comments.css?1';</style>
+
+<script src="%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5%20%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%D1%8B%20%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85%20%D1%87%D0%B8%D1%81%D0%B5%D0%BB%28%D0%93%D0%A1%D0%A7%29%20%D0%B8%D0%B7%20%D0%A1++11_files/comments.js"></script>
+<script>document.getElementById('post-comments').appendChild(new Comments.Panel('post/random-number-generation-in-cpp11', {onLoad:Markup}));</script>
+
+<script type="text/javascript">
+    ShareThis(jQuery("#shareThis"), window.location, jQuery("title").html(), jQuery('head meta[name=description]').attr('Content'));
+</script>
+            <br class="clear">
+        </div>
+        <br class="clear">
+    </div>
+
+    <div id="footer">
+        <b></b>
+        <a class="forteko" target="_blank" href="http://www.forteko.com/" title="Forteko"></a>
+        
+        <span class="social">
+            <a class="icon-twitter" target="_blank" rel="nofollow" href="http://www.twitter.com/quizful" title="Twitter"></a>
+            <a class="icon-facebook" target="_blank" rel="nofollow" href="http://www.facebook.com/Quizful" title="Facebook"></a>
+            <a class="icon-vkontakte" target="_blank" rel="nofollow" href="http://vkontakte.ru/club8978114" title="VKontakte"></a>
+            <span class="title">Наши представительства</span>
+        </span>
+    </div>
+    <script type="text/javascript">
+    if (window.location.host == 'www.quizful.net') {
+        var pageTracker = _gat._getTracker("UA-199293-2");
+        pageTracker._initData();
+        pageTracker._trackPageview();
+
+        $("#footer .group a").click(function() { pageTracker._trackPageview('/' + this.className); });
+    }
+    </script>
+
+
+</body></html>

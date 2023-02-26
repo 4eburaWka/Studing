@@ -1,5 +1,11 @@
 from os import system
 num_of_colls, num_of_records, num_of_appeals = 0, 0, 0
+provisional_values = {
+#             11       21      15     4       12     11        13           0           17     21      2     1         5       20     10       15      22       12      11         13       3       7       17
+    "keys": ["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth", "show", "think", "line"],
+    "vals": ["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth", "show", "think", "line"], 
+    "names":["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth", "show", "think", "line"]
+}
 
 class HashItem:
     def __init__(self, key="", val="", name="") -> None:
@@ -26,6 +32,14 @@ class HashItem:
             print("Такого ключа не существует")
         else:
             self.link.TO_SHOW(key)
+    
+    def TO_SHOW_ALL(self):
+        if not self.is_empty():
+            print(key)
+        if self.link is not None:
+            print("Коллизия: ")
+            self.link.TO_SHOW_ALL()
+        print("--------------------")
     
     def make_link(self, link):
         if self.link is None:
@@ -74,6 +88,14 @@ class Hash_tabl:
 
         global num_of_appeals
         num_of_appeals += 1
+    
+    def show_all(self):
+        for i, el in enumerate(self.tabl):
+            print(i, end='\t')
+            el.TO_SHOW_ALL()
+        
+
+
 
 
 def get_index(key):
@@ -87,12 +109,13 @@ def get_index(key):
     print(f"Индекс ключа \"{key}\" : {mult}")
     return mult
 
-1
 
-hash_tabl = Hash_tabl(20)
+hash_tabl = Hash_tabl(23)
+
+
 
 while True:
-    menu = input("1. Добавление записи\n2. Редактирование записи\n3. Удаление записи\n4. Вывод таблицы\n5. Выход из программы, провести расчеты\n>> ")
+    menu = input("1. Добавление записи\n2. Редактирование записи\n3. Удаление записи\n4. Вывод по ключу\n5. Вывод всей таблицы\n6. Выход из программы, провести расчеты\n7. Если вы хотите занести в таблицу значения\n>> ")
     system('cls')
     match menu:
         case '1':
@@ -116,7 +139,12 @@ while True:
             key = input("Введите ключ: ")
             hash_tabl.show(key)
         case '5':
+            hash_tabl.show_all()
+        case '6':
             break
+        case '7':
+            for i in range(23):
+                hash_tabl.tabl[i].TO_SET(provisional_values["keys"][i], provisional_values["vals"][i], provisional_values["names"][i])
 
 system('cls')
 print(
