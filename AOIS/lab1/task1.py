@@ -1,10 +1,10 @@
 from os import system
 num_of_colls, num_of_records, num_of_appeals = 0, 0, 0
 provisional_values = {
-#             11       21      15     4       12     11        13           0           17     21      2     1         5       20     10       15      22       12      11         13       3       7       17
-    "keys": ["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth", "show", "think", "line"],
-    "vals": ["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth", "show", "think", "line"], 
-    "names":["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth", "show", "think", "line"]
+#             11       21      15     4       12     11        13           0           17     21      2     1         5       20     10       15      22       12      11         13   
+    "keys": ["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth"],
+    "vals": ["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth"], 
+    "names":["hello", "good", "cat", "car", "flood", "dog", "graduate", "underground", "this", "he", "she", "word", "excel", "lion", "leon", "spike", "game", "point", "mother", "earth"]
 }
 
 class HashItem:
@@ -24,6 +24,9 @@ class HashItem:
             print("Такого ключа не существует")
         else:
             self.link.TO_CLEAR(key)
+
+        global num_of_appeals
+        num_of_appeals += 1
     
     def TO_SHOW(self, key):
         if self.key == key:
@@ -32,14 +35,16 @@ class HashItem:
             print("Такого ключа не существует")
         else:
             self.link.TO_SHOW(key)
+
+        global num_of_appeals
+        num_of_appeals += 1
     
     def TO_SHOW_ALL(self):
         if not self.is_empty():
-            print(key)
+            print(self.key, self.val, self.name, sep='\t')
         if self.link is not None:
             print("Коллизия: ")
             self.link.TO_SHOW_ALL()
-        print("--------------------")
     
     def make_link(self, link):
         if self.link is None:
@@ -56,7 +61,7 @@ class HashItem:
 
 class Hash_tabl:
     def __init__(self, length: int) -> None:
-        self.tabl = [HashItem() for _ in range(length)]
+        self.tabl = [HashItem() for x in range(length)]
     
     def add(self, key, val, name):
         index = get_index(key)
@@ -64,9 +69,9 @@ class Hash_tabl:
             self.tabl[index].TO_SET(key, val, name)
         else:
             self.tabl[index].make_link(HashItem(key, val, name))
-
-        global num_of_appeals
-        num_of_appeals += 1
+            
+        global num_of_records
+        num_of_records += 1
 
     def edit(self, key, val, name):
         index = get_index(key)
@@ -74,6 +79,9 @@ class Hash_tabl:
             self.tabl[index].TO_SET(key, val, name)
         else:
             self.tabl[index].link.TO_SET(key, val, name)
+
+        global num_of_appeals
+        num_of_appeals += 1
     
     def delete(self, key):
         index = get_index(key)
@@ -93,10 +101,8 @@ class Hash_tabl:
         for i, el in enumerate(self.tabl):
             print(i, end='\t')
             el.TO_SHOW_ALL()
+            print("\n----------------------------------------")
         
-
-
-
 
 def get_index(key):
     arr = [ord(x) for x in key]
@@ -112,8 +118,6 @@ def get_index(key):
 
 hash_tabl = Hash_tabl(23)
 
-
-
 while True:
     menu = input("1. Добавление записи\n2. Редактирование записи\n3. Удаление записи\n4. Вывод по ключу\n5. Вывод всей таблицы\n6. Выход из программы, провести расчеты\n7. Если вы хотите занести в таблицу значения\n>> ")
     system('cls')
@@ -122,15 +126,11 @@ while True:
             key = input("Введите ключ: ")
             val = input("Введите значение: ")
             name = input("Введите имя: ")
-
-            hash_tabl.add(key, val, name)   
-
-            num_of_records += 1   
+            hash_tabl.add(key, val, name)      
         case '2':
             key = input("Введите ключ: ")
             val = input("Введите значение: ")
             name = input("Введите имя: ")
-
             hash_tabl.edit(key, val, name)
         case '3':
             key = input("Введите ключ: ")
@@ -143,8 +143,10 @@ while True:
         case '6':
             break
         case '7':
-            for i in range(23):
-                hash_tabl.tabl[i].TO_SET(provisional_values["keys"][i], provisional_values["vals"][i], provisional_values["names"][i])
+            for i in range(20):
+                hash_tabl.add(provisional_values["keys"][i], provisional_values["vals"][i], provisional_values["names"][i])
+        case '8':
+            exec(input())
 
 system('cls')
 print(
