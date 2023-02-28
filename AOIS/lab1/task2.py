@@ -23,7 +23,7 @@ class HashItem:
         elif self.link == None:
             print("Такого ключа не существует")
         else:
-            self.link.TO_CLEAR(key)
+            self.link.to_clear(key)
 
         global num_of_appeals
         num_of_appeals += 1
@@ -34,7 +34,7 @@ class HashItem:
         elif self.link == None:
             print("Такого ключа не существует")
         else:
-            self.link.TO_SHOW(key)
+            self.link.to_show(key)
 
         global num_of_appeals
         num_of_appeals += 1
@@ -44,7 +44,7 @@ class HashItem:
             print(self.key, self.val, self.name, sep='\t')
         if self.link is not None:
             print("Коллизия: ")
-            self.link.TO_SHOW_ALL()
+            self.link.to_show_all()
     
     def make_link(self, link):
         if self.link is None:
@@ -66,7 +66,7 @@ class Hash_tabl:
     def add(self, key, val, name):
         index = get_index(key)
         if self.tabl[index].is_empty():
-            self.tabl[index].TO_SET(key, val, name)
+            self.tabl[index].to_set(key, val, name)
         else:
             self.tabl[index].make_link(HashItem(key, val, name))
             
@@ -78,23 +78,23 @@ class Hash_tabl:
     def edit(self, key, val, name):
         index = get_index(key)
         if self.tabl[index].key == key:
-            self.tabl[index].TO_SET(key, val, name)
+            self.tabl[index].to_set(key, val, name)
         else:
-            self.tabl[index].link.TO_SET(key, val, name)
+            self.tabl[index].link.to_set(key, val, name)
 
         global num_of_appeals
         num_of_appeals += 1
     
     def delete(self, key):
         index = get_index(key)
-        self.tabl[index].TO_CLEAR(key)
+        self.tabl[index].to_clear(key)
 
         global num_of_appeals
         num_of_appeals += 1
     
     def show(self, key):
         index = get_index(key)
-        self.tabl[index].TO_SHOW(key)
+        self.tabl[index].to_show(key)
 
         global num_of_appeals
         num_of_appeals += 1
@@ -102,7 +102,7 @@ class Hash_tabl:
     def show_all(self):
         for i, el in enumerate(self.tabl):
             print(i, end='\t')
-            el.TO_SHOW_ALL()
+            el.to_show_all()
             print("\n----------------------------------------")
         
 

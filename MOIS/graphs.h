@@ -358,7 +358,7 @@ public:
         return array[i];
     }
 };
-class list{
+class List{
     public:
         int list[100];
         int length = 0;
@@ -374,5 +374,16 @@ class list{
                     return i;
             }
             return -1;
+        }
+        bool operator==(const List &obj){
+            if (obj.length == this->length){
+                for (int i = 0; i < this->length; i++){
+                    if (this->list[i] != obj.list[i]){
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
         }
 };
