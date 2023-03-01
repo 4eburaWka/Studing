@@ -43,7 +43,7 @@ class HashItem:
         if not self.is_empty():
             print(self.key, self.val, self.name, sep='\t')
         if self.link is not None:
-            print("Коллизия: ")
+            print("Коллизия:\n\t", end='')
             self.link.to_show_all()
     
     def make_link(self, link):
@@ -61,7 +61,7 @@ class HashItem:
 
 class Hash_tabl:
     def __init__(self, length: int) -> None:
-        self.tabl = [HashItem() for x in range(length)]
+        self.tabl = [HashItem() for _ in range(length)]
     
     def add(self, key, val, name):
         index = get_index(key)
