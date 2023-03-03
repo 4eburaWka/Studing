@@ -150,7 +150,8 @@ while True:
                 x.append(num_of_records)
                 y.append(num_of_colls)
         case '8':
-            exec(input())
+            exec(input("$ "))
+
 system('cls')
 print(x)
 print(y)
