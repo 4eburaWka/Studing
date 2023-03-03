@@ -5,5 +5,5 @@ y=[0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 3, 3, 3, 4, 4, 4, 4,
 
 
 from matplotlib import pyplot as plt
-plt.plot(x,y)
+plt.plot(x,y, "--", y,x)
 plt.show()
