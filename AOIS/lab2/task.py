@@ -8,7 +8,7 @@ f = lambda x: 4 * sin(7 * x) + 0.2
 
 
 class Network:
-    def __init__(self, weights=np.random.rand(4, 1), T=5, a=0.001) -> None:
+    def __init__(self, weights=np.random.rand(4, 1), T=5, a=0.01) -> None:
         self.weights = weights
         self.T = T
         self.a = a
@@ -72,7 +72,7 @@ f"""
 
 T = 2 * pi / 7 # Период функции
 
-'''
+
 # ДЛЯ 30 ТОЧЕК
 x_30 = [el for el in np.arange(10, 13, 0.1)] # Разбиение на 30 точек
 data = [f(el) for el in x_30] # Заполнение массива реальных значений функции
@@ -91,7 +91,7 @@ for i, el in enumerate(x_30_2[:-4]):
     result.append(prediction)
     print(prediction, f(x_30_2[i+3]+0.1), abs(prediction-f(x_30_2[i+3]+0.1)), sep='\t')
 plt.plot(x_30, data, x_30_2[4:], result, "--")
-plt.show()'''
+plt.show()
 
 
 # ДЛЯ 15 ТОЧЕК
