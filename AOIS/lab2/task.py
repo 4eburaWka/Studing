@@ -1,6 +1,6 @@
 import numpy as np
 
-from math import sin, pi
+from math import sin
 from matplotlib import pyplot as plt
 
 
@@ -68,9 +68,6 @@ f"""
     def reset(self):
         self.weights = np.random.rand(4, 1)
         self.T = 5
-
-
-T = 2 * pi / 7 # Период функции
 
 
 # ДЛЯ 30 ТОЧЕК
