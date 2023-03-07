@@ -8,7 +8,7 @@ f = lambda x: 4 * sin(7 * x) + 0.2
 
 
 class Network:
-    def __init__(self, weights=np.random.rand(4, 1), T=5, a=0.01) -> None:
+    def __init__(self, weights=np.random.rand(4, 1)/5, T=5, a=0.01) -> None:
         self.weights = weights
         self.T = T
         self.a = a
@@ -17,30 +17,13 @@ class Network:
         return np.sum(input @ self.weights) - self.T
 
     def training(self, inputs, targets, E_des=0.1) -> list:
-        print("Прогнозирование\t\tЦель\t\t\tОшибка")
-        iter = 0
-        E_arr=[]
-        while True:
-            e = []
-            for index, input in enumerate(inputs):
-                prediction = self.predict(input)
-                e.append((prediction - targets[index]) ** 2)
-                
+        e = []
+        for index, input in enumerate(inputs):
+            prediction = self.predict(input)
 
-                for i, w in enumerate(self.weights):
-                    w[0] = w[0] - self.a * (prediction - targets[index]) * input[i]
-                self.T = self.T + self.a * (prediction - targets[index])
-
-            iter += 1
-            print(prediction, targets[index], abs(prediction-targets[index]), sep='\t')
-            E = 0.5 * np.sum(e)
-            E_arr.append(E)
-            if E_des > E:
-                print("\n")
-                plt.plot(list(range(iter)),E_arr)
-                plt.show()
-                break
-        return E, iter
+            for i, w in enumerate(self.weights):
+                w[0] = w[0] - self.a * (prediction - targets[index]) * input[i]
+            self.T = self.T + self.a * (prediction - targets[index])
 
     def find_optimal_speed(self, a_min, a_max, a_h, inputs, targets, E_des=0.1):
         results = []
@@ -76,37 +59,30 @@ data = [f(el) for el in x_30] # Заполнение массива реальн
 inputs = np.array([data[i-4:i] for i in range(4, len(data))]) # Создание массива входных значений
 targets = data[4:] # Создание массива целевых значений
 
-NN = Network(a=0.01)
-# NN.find_optimal_speed(0.0001, 0.01, 10, inputs, targets)
-NN.training(inputs, targets)
-
-result = []
-x_30_2 = np.arange(12.5, 15.9, 0.1)
-print("Прогнозирование\t\tЦель\t\t\tОшибка")
-for i, el in enumerate(x_30_2[:-4]):
-    prediction = NN.predict([f(x_30_2[i]), f(x_30_2[i+1]), f(x_30_2[i+2]), f(x_30_2[i+3])])
-    result.append(prediction)
-    print(prediction, f(x_30_2[i+3]+0.1), abs(prediction-f(x_30_2[i+3]+0.1)), sep='\t')
-plt.plot(x_30, data, x_30_2[4:], result, "--")
-plt.show()
-
-
-# ДЛЯ 15 ТОЧЕК
-x_15 = [el for el in np.arange(11.5, 13, 0.1)] # Разбиение на 15 точек
-data2 = [f(el) for el in x_15] # Заполнение массива реальных значений функции
-inputs2 = np.array([data2[i-4:i] for i in range(4, len(data2))]) # Создание массива входных значений
+x_15 = [el for el in np.arange(12.6, 14.5, 0.1)] # Разбиение на 15 точек
+data2 = [f(el) for el in x_15[4:]] # Заполнение массива реальных значений функции
+inputs2 = np.array([data2[i-4:i] for i in range(4, len(data2))])
+print(len(inputs2))
 targets2 = data2[4:] # Создание массива целевых значений
 
-NN2 = Network(a=0.01)
+NN = Network(a=0.01)
 # NN.find_optimal_speed(0.0001, 0.01, 10, inputs, targets)
-NN2.training(inputs2, targets2)
+E = []
+E_des = 0.1
+iter = 0
+while True:
+    iter += 1
+    NN.training(inputs, targets)
+    e = []
+    for input, target in zip(inputs2, targets2):
+        e.append((NN.predict(input) - target) ** 2)
+    E = 0.5 * np.sum(e)
+    if E < E_des:
+        break
 
-result2 = []
-x_15_2 = np.arange(12.5, 14.4, 0.1)
-print("Прогнозирование\t\tЦель\t\t\tОшибка")
-for i, el in enumerate(x_15_2[:-4]):
-    prediction = NN2.predict([f(x_15_2[i]), f(x_15_2[i+1]), f(x_15_2[i+2]), f(x_15_2[i+3])])
-    result2.append(prediction)
-    print(prediction, f(x_15_2[i+3]+0.1), abs(prediction-f(x_15_2[i+3]+0.1)), sep='\t')
-plt.plot(x_15, data2, x_15_2[4:], result2, "--")
+result = []
+for input in inputs2:
+    result.append(NN.predict(input))
+print(len(x_30), len(data), len(x_15[:-4]), len(result))
+plt.plot(x_30, data, x_15[:-4], result)
 plt.show()

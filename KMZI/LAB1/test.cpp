@@ -2,8 +2,8 @@
 using namespace std;
 
 int main(){
-    string n="54";
+    string n="545566";
     int i;
-    i = atoi('4');
-    cout << i+1;
+    for (char i:n)
+        cout << i;
 }
