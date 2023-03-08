@@ -1,5 +1,7 @@
-xa=list(range(17))
-y=[2**x for x in xa]
+from math import *
+
+xa=list(range(0,120001, 1200))
+y=[x for x in xa]
 print(xa,y)
 
 from matplotlib import pyplot as plt
