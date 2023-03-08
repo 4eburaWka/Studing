@@ -93,7 +93,7 @@ int numberOfInversions(int *substitution){
 
 int main(){
 setlocale(LC_ALL, "Russian");
-    int *a = get_substitution("E:\\Studing\\MOIS\\Lab. 4\\task1");
+    int *a = get_substitution("C:\\Studing\\MOIS\\Lab. 4\\task1");
     int part1[6], part2[6];
     independentСycles(a, part1, part2);
 
