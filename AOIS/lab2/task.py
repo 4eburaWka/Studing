@@ -16,8 +16,7 @@ class Network:
     def predict(self, input: list) -> float:
         return np.sum(input @ self.weights) - self.T
 
-    def training(self, inputs, targets, E_des=0.1) -> list:
-        e = []
+    def training(self, inputs, targets) -> list:
         for index, input in enumerate(inputs):
             prediction = self.predict(input)
 
@@ -59,15 +58,14 @@ data = [f(el) for el in x_30] # Заполнение массива реальн
 inputs = np.array([data[i-4:i] for i in range(4, len(data))]) # Создание массива входных значений
 targets = data[4:] # Создание массива целевых значений
 
-x_15 = [el for el in np.arange(12.6, 14.5, 0.1)] # Разбиение на 15 точек
-data2 = [f(el) for el in x_15[4:]] # Заполнение массива реальных значений функции
+x_15 = [el for el in np.arange(12.5, 14.4, 0.1)] # Разбиение на 15 точек
+data2 = [f(el) for el in x_15] # Заполнение массива реальных значений функции
 inputs2 = np.array([data2[i-4:i] for i in range(4, len(data2))])
-print(len(inputs2))
 targets2 = data2[4:] # Создание массива целевых значений
 
 NN = Network(a=0.01)
 # NN.find_optimal_speed(0.0001, 0.01, 10, inputs, targets)
-E = []
+E = []; E_arr = []
 E_des = 0.1
 iter = 0
 while True:
@@ -77,12 +75,15 @@ while True:
     for input, target in zip(inputs2, targets2):
         e.append((NN.predict(input) - target) ** 2)
     E = 0.5 * np.sum(e)
+    E_arr.append(E)
+    print(iter, E, )
     if E < E_des:
         break
 
 result = []
 for input in inputs2:
     result.append(NN.predict(input))
-print(len(x_30), len(data), len(x_15[:-4]), len(result))
-plt.plot(x_30, data, x_15[:-4], result)
+plt.plot(range(iter), E_arr)
+plt.show()
+plt.plot(x_30, data, x_15[4:], result, '--')
 plt.show()
