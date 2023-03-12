@@ -1,7 +1,7 @@
 from math import *
 
-xa=list(range(0,120001, 1200))
-y=[x for x in xa]
+xa=[9,10,13,15,16]
+y=[0,4,1876,32516,202900]
 print(xa,y)
 
 from matplotlib import pyplot as plt

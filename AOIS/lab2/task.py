@@ -63,7 +63,7 @@ data2 = [f(el) for el in x_15] # Заполнение массива реаль�
 inputs2 = np.array([data2[i-4:i] for i in range(4, len(data2))])
 targets2 = data2[4:] # Создание массива целевых значений
 
-NN = Network(a=0.01)
+NN = Network(a=0.05)
 # NN.find_optimal_speed(0.0001, 0.01, 10, inputs, targets)
 E = []; E_arr = []
 E_des = 0.1
