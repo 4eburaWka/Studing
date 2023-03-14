@@ -8,7 +8,7 @@ f = lambda x: 4 * sin(7 * x) + 0.2
 
 
 class Network:
-    def __init__(self, weights=np.random.rand(4, 1)/5, T=5, a=0.01) -> None:
+    def __init__(self, weights=np.random.rand(4, 1)/5, T=0, a=0.01) -> None:
         self.weights = weights
         self.T = T
         self.a = a
@@ -23,6 +23,7 @@ class Network:
             for i, w in enumerate(self.weights):
                 w[0] = w[0] - self.a * (prediction - targets[index]) * input[i]
             self.T = self.T + self.a * (prediction - targets[index])
+            print(f"step:{index+1}, weights={self.weights}")
 
     def find_optimal_speed(self, a_min, a_max, a_h, inputs, targets, E_des=0.1):
         results = []
@@ -63,10 +64,10 @@ data2 = [f(el) for el in x_15] # Заполнение массива реаль�
 inputs2 = np.array([data2[i-4:i] for i in range(4, len(data2))])
 targets2 = data2[4:] # Создание массива целевых значений
 
-NN = Network(a=0.05)
+NN = Network(a=0.1)
 # NN.find_optimal_speed(0.0001, 0.01, 10, inputs, targets)
 E = []; E_arr = []
-E_des = 0.1
+E_des = 1e-5
 iter = 0
 while True:
     iter += 1
