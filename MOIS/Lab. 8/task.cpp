@@ -67,9 +67,9 @@ void knapsack(int W, vector<Item> &items, vector<int> &subs, vector<int> &costs)
 int main(){
     srand(time(NULL));
     
-    string path="example_1"; int W=1000, n=0; 
+    string path="E:\\Studing\\MOIS\\Lab. 8\\example_1"; int W=1000, n=0; 
     // cout << "Введите путь к файлу: "; getline(cin, path); 
-    cout << "Введите вес: "; cin >> W;
+    // cout << "Введите вес: "; cin >> W;
     ifstream file(path);
     string str; int weight, cost;
     vector<Item> items;

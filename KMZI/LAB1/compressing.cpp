@@ -98,7 +98,8 @@ string decode(const string& encoded_text, Node* root) {
 int main() {
     // Read the input text
     string path, text;
-    cout << "Введите имя файла: "; getline(cin, path);
+    cout << "Введите имя файла: ";
+    getline(cin, path);
     ifstream file(path);
     getline(file, text);
     file.close();
@@ -115,14 +116,44 @@ int main() {
 
     // Encode the input text using the Huffman codes
     string encoded_text = encode(text, huffman_codes);
-    ofstream out(path + "_comp");
-    out << endl << encoded_text;
 
+    // Divide the encoded text into groups of 8 characters, convert each group to a byte, and write the bytes to a file
+    ofstream out(path + "_comp", ios::binary);
+    char byte = 0;
+    int bit_count = 0;
+    for (char c : encoded_text) {
+        byte <<= 1;
+        if (c == '1') {
+            byte |= 1;
+        }
+        bit_count++;
+        if (bit_count == 8) {
+            out.put(byte);
+            byte = 0;
+            bit_count = 0;
+        }
+    }
+    if (bit_count > 0) {
+        byte <<= (8 - bit_count);
+        out.put(byte);
+    }
     out.close();
+
     cout << "Encoded text: " << encoded_text << endl;
 
+    // Read the encoded bytes from the file and convert them back to a string of 0s and 1s
+    ifstream in(path + "_comp", ios::binary);
+    string encoded_bytes = "";
+    char byte_in;
+    while (in.get(byte_in)) {
+        for (int i = 7; i >= 0; i--) {
+            encoded_bytes += ((byte_in >> i) & 1) ? "1" : "0";
+        }
+    }
+    in.close();
+
     // Decode the encoded text using the Huffman tree
-    string decoded_text = decode(encoded_text, root);
+    string decoded_text = decode(encoded_bytes, root);
     cout << "Decoded text: " << decoded_text << endl;
 
     // Clean up the memory
