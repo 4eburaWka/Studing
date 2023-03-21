@@ -29,13 +29,22 @@ int get_cost(vector<Item> &items, vector<int> &subs){
 
 int find_max(vector<int> costs){
     if (costs.size() == 0)
-        return 0;
-    int sum = 0;
+        return -1;
+    int sum = 0, index;
     for (int i = 0; i < costs.size(); i++){
-        if(costs[i] > sum)
+        if(costs[i] > sum){
             sum = costs[i];
+            index = i;
+        }
     }
-    return sum;
+    return index;
+}
+
+bool is_full_of(vector<int> &vec, int el){
+    for (int i: vec)
+        if (i != el)
+            return false; 
+    return true;
 }
 
 void knapsack(int W, vector<Item> &items, vector<int> &subs, vector<int> &costs){
@@ -46,7 +55,7 @@ void knapsack(int W, vector<Item> &items, vector<int> &subs, vector<int> &costs)
             subs.push_back(n-1);
         } 
         else if (cur_w == W){
-            costs.push_back(get_cost(items, subs));
+            costs.push_back(get_cost(items, subs)); cout << costs.back() << endl;
             while (subs.back() == 0 and subs.size() != 0)
                 subs.pop_back();
             if (subs.size() == 0)
@@ -64,12 +73,47 @@ void knapsack(int W, vector<Item> &items, vector<int> &subs, vector<int> &costs)
     cout << find_max(costs) << endl;
 }
 
+void knapsack2(int W, vector<Item> &items){
+    vector<int> item_weights, item_costs, costs, subs;
+    for (Item item: items){
+        item_weights.push_back(item.weight);
+        item_costs.push_back(item.cost);
+    }
+    for (int i = 0; i < item_weights.size(); i++){
+        costs.push_back(item_costs[i] / item_weights[i]);
+    }
+    int most_profitable_index = find_max(costs); // находим индекс самого выгодного продукта
+    int cur_w;
+    while (cur_w < W){
+        subs.push_back(most_profitable_index);
+        cur_w = get_weight(items, subs);
+    }
+    if (cur_w == W){
+        cout << get_cost(items, subs) << endl;
+        return;
+    }
+    while (is_full_of(costs, 0)){
+        subs.pop_back();
+        cur_w = get_weight(items, subs);
+        costs[most_profitable_index] = 0;
+        most_profitable_index = find_max(costs);
+        while (cur_w < W){
+            subs.push_back(most_profitable_index);
+            cur_w = get_weight(items, subs);
+        }
+        if (cur_w == W){
+            cout << get_cost(items, subs) << endl;
+            return;
+        }
+    }
+}
+
 int main(){
     srand(time(NULL));
     
-    string path="E:\\Studing\\MOIS\\Lab. 8\\example_1"; int W=1000, n=0; 
+    string path="/home/kali/Studing/MOIS/Lab. 8/example_2"; int W=998, n=0; 
     // cout << "Введите путь к файлу: "; getline(cin, path); 
-    // cout << "Введите вес: "; cin >> W;
+    cout << "Введите вес: "; cin >> W;
     ifstream file(path);
     string str; int weight, cost;
     vector<Item> items;
@@ -85,9 +129,8 @@ int main(){
     vector<int> subs = {n-1}, costs;
     struct timespec start, end;
     clock_gettime(CLOCK_REALTIME, &start);
-    knapsack(W, items, subs, costs);
-    // cout << ans << endl;
+    // knapsack(W, items, subs, costs); // оооочень медленная функция
+    knapsack2(W, items);
     clock_gettime(CLOCK_REALTIME, &end);
-    cout << "Время: " << (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0;
+    cout << "Время: " << (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1000000000.0 << endl;
 }
-// C:\\Studing\\MOIS\\Lab. 8\\example_1

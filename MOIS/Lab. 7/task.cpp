@@ -1,4 +1,4 @@
-#include "..\graphs.h"
+#include "../graphs.h"
 #include <iostream>
 using namespace std;
 
@@ -59,7 +59,7 @@ List postf_detour(List dfs_res){
 }
 
 int main(){
-    char path[] = "E:\\Studing\\MOIS\\Lab. 7\\cons", path2[] = "E:\\Studing\\MOIS\\Lab. 7\\cons2";
+    char path[] = "/home/kali/Studing/MOIS/Lab. 7/cons", path2[] = "/home/kali/Studing/MOIS/Lab. 7/cons2";
     int tops = getTopsCount(path), edges = getEdgesCount(path), tops2 = getTopsCount(path2), edges2 = getEdgesCount(path2);
     int** matr = adjacencyMatrixFromConnections(path), **matr2 = adjacencyMatrixFromConnections(path2);
     vector<vector<int>> adj(tops, vector<int> (tops)); vector<vector<int>> adj2(tops2, vector<int> (tops2));
