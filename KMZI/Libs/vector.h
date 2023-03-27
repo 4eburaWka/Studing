@@ -24,9 +24,15 @@ public:
 
     int size(){return length;}
     void push_back(T el){ this->arr[length++] = el; }
-    void insert(vector<T> &vec2){
+    void insert(vector<T> vec2){
         for(int i = 0; i < vec2.length; i++)
             this->arr[length++] = vec2[i];
+    }
+    vector<T> subvector(int start, int len){
+        vector<T> vec;
+        for(int i = start; i < start+len; i++)
+            vec.push_back(this->arr[i]);
+        return vec;
     }
 
     T* begin() { return arr; }
