@@ -1,3 +1,6 @@
+#include <string>
+using namespace std;
+
 template <int size=16>
 class bitset{
 public:
@@ -10,6 +13,11 @@ public:
         for (int i = size-1; i >= 0; i--)
             this->set[i] = (symb >> i) & 1; 
     }
+    // bitset(string bytes){
+    //     for(int i = 0; i < bytes.length; i++){
+    //         this->set[i] = bytes[i] == '1';
+    //     }
+    // }
     bitset(const bitset &obj){
         for (int i = 0; i < size; i++)
             this->set[i] = obj.set[i];
@@ -24,7 +32,7 @@ public:
         return num;
     } 
 
-    bool operator[](int i){
+    bool &operator[](int i){
         return this->set[i];
     }
     bitset &operator=(const bitset &obj){

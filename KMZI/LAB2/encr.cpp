@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "ofb_encr.h"
+#include "./ofb_encr.h"
 #include "../Libs/get_time.h"
 using namespace std;
 
@@ -16,9 +16,7 @@ int main(){
     while (true){
         cout << 
         "1. Зашифровать файл, используя ECB." << endl << 
-        "2. Дешифровать файл, используя ECB." << endl << 
         "3. Зашифровать файл, используя OFB." << endl << 
-        "4. Дешифровать файл, используя OFB." << endl << 
         "5. Выйти из программы." << endl;
         cout << "> "; cin >> menu;
 
@@ -48,35 +46,6 @@ int main(){
                 } else 
                     cout << "Не удалось открыть файл!\n";
             } break;
-            case 2:{
-                getline(cin, path);
-                cout << "Введите путь к файлу: "; getline(cin, path);
-                cout << "Введие пароль: "; getline(cin, key);
-
-                ifstream in(path);
-                if (in.is_open()) {
-                    int sum;
-                    in >> sum;
-
-                    string cipher((istreambuf_iterator<char>(in)),
-                        (istreambuf_iterator<char>())); cipher.erase(0, 1);
-
-                    vector<bitset<16>> CIPHER = get_bitset_vector(cipher);
-                    vector<bitset<16>> KEY = get_bitset_vector(key);
-                    start_clock();
-                    vector<bitset<16>> PL_TEXT = permute_decrypt(CIPHER, KEY);
-                    cout << "Дешифрование длилось "; stop_clock(); cout << "c.\n";
-                    
-                    string plain_str = get_string_(PL_TEXT);
-                    if(get_sum(plain_str) == sum){
-                        ofstream out(path+"_decr");
-                        out << get_string_(PL_TEXT);
-                        out.close();
-                        cout << "\033[32m" << "Успешно!" << "\033[0m\n";
-                    } else cout << "\033[31m" << "Указан неверный пароль или iv!" << "\033[0m\n";
-                } else 
-                    cout << "Не удалось открыть файл!\n";
-            }  break;
             case 3:{
                 getline(cin, path);
                 cout << "Введите путь к файлу: "; getline(cin, path);
@@ -103,37 +72,6 @@ int main(){
                 } else 
                     cout << "Не удалось открыть файл!\n";
             } break;
-            case 4:{
-                getline(cin, path);
-                cout << "Введите путь к файлу: "; getline(cin, path);
-                cout << "Введие пароль: "; getline(cin, key);
-                cout << "Введите iv: "; getline(cin, iv);
-
-                ifstream in(path);
-                if (in.is_open()) {
-                    int sum;
-                    in >> sum;
-
-                    string cipher((istreambuf_iterator<char>(in)),
-                        (istreambuf_iterator<char>())); cipher.erase(0, 1);
-
-                    vector<bitset<16>> CIPHER = get_bitset_vector(cipher);
-                    vector<bitset<16>> KEY = get_bitset_vector(key);
-                    vector<bitset<16>> IV = get_bitset_vector(iv);
-                    start_clock();
-                    vector<bitset<16>> PL_TEXT = ofb(CIPHER, KEY, IV);
-                    cout << "Дешифрование длилось "; stop_clock(); cout << "c.\n";
-
-                    string plain_str = get_string_(PL_TEXT);
-                    if(get_sum(plain_str) == sum){
-                        ofstream out(path+"_decr");
-                        out << get_string_(PL_TEXT);
-                        out.close();
-                        cout << "\033[32m" << "Успешно!" << "\033[0m\n";
-                    } else cout << "\033[31m" << "Указан неверный пароль или iv!" << "\033[0m\n";
-                } else 
-                    cout << "Не удалось открыть файл!\n";
-            }  break;
             case 5:{
                 return 0;
             } break;
