@@ -1,9 +1,8 @@
 #include <iostream>
-#include <NTL/ZZ.h>
+#include "../Libs/bignumber.h"
 #include "./CongruentGen.h"
 
 using namespace std;
-using namespace NTL;
 
 int main() {
     string str1, str2;
@@ -13,8 +12,7 @@ int main() {
     for (int i = 0; i < 20; i++) {
         str1 += to_string(generator1.gen());
     }
-    ZZ a;
-    NTL::conv(a, str1);
+    BigNumber a(str1);
     cout << a << endl;
     cout << "\n===========================================================\n";
 
@@ -24,9 +22,8 @@ int main() {
     for (int i = 0; i < 30; i++) {
         str2 += to_string(generator2.gen());
     }
-    // ZZ b;
-    // conv(b, str2);
-    // cout << b << endl;
+    BigNumber b(str2);
+    cout << b << endl;
 
     return 0;
 }
