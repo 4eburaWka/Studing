@@ -1,5 +1,6 @@
 .vscode/
 */output/
+*/kabak/
 
 *.exe
 *.out
