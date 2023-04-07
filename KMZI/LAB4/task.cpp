@@ -66,6 +66,7 @@ void dividing(unsigned long long n){
     }
 }
 
+
 bool fermat_factorization(unsigned long long n) {
     unsigned long long a = ceil(sqrt(n)); // находим первое число, ближайшее к sqrt(n)
     unsigned long long b2 = a*a - n; // b^2 = a^2 - n

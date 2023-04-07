@@ -1,967 +1,884 @@
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2015 Mark Guerra
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the "Software"), to deal in the Software
- * without restriction, including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
- * to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
- * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/**
+ * BigNumber - a BigInt implementation in C++.
+ * This file is licensed under the MIT license.
+ * Do not remove this comment.
+ * 2018 @ pr0crustes
  */
-
-#include <sstream>
-#include <stack>
-#include <iostream>
-
-/*
- * The MIT License (MIT)
- *
- * Copyright (c) 2015 Mark Guerra
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this
- * software and associated documentation files (the "Software"), to deal in the Software
- * without restriction, including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
- * to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or
- * substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
- * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
- * AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
- * OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 #ifndef BIGNUMBER_H
 #define BIGNUMBER_H
 
-#include <vector>
+
 #include <string>
+#include <vector>
+#include <map>
+#include <sstream>
+#include <random>
+#include <algorithm>
 #include <iostream>
+#include <stdexcept>
+
 
 /**
- * BigNumber class
+  * Use an exclusive Debug Flag.
+  * When defined, the lib will run slower,
+  * but will performe multiple checks to make everything is fine.
+  */
+//#define BIG_NUMBER_DEBUG   // Use a exclusive debug flag
+
+
+/**
+ * @brief charToInt function that converts a char to the int it represents.
+ * @param c the char to be parsed as int.
+ * @return the int contained in c. E.g. '0' returns 0.
+ * Throws an exception if the char is not a number.
+ */
+static int charToInt(char c) noexcept(false) {
+	switch (c) {  // Since values are only 0-9, this is way faster than atoi.
+		case '0': return 0;
+		case '1': return 1;
+		case '2': return 2;
+		case '3': return 3;
+		case '4': return 4;
+		case '5': return 5;
+		case '6': return 6;
+		case '7': return 7;
+		case '8': return 8;
+		case '9': return 9;
+		default:
+			std::string message("[BigNumber] {Digit Parsing} ->  Char at string is not a valid int. Received: ");
+			message.push_back(c);
+			throw std::invalid_argument(message);
+	}
+}
+
+
+
+namespace pr0crustes {
+
+/**
+ * @brief The BigNumber class represents a limitless number.
+ * Can hold and operate values way larger than 2 to 64.
  */
 class BigNumber {
-public:
-    //@{
-    /**
-     * BigNumber constructor
-     * @param number - The initial value of the BigNumber
-     */
-    BigNumber(std::string number);
-    BigNumber(long long number);
-    //@}
 
-    /**
-     * Add another BigNumber to the current instance
-     * @param other - The other BigNumber
-     * @return The sum of the two BigNumbers
-     */
-    BigNumber add(BigNumber other);
+	public:
 
-    /**
-     * Subtract another BigNumber from the current instance
-     * @param other - The other BigNumber
-     * @return The difference of the two BigNumbers
-     */
-    BigNumber subtract(BigNumber other);
+		/*
+		 * Constructors.
+		 * BigNumber has 0 as default value.
+		 * Can be instantiated with the value of a string or long long.
+		 */
+		BigNumber(std::string string) noexcept(false) {
+			if (string.length() > 0) {
+				if (string.at(0) == '-' || string.at(0) == '+') {
+					this->m_positive = string.at(0) == '+';
+					string = string.substr(1);  // remove the signal.
+				}
+				this->m_values.reserve(string.length());
+				for (int i = string.size() - 1; i >= 0; i--) {    // from end to start, so that string 321 is represented as vector {1, 2, 3}.
+					this->m_values.push_back(charToInt(string[i]));
+				}
+			} else {
+				this->m_values.push_back(0);  // init with 0 by default.
+			}
+			this->removeLeftZeros();  // call removeLeftZeros, and not afterOperation since the object has not been completelly initialized.
+		}
 
-    /**
-     * Multiply the current instance by another BigNumber
-     * @param other - The other BigNumber
-     * @return The product of the two BigNumbers
-     */
-    BigNumber multiply(BigNumber other);
-    
-    /**
-     * Divide the current instance by another BigNumber
-     * @param other - The other BigNumber
-     * @return The quotient of the two BigNumbers
-     */
-    BigNumber divide(BigNumber other);
+		BigNumber() : BigNumber("0") {}  // zero by default.
 
-    /**
-     * Raise the current instance to the power of an exponent
-     * @param exponent - The power to be raised by
-     * @return - The resulting BigNumber after exponentiation
-     */
-    BigNumber pow(int exponent);
-
-    /**
-     * Get the string value of the current instance
-     * @return The BigNumber as a string
-     */
-    std::string getString();
-
-    /**
-     * Set the value of the current instance with a string
-     * @param newStr - The new value for the BigNumber
-     * @return The BigNumber with the new value
-     */
-    BigNumber setString(const std::string &newStr);
-
-    /**
-     * Negates the current instance
-     * @return The BigNumber after negation
-     */
-    BigNumber negate();
-    
-    BigNumber trimLeadingZeros();
-
-    //@{
-    /**
-     * Check if another BigNumber is equal to the current instance
-     * @param other - The other BigNumber
-     * @return True if equal, otherwise false
-     */
-    bool equals(const BigNumber &other);
-    bool equals(const long long &other);
-    bool equals(const std::string &other);
-    //@}
-
-    /**
-     * Get the number of digits in the current instance
-     * @return The number of digits
-     */
-    unsigned int digits();
-
-    /**
-     * Get whether or not the current instance is a negative number
-     * @return True if negative, otherwise false
-     */
-    bool isNegative() const;
-
-    /**
-     * Get whether or not the current instance is a positive number
-     * @return True if positive, otherwise false
-     */
-    bool isPositive();
-
-    /**
-     * Get whether or not the current instance is an even number
-     * @return True if even, otherwise false
-     */
-    bool isEven();
-
-    /**
-     * Get whether or not the current instance is an odd number
-     * @return True if odd, otherwise false
-     */
-    bool isOdd();
-
-    /**
-     * Get the absolute value of the current instance
-     * @return The absolute value of the BigNumber
-     */
-    BigNumber abs() const;
-    
-    /**
-     * Output stream operator
-     * @param os The output stream
-     * @param num The current instance
-     * @return The output stream with the current instance
-     */
-    friend std::ostream &operator<<(std::ostream &os, const BigNumber &num);
-    
-    //@{
-    /**
-     * Addition operator
-     * @param b1 - The current instance
-     * @param b2 - The number being added
-     * @return The sum of the two numbers
-     */
-    friend BigNumber operator+(BigNumber b1, const BigNumber &b2);
-    friend BigNumber operator+(BigNumber b1, const long long &b2);
-    friend BigNumber operator+(BigNumber b1, const std::string &b2);
-    //@}
-    
-    //@{
-    /**
-     * Subtraction operator
-     * @param b1 - The current instance
-     * @param b2 - The number being subtracted
-     * @return The difference of the two numbers
-     */
-    friend BigNumber operator-(BigNumber b1, const BigNumber &b2);
-    friend BigNumber operator-(BigNumber b1, const long long &b2);
-    friend BigNumber operator-(BigNumber b1, const std::string &b2);
-    //@}
-    
-    //@{
-    /**
-     * Multiplication operator
-     * @param b1 - The current instance
-     * @param b2 - The number being multiplied by
-     * @return The product of the two numbers
-     */
-    friend BigNumber operator*(BigNumber b1, const BigNumber &b2);
-    friend BigNumber operator*(BigNumber b1, const long long &b2);
-    friend BigNumber operator*(BigNumber b1, const std::string &b2);
-    //@}
-    
-    //@{
-    /**
-     * Division operator
-     * @param b1 - The current instance
-     * @param b2 - The number being divided by
-     * @return The quotient of the two numbers
-     */
-    friend BigNumber operator/(BigNumber b1, const BigNumber &b2);
-    friend BigNumber operator/(BigNumber b1, const long long &b2);
-    friend BigNumber operator/(BigNumber b1, const std::string &b2);
-    //@}
-    
-    /**
-     * Exponent operator
-     * @param b1 - The current instance
-     * @param b2 - The exponent
-     * @return The value after exponentiation
-     */
-    friend BigNumber operator^(BigNumber b1, const int &b2);
-    
-    //@{
-    /**
-     * Equality operator
-     * @param b1 - The current instance
-     * @param b2 - Another value
-     * @return True if equal, otherwise false
-     */
-    friend bool operator==(BigNumber b1, const BigNumber &b2);
-    friend bool operator==(BigNumber b1, const long long &b2);
-    friend bool operator==(BigNumber b1, const std::string &b2);
-    //@}
-    
-    /**
-     * Greater-than operator
-     * @param b1 - The current instance
-     * @param b2 - Another BigNumber
-     * @return True if current instance is greater, otherwise false
-     */
-    friend bool operator>(BigNumber b1, const BigNumber &b2);
-    
-    /**
-     * Less-than operator
-     * @param b1 - The current instance
-     * @param b2 - Another BigNumber
-     * @return True if current instance is less, otherwise false
-     */
-    friend bool operator<(BigNumber b1, const BigNumber &b2);
-    
-    /**
-     * Greater-than or equal-to operator
-     * @param b1 - The current instance
-     * @param b2 - Another BigNumber
-     * @return True if current instance is greater or equal, otherwise false
-     */
-    friend bool operator>=(BigNumber b1, const BigNumber &b2);
-    
-    /**
-     * Less-than or equal-to operator
-     * @param b1 - The current instance
-     * @param b2 - Another BigNumber
-     * @return True if current instance is less or equal, otherwise false
-     */
-    friend bool operator<=(BigNumber b1, const BigNumber &b2);
-
-    //@{
-    /**
-     * Assignment operator
-     * @param other - The new value for the BigNumber
-     * @return A BigNumber containing the new value
-     */
-    BigNumber& operator=(const BigNumber &other);
-    BigNumber& operator=(const long long &other);
-    BigNumber& operator=(const std::string &other);
-    //@}
-    
-    //@{
-    /**
-     * Addition assignment operator\n
-     * Adds and assigns a value to the current instance
-     * @param other - The value being added
-     * @return The new value after addition and assignment
-     */
-    BigNumber& operator+=(const BigNumber &other);
-    BigNumber& operator+=(const long long &other);
-    BigNumber& operator+=(const std::string &other);
-    //@}
-    
-    //@{
-    /**
-     * Subtraction assignment operator\n
-     * Subtracts and assigns a value to the current instance
-     * @param other - The value being subtracted
-     * @return The new value after subtraction and assignment
-     */
-    BigNumber& operator-=(const BigNumber &other);
-    BigNumber& operator-=(const long long &other);
-    BigNumber& operator-=(const std::string &other);
-    //@}
-    
-    //@{
-    /**
-     * Multiplication assignment operator\n
-     * Multiplies and assigns a value to the current instance
-     * @param other - The value being multiplied
-     * @return The new value after multiplication and assignment
-     */
-    BigNumber& operator*=(const BigNumber &other);
-    BigNumber& operator*=(const long long &other);
-    BigNumber& operator*=(const std::string &other);
-    //@}
-    
-    //@{
-    /**
-     * Division assignment operator\n
-     * Divides and assigns a value to the current instance
-     * @param other - The value being divided
-     * @return The new value after division and assignment
-     */
-    BigNumber& operator/=(const BigNumber &other);
-    BigNumber& operator/=(const long long &other);
-    BigNumber& operator/=(const std::string &other);
-    //@}
-
-    /**
-     * Pre-increment operator
-     * @return The incremented BigNumber
-     */
-    BigNumber& operator++();
-    
-    /**
-     * Pre-decrement operator
-     * @return The decremented BigNumber
-     */
-    BigNumber& operator--();
-    
-    /**
-     * Post-increment operator
-     * @return The incremented BigNumber
-     */
-    BigNumber operator++(int);
-    
-    /**
-     * Post-decrement operator
-     * @return The decremented BigNumber
-     */
-    BigNumber operator--(int);
-
-    /**
-     * The index operator
-     * @param index The position being looked at
-     * @return The number at the specified position in the BigNumber string
-     */
-    unsigned int operator[](int index);
-
-private:
-    std::string _numberString;      //The big number represented as a string
-
-    //Methods
-    BigNumber addll(const long long &other);
-    BigNumber addstr(const std::string &other);
-    BigNumber subtractll(const long long &other);
-    BigNumber subtractstr(const std::string  &other);
-    BigNumber multiplyll(const long long &other);
-    BigNumber multiplystr(const std::string &other);
-    BigNumber dividell(const long long &other);
-    BigNumber dividestr(const std::string &other);
-};
+		BigNumber(long long value) : BigNumber(std::to_string(value)) {}  // just call the string constructor since its easier to parse.
 
 
+		/**
+		 * @brief fromBinary instantiates a BigNumber from a binary string representation.
+		 * @param binary a binary like string. No checking is done to see if it is valid, any char other than 0 and 1 can lead to undefined behavior.
+		 * @param isSigned if true, as default, the first bit will be interpreted as the signal, like any signed integers.
+		 * @return a BigNumber with the value of the binary string.
+		 */
+		static BigNumber fromBinary(std::string binary, bool isSigned = true) noexcept(true) {
+			BigNumber number(0);
+			if (isSigned) {
+				number.m_positive = binary.at(0) == '0';
+				binary = binary.substr(1);
+			}
 
+			BigNumber powerTwo(1);
+			for (int i = binary.length() - 1; i >= 0; i--) {
+				if (binary.at(i) == '1') {
+					number += powerTwo;
+				}
+				powerTwo *= 2;
+			}
+			return number;
+		}
+
+
+		/**
+		 * @brief static method that generate random BigNumbers.
+		 * THIS IS A PSEUDO-RANDOM FUNCTION. DO NOT RELY IN IT BEING COMPLETELY RANDOM.
+		 * @param size the desired BigNumber size.
+		 * @return a random BigNumber with the desired number of digits.
+		 */
+		static BigNumber randomBigNumber(int lenght) noexcept(false) {
+			if (lenght <= 0) {
+				throw std::invalid_argument("[BigNumber] {Random BigNumber} ->  RandomBigNumber size must be larger or equal to 1.");
+			}
+
+			std::stringstream ss;
+			std::random_device rand_gen;
+
+			while (ss.tellp() < lenght) {  // add random digits until its larger than the desired lenght.
+				ss << rand_gen();
+			}
+
+			std::string randomDigits = ss.str().substr(0, lenght);  // cut the excess.
+			return BigNumber(randomDigits);
+		}
+
+
+		/**
+		 * @brief randomBigNumberInRange generate a random BigNumber in desired range, excluding higher.
+		 * This method may be a little slow compared to the others, had'nt any better idea.
+		 * Does not work with negative numbers.
+		 * THIS IS A PSEUDO-RANDOM FUNCTION. DO NOT RELY IN IT BEING COMPLETELY RANDOM.
+		 * @param lower the lower bound, inclusive.
+		 * @param higher the upper bound, exclusive.
+		 * @return a random BigNumber in range.
+		 */
+		static BigNumber randomBigNumberInRange(const BigNumber& low, const BigNumber& hight) noexcept(false) {
+			if (low >= hight) {
+				throw std::invalid_argument("[BigNumber] {Random BigNumber In Range} ->  Lower bound cannot be bigger or equal to higher bound.");
+			}
+			if (!low.isPositive() || !hight.isPositive()) {
+				throw std::invalid_argument("[BigNumber] {Random BigNumber In Range} ->  Only works with positive BigNumbers.");
+			}
+
+			BigNumber diff = hight - low;
+
+			BigNumber randomDiffRange = BigNumber::randomBigNumber(diff.lenght() + 1);  // + 1 makes sure the generated value is greater then diff.
+			BigNumber modR = randomDiffRange % diff;
+
+			BigNumber randomN = low + modR;
+
+			return randomN;
+		}
+
+
+		/*
+		 * Copy constructor.
+		 */
+		/**
+		 * @brief operator = copy constructor. Copy the vector and the sign.
+		 * @param number
+		 * @return
+		 */
+		BigNumber& operator=(const BigNumber& number) noexcept(true) {
+			this->m_values = number.m_values;
+			this->m_positive = number.m_positive;
+			return *this;
+		}
+
+
+		/*
+		 * Unary operators.
+		 */
+		/**
+		 * @brief operator + This does NOT return the absolute value.
+		 * @return the BigNumber itself.
+		 */
+		BigNumber operator+() const noexcept(true) {
+			return *this;
+		}
+
+
+		/**
+		 * @brief operator - the same as multiplying by -1.
+		 * @return returns the bignumber with reverted signal.
+		 */
+		BigNumber operator-() const noexcept(true) {
+			BigNumber number = *this;
+			if (!number.isZero()) {
+				number.m_positive = !number.isPositive();
+			}
+			return number;
+		}
+
+
+		/*
+		 * Binary operators.
+		 */
+		/**
+		 * @brief operator + plus operator. Add one BigNumber to this.
+		 * @param number the number to be added.
+		 * @return the sum of both BigNumbers.
+		 */
+		BigNumber operator+(const BigNumber& number) const noexcept(true) {
+			if (this->isPositive() && !number.isPositive()) {
+				return *this - number.absoluteValue();
+			} else if (!this->isPositive() && number.isPositive()) {
+				return -(number - this->absoluteValue());
+			}
+
+			if (number.isZero()) {
+				return *this;
+			}
+			if (this->isZero()) {
+				return number;
+			}
+			// At this point, both signs are equal.
+			BigNumber result = *this;  // not a pointer, since it will hold the result.
+
+			for (int i = 0; i < number.lenght(); i++) {  // the numbers will be iterated in normal order, units to hundreds.
+				int digit = number.m_values[i];
+				if (i < result.lenght()) {  // if there is a digit at the same position in the other number.
+					result.m_values[i] += digit;  // sum to it.
+				} else {
+					result.m_values.push_back(digit);  // no digit in this position, add to the end of vector.
+				}
+			}
+			result.doCarryOver();
+			result.afterOperation();
+			return result;
+		}
+
+
+		/**
+		 * @brief operator - minus operator. Subtracts one BigNumber from this.
+		 * @param number the BigNumber to be subtracted.
+		 * @return the result of the subtraction
+		 */
+		BigNumber operator-(const BigNumber& number) const noexcept(true) {
+			if (this->isPositive() && !number.isPositive()) {
+				return *this + number.absoluteValue();
+			} else if (!this->isPositive() && number.isPositive()) {
+				return -(number + this->absoluteValue());
+			}
+
+			if (number.isZero()) {
+				return *this;
+			}
+			if (this->isZero()) {
+				return number;
+			}
+
+			// At this point, both signs are equal.
+			// To subtract one number from other, it is important to know the larger and the smaller one,
+			// since when subtracting 20 from 2 what you do is 20 - 2  and then reverse the signal.
+			BigNumber result;  // result is not a pointer, since it will hold the result.
+			const BigNumber* smaller;  // pointer to the smaller number. Read only.
+			if (this->lenght() >= number.lenght()) {
+				result = *this;
+				smaller = &number;
+			} else {
+				result = number;
+				smaller = this;
+			}
+
+			for (int i = 0; i < smaller->lenght(); i++) {   // iterate in normal order, units to hundreds.
+				int dif = result.m_values[i] - smaller->m_values[i];
+				if (dif < 0) {  // subtraction cannot be done without borrowing.
+					// search for a number to borrow.
+					for (int j = i + 1; j < result.lenght(); j++) {
+						if (result.m_values[j] == 0) {  // replace 0's with 9 until finding a non-zero number.
+							result.m_values[j] = 9;
+						} else {  // subtract one from it and add 10 to the dif.
+							dif += 10;
+							result.m_values[j]--;
+							break;
+						}
+					}
+				}
+
+				result.m_values[i] = dif;
+			}
+			result.m_positive = *this >= number;  // If this is less than the number being subtracted, result will be negative.
+			result.afterOperation();
+			return result;
+		}
+
+
+		/**
+		 * @brief operator * the multiplier operator.
+		 * Uses Karatsuba Algorithm, see https://en.wikipedia.org/wiki/Karatsuba_algorithm for info.
+		 * @param number the number to be multiplied by.
+		 * @return the result of the multiplication.
+		 */
+		BigNumber operator*(const BigNumber& number) const noexcept(true) {
+			if (this->isZero() || number.isZero()) {
+				return BigNumber(0);
+			}
+			if (this->isOne()) {
+				return number;
+			}
+			if(number.isOne()) {
+				return *this;
+			}
+
+			if (this->lenght() < 10 && number.lenght() < 10) {  // result can fit in a long long.
+				return BigNumber(this->asLongLong() * number.asLongLong());
+			}
+
+			int maxLenght = std::max(this->lenght(), number.lenght());
+			int splitPoint = maxLenght / 2;  // round down.
+
+			// Apply the Karatsuba algorithm, you should read about it before reading this code.
+			std::pair<BigNumber, BigNumber> splitThis = this->splitAt(splitPoint);
+			std::pair<BigNumber, BigNumber> splitNumber = number.splitAt(splitPoint);
+
+			BigNumber secondProduct = splitThis.second * splitNumber.second;
+			BigNumber firstProduct = splitThis.first * splitNumber.first;
+			BigNumber sumProduct = (splitThis.second + splitThis.first) * (splitNumber.second + splitNumber.first);
+
+			BigNumber firstPadded = firstProduct.times10(splitPoint * 2);
+			BigNumber deltaPadded = (sumProduct - firstProduct - secondProduct).times10(splitPoint);
+
+			return firstPadded + deltaPadded + secondProduct;
+		}
+
+
+		/**
+		 * @brief operator / divide one number by other.
+		 * Keep in mind that the return is a BigNumber, so 10 / 4 is 2, not 2.5.
+		 * If you want the reaminder of a division, see the `%` operator.
+		 * @param number number to divide by.
+		 * @return result of division.
+		 * Throws in case of division by 0.
+		 */
+		BigNumber operator/(const BigNumber& number) const noexcept(false) {
+			return this->divide(number).first;
+		}
+
+
+		/**
+		 * @brief operator % module operator. This function does not work with negative numbers.
+		 * @param number the divisor number.
+		 * @return the result of the module operator.
+		 * Throws in case of module by 0.
+		 */
+		BigNumber operator%(const BigNumber& number) const noexcept(false) {
+			return this->divide(number).second;
+		}
+
+
+		/**
+		 * @brief pow power method. Solves with Exponentiation by Squaring.
+		 * Throws an exception in case of 0 to the power of 0 and in case of any number to a negative one.
+		 * This function is slow with big numbers. If you want to apply a mod after, use modPow, since it is faster.
+		 * See https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+		 * @param number the desired power.
+		 * @return THIS to the power of NUMBER.
+		 */
+		BigNumber pow(BigNumber number) const noexcept(false) {
+			if (this->isZero() && number.isZero()) {
+				throw std::invalid_argument("[BigNumber] {Pow} ->  Zero to the power of Zero is undefined.");
+			}
+			if (!number.isPositive()) {
+				throw std::invalid_argument("[BigNumber] {Pow} ->  Power cannot be negative.");
+			}
+			if (this->isZero()) {
+				return BigNumber(0);
+			}
+			if (number.isZero()) {
+				return BigNumber(1);
+			}
+			if (number.isOdd()) {
+				return *this * (*this * *this).pow((number - 1) / 2);
+			} else {
+				return (*this * *this).pow(number / 2);
+			}
+		}
+
+
+		/**
+		 * @brief modPow fast way of doing apower operation followed by module.
+		 * See https://en.wikipedia.org/wiki/Modular_exponentiation#Memory-efficient_method
+		 * @param power the power wanted.
+		 * @param mod the module wanted.
+		 * @return this to the power power module mod.
+		 */
+		BigNumber modPow(const BigNumber& power, const BigNumber& mod) const noexcept(false) {
+			if (mod.isZero()) {
+				throw std::invalid_argument("[BigNumber] {Mod Pow} ->  Module by Zero is undefined.");
+			}
+			if (this->isZero() && power.isZero()) {
+				throw std::invalid_argument("[BigNumber] {Mod Pow} ->  Zero to the power of Zero is undefined.");
+			}
+			if (!power.isPositive()) {
+				throw std::invalid_argument("[BigNumber] {Mod Pow} ->  Power cannot be negative.");
+			}
+			if (this->isZero()) {
+				return BigNumber(0);
+			}
+			BigNumber result(1);
+			for (BigNumber i = 0; i < power; i++) {  // repeat power times.
+				result = (*this * result) % mod;
+			}
+			return result;
+		}
+
+
+		/*
+		 * Assigment operators.
+		 */
+		BigNumber& operator+=(const BigNumber& number) noexcept(true) {
+			*this = *this + number;
+			return *this;
+		}
+
+
+		BigNumber& operator-=(const BigNumber& number) noexcept(true) {
+			*this = *this - number;
+			return *this;
+		}
+
+
+		BigNumber& operator*=(const BigNumber& number) noexcept(true) {
+			*this = *this * number;
+			return *this;
+		}
+
+
+		BigNumber& operator/=(const BigNumber& number) noexcept(false) {
+			*this = *this / number;
+			return *this;
+		}
+
+
+		BigNumber& operator%=(const BigNumber& number) noexcept(false) {
+			*this = *this % number;
+			return *this;
+		}
+
+
+		/*
+		 * Increment / Decrement operators.
+		 */
+		BigNumber& operator++() noexcept(true) {
+			*this += 1;
+			return *this;
+		}
+
+
+		BigNumber& operator--() noexcept(true) {
+			*this -= 1;
+			return *this;
+		}
+
+
+		BigNumber operator++(int) noexcept(true) {
+			BigNumber copy = *this;
+			*this += 1;
+			return copy;
+		}
+
+
+		BigNumber operator--(int) noexcept(true) {
+			BigNumber copy = *this;
+			*this -= 1;
+			return copy;
+		}
+
+
+		/*
+		 * Relational operators
+		 */
+		bool operator<(const BigNumber& number) const noexcept(true) {
+			if (this->m_positive != number.m_positive) {  // oposite signs.
+				return !this->m_positive;
+			}
+			if (this->lenght() != number.lenght()) {  // not the same lenght.
+				return this->lenght() < number.lenght();
+			}
+			// at this point, both are the same lenght.
+			if (this->m_positive) {  // both positives.
+				return this->asString() < number.asString();  // compare string representation.
+			}
+			return -(*this) > -number;  // both negatives.
+		}
+
+
+		bool operator>(const BigNumber& number) const noexcept(true) {
+			return *this >= number && !(*this == number);
+		}
+
+
+		bool operator<=(const BigNumber& number) const noexcept(true) {
+			return *this == number || *this < number;
+		}
+
+
+		bool operator>=(const BigNumber& number) const noexcept(true) {
+			return !(*this < number);
+		}
+
+
+		bool operator==(const BigNumber& number) const noexcept(true) {
+			return this->m_positive == number.m_positive && this->m_values == number.m_values;
+		}
+
+
+		bool operator!=(const BigNumber& number) const noexcept(true) {
+			return !(*this == number);
+		}
+
+
+		/*
+		 * >> and << operators. Just for convenience.
+		 */
+		friend std::ostream& operator<<(std::ostream& stream, BigNumber const& number) {
+			stream << number.asString();
+			return stream;
+		}
+
+
+		friend std::istream& operator>>(std::istream& istream, BigNumber& number) {
+			std::string in;
+			istream >> in;
+			number = BigNumber(in);
+			return istream;
+		}
+
+
+		/**
+		 * @brief asString methot that creates a string representation of a BigNumber.
+		 * @return a string representing the BigNumber.
+		 */
+		std::string asString() const noexcept(true) {
+			std::stringstream ss;
+			if (!this->isPositive()) {
+				ss << '-';
+			}
+			for (int i = this->lenght() - 1; i >= 0; i--) {  // reverse order, so that vector {1, 2, 3} prints 321 and not 123.
+#ifdef BIG_NUMBER_DEBUG
+				if (this->m_values[i] < 0 || this->m_values[i] > 9) {
+					std::cerr << "[BigNumber] {As String} ->  m_values containing invalid value: " << this->m_values[i] << ". Aborting..."<< std::endl;
+					exit(1);
+				}
+#endif
+				ss << this->m_values[i];
+			}
+			return ss.str();
+		}
+
+
+		/**
+		 * @brief absoluteValue gets the absolute value of a BigNumber,
+		 * @return a BigNumber copy, but positive, the absolute value.
+		 */
+		BigNumber absoluteValue() const noexcept(true) {
+			BigNumber temp = *this;
+			temp.m_positive = true;
+			return temp;
+		}
+
+
+		/**
+		 * @brief times10 method that multiplies the number by 10, n times. Made to be fast.
+		 * @param times how many times it shoud be multiplied by 10. Default is 1.
+		 * @return the number times 10 n times.
+		 */
+		BigNumber times10(int times = 1) const noexcept(true) {
+			BigNumber temp = *this;
+			for (int i = 0; i < times; i++) {
+				temp.m_values.insert(temp.m_values.begin(), 0);
+			}
+			temp.afterOperation();
+			return temp;
+		}
+
+
+		/**
+		 * @brief divide10 method that divides the number by 10, n times. Made to be fast.
+		 * @param times how many times it shoud be divided by 10. Default is 1.
+		 * @return the number divided by 10 n times.
+		 */
+		BigNumber divide10(int times = 1) const noexcept(true) {
+			if (times >= this->lenght()) {
+				return BigNumber(0);
+			}
+			BigNumber divided = *this;
+			for (int i = 0; i < times; i++) {
+				divided.m_values.erase(divided.m_values.begin());
+			}
+			return divided;
+		}
+
+
+		/**
+		 * @brief asBinary returns a std::string representation of the BigNumber as binary.
+		 * The lenght of the string will always be the smallest necessary to fit the representation, plus the signed bit.
+		 * The representation is signed-like, so the first char is 1 if the number is negative, 0 if positive.
+		 * @return a std::string representation of the BigNumber as binary.
+		 */
+		std::string asBinary() const noexcept(true) {
+			std::stringstream ss;
+
+			BigNumber copy = this->absoluteValue();
+
+			while (copy > 0) {
+				ss << (copy.isOdd() ? '1' : '0');
+				copy /= 2;
+			}
+
+			ss << (this->isPositive() ? '0' : '1');  // Big for signed.
+
+			std::string asString = ss.str();
+			std::reverse(asString.begin(), asString.end());
+			return asString;
+		}
+
+
+		/**
+		 * @brief splitAt splits a BigNumber at a desired position.
+		 * @param splitPos the position to be split at.
+		 * Keep in mind that this position is from right to left, so spliting the number 123456 at pos 1 will result in 12345 and 6.
+		 * If the param is not in range [0, this.lenght], it will be capped to it.
+		 * @return a pair of the result BigNumbers.
+		 */
+		std::pair<BigNumber, BigNumber> splitAt(long long splitPos) const noexcept(true) {
+			splitPos = std::min(std::max(splitPos, (long long) 0), (long long) this->lenght());  // cap values to [0, lengh]. I miss C++ 17 clamp.
+
+			std::vector<int> firstHalf;
+			firstHalf.reserve(splitPos);
+
+			std::vector<int> secondHalf;
+			secondHalf.reserve(this->lenght() - splitPos);
+
+			for (size_t i = 0; i < this->lenght(); i++) {
+				int digit = this->m_values[i];
+				if (i > splitPos - 1) {
+					firstHalf.push_back(digit);
+				} else {
+					secondHalf.push_back(digit);
+				}
+			}
+
+			return std::make_pair(BigNumber(firstHalf), BigNumber(secondHalf));
+		}
+
+
+		/**
+		 * @brief fitsInLongLong method that calculates if a number fits in a long long type.
+		 * @return if number fits in long long type.
+		 * Uses the lenght to calculate, since long long max is 9223372036854775807.
+		 */
+		bool fitsInLongLong() const noexcept(true) {
+			return this->lenght() < 19;
+		}
+
+
+		/**
+		 * @brief asLongLong returns a long long representation of this BigNumber object.
+		 * Throws exeption of type std::out_of_range if the number does not fit.
+		 * @return this BigNumber as a long long, if possible.
+		 */
+		long long asLongLong() const noexcept(false) {
+#ifdef BIG_NUMBER_DEBUG
+			if (!this->fitsInLongLong()) {
+				std::cerr << "[BigNumber] {As Long Long} Invalid long long:" << *this << std::endl;
+				exit(1);
+			}
+#endif
+			return std::stoll(this->asString());
+		}
+
+
+		/**
+		 * @brief lenght method to get the lenght of given number, counting the digits.
+		 * @return the lenght of this BigNumber.
+		 */
+		size_t lenght() const noexcept(true) {
+			return this->m_values.size();
+		}
+
+
+		/**
+		 * @brief isOdd simple method to se if a BigNumber is odd or not.
+		 * @return if the number is odd.
+		 */
+		bool isOdd() const noexcept(true) {
+			return this->m_values[0] & 1;
+		}
+
+
+		/**
+		 * @brief isEven just a negative of isOdd.
+		 * @return if a number is even. Zero is considered even.
+		 */
+		bool isEven() const noexcept(true) {
+			return !this->isOdd();
+		}
+
+
+		/**
+		 * @brief isZero methot that tests if a number is zero, faster than Number == BigNumber(0).
+		 * @return if the object is 0.
+		 */
+		bool isZero() const noexcept(true) {
+			return this->lenght() == 1 && this->m_values[0] == 0;
+		}
+
+
+		/**
+		 * @brief isOne method that tests if a number is one, faster than creating an object.
+		 * @return is this object is 1.
+		 */
+		bool isOne() const noexcept(true) {
+			return this->m_positive && this->lenght() == 1 && this->m_values[0] == 1;
+		}
+
+
+		/**
+		 * @brief isPositive methot that returns if this number is positive or not.
+		 * @return if this object has positive value or not.
+		 */
+		bool isPositive() const noexcept(true) {
+			return this->m_positive;
+		}
+
+
+	private:
+
+		bool m_positive = true;  // positive by default.
+		std::vector<int> m_values;  // vector that will hold the digts. vector {1, 2, 3} means number 321.
+
+
+		/**
+		 * @brief removeLeftZeros removes all the zeroes to the left of a number,
+		 * so 0008 becomes 8 and 000 becomes 0.
+		 */
+		void removeLeftZeros() noexcept(true) {
+			for (int i = this->lenght() - 1; i >= 1; i--) {  // until 1, not 0 so that 0 is represented as {0} and not {}
+				if (this->m_values[i] == 0) {
+					this->m_values.pop_back();  // pops all zeroes to the left of the number.
+				} else {
+					break;
+				}
+			}
+		}
+
+
+		/**
+		 * @brief doCarryOver utility method for addition, that does the carryover.
+		 * @param start the point to start the parsing, used to recall the function recursively.
+		 */
+		void doCarryOver(int start = 0) noexcept(true) {
+			for (int i = start; i < this->lenght(); i++) {
+				if (this->m_values[i] > 9) {
+					this->m_values[i] -= 10;
+					if (i + 1 < this->lenght()) {
+						this->m_values[i + 1]++;
+					} else {
+						this->m_values.push_back(1);
+						return doCarryOver(i);
+					}
+				}
+			}
+		}
+
+
+		/**
+		 * @brief afterOperation just a method that updates internal stuff,
+		 * should be called after most internal value update operations.
+		 */
+		void afterOperation() noexcept(true) {
+			this->removeLeftZeros();
+			if (this->isZero()) {  // prevents -0.
+				this->m_positive = true;
+			}
+#ifdef BIG_NUMBER_DEBUG
+			for (int i = 0; i < this->lenght(); i++) {
+				if (this->m_values[i] < 0 || this->m_values[i] > 9) {
+					std::cerr << "[BigNumber] {After Operation} Invalid value in vector: " << this->m_values[i] << std::endl;
+					exit(1);
+				}
+			}
+#endif
+		}
+
+
+		/**
+		 * @brief divide method that contains the division logid.
+		 * @param number to divide by.
+		 * @return a pair, the first one is the division quocient, the second the division rest.
+		 * The division rest is ALWAYS positive, since ISO14882:2011 says that the sign of the remainder is implementation-defined.
+		 * Throws in case of division | module by 0.
+		 */
+		std::pair<BigNumber, BigNumber> divide(const BigNumber& number) const noexcept(false) {
+			if (number.isZero()) {
+				throw std::invalid_argument("[BigNumber] {Divide} ->  Division | Module by 0 is undefined.");
+			}
+			if (number.isOne()) {
+				return std::make_pair(*this, BigNumber(0));
+			}
+			if (number == *this) {
+				return std::make_pair(BigNumber(1), BigNumber(0));
+			}
+			if (number > *this) {
+				return std::make_pair(BigNumber(0), *this);
+			}
+			// At this point, we can assume *this is larger than number.
+
+			if (this->fitsInLongLong() && number.fitsInLongLong()) {  // this makes for huge optization.
+				long long llThis = this->asLongLong();
+				long long llNumber = number.asLongLong();
+				return std::make_pair(BigNumber(llThis / llNumber), BigNumber(abs(llThis % llNumber)));
+			}
+
+			BigNumber rest = this->absoluteValue();  // this number will be modified.
+			const BigNumber absoluteNumber = number.absoluteValue();
+
+			BigNumber quotient;
+
+			// Iterate lenghtDifference times, decreasing.
+			int lenghDifference = rest.lenght() - absoluteNumber.lenght();
+			while (lenghDifference-- >= 0) {
+				// The number that it will try to subtract will be the absoluteNumber passed times 10 to the power of the current lenghDiff.
+				// This will make for HUGE permorface, since instead of subtracting 2 from 200 100 times it will subtract 200 from 200 once.
+				BigNumber toSubtract = absoluteNumber.times10(lenghDifference);
+				while (rest >= toSubtract) {  // if we can subtract it.
+					quotient += BigNumber(1).times10(lenghDifference);  // increase the quotient by the correct number.
+					rest -= toSubtract;  // subtract the numbers.
+				}
+			}
+			quotient.m_positive = this->m_positive == number.m_positive;  // Division signal rule.
+			quotient.afterOperation();
+			rest.afterOperation();
+			return std::make_pair(quotient, rest);
+		}
+
+
+		/**
+		 * @brief BigNumber this is a private constructor just to copy the vector.
+		 * No checking is done to see if the vector is valid or not.
+		 * An empty vector will result in the object being init with 0.
+		 * @param vector the object m_values.
+		 * @param reversed if true, the vector will be read in the reverse order.
+		 */
+		BigNumber(const std::vector<int> &vector, bool reversed=false) noexcept(true) {
+			if (vector.size() > 0) {
+#ifdef BIG_NUMBER_DEBUG
+				for (int i = 0; i < vector.size(); i++) {
+					if (vector[i] < 0 || vector[i] > 9) {
+						std::cerr << "[BigNumber] {Vector Constructor} Invalid value in vector: " << vector[i] << std::endl;
+						exit(1);
+					}
+				}
 #endif
 
-BigNumber::BigNumber(std::string number) :
-        _numberString(number)
-{
-}
+				this->m_values = vector;
+				if (reversed) {
+					std::reverse(this->m_values.begin(), this->m_values.end());
+				}
+			} else {
+				this->m_values.push_back(0);
+			}
+			this->afterOperation();
+		}
 
-BigNumber::BigNumber(long long number) :
-    _numberString(std::to_string(number))
-{}
+};
 
-BigNumber BigNumber::add(BigNumber other) {
-    BigNumber b1 = other > *this ? other : *this;
-    BigNumber b2 = other > *this ? *this : other;
-    if (b1.isNegative() || b2.isNegative()) {
-        if (b1.isNegative() && b2.isNegative()) {
-            return b1.negate().add(b2.negate()).negate();
-        }
-        else if (b1.isNegative() && !b2.isNegative()) {
-            return b1.negate().subtract(b2).negate();
-        }
-        else {
-            return b2.negate().subtract(b1).negate();
-        }
-    }
-    std::string results;
-    int carry = 0;
-    int diff = int(b1._numberString.size() - b2._numberString.size());
-    for (int i = 0; i < diff; ++i) {
-        b2._numberString.insert(b2._numberString.begin(), '0');
-    }
-    for (int i = int(b1._numberString.size() - 1); i >= 0; --i) {
-        int sum = (b1._numberString[i] - '0') + (b2._numberString[i] - '0') + carry;
-        carry = 0;
-        if (sum <= 9 || i == 0) {
-            results.insert(0, std::to_string(sum));
-        }
-        else {
-            results.insert(0, std::to_string(sum % 10));
-            carry = 1;
-        }
-    }
-    return BigNumber(results);
-}
+}  // Closing namespace pr0crustes.
 
-BigNumber BigNumber::addll(const long long &other) {
-    return this->add(BigNumber(other));
-}
 
-BigNumber BigNumber::addstr(const std::string &other) {
-    return this->add(BigNumber(other));
-}
-
-
-BigNumber BigNumber::subtract(BigNumber other) {
-    BigNumber b1 = *this, b2 = other;
-    if (b1.isNegative() || b2.isNegative()) {
-        if (b1.isNegative() && b2.isNegative()) {
-            return b1.negate().add(b2.negate()).negate();
-        }
-        else if (b1.isNegative() && !b2.isNegative()) {
-            return b1.negate().add(b2).negate();
-        }
-        else {
-            return b2.negate().add(b1);
-        }
-    }
-    std::string results;
-    int n = 0, p = 0;
-    bool takeOffOne = false;
-    bool shouldBeTen = false;
-
-    if (b1 < b2) {
-        //Negative answer
-        std::string t = b2.subtract(*this).negate().getString();
-        for (unsigned int i = 1; i < t.length(); ++i) {
-            if (t[i] != '0') break;
-            t.erase(1, 1);
-        }
-        return BigNumber(t);
-    }
-
-    //This next if-block fixes the case where the digit difference is greater than 1
-    //100 - 5 is an example. This code adds 0's to make it, for example, 100 - 05, which
-    //allows the rest of the subtraction code to work.
-    if (b1._numberString.size() - b2.getString().size() > 1) {
-        for (unsigned long i = 0; i < b1._numberString.size() - b2.getString().size() - 1; ++i) {
-            b2._numberString.insert(b2._numberString.begin(), '0');
-        }
-    }
-    int i = int(b1._numberString.size() - 1);
-    for (int j = int(b2._numberString.size() - 1); j >= 0; --j) {
-        if (((b1._numberString[i] - '0') < (b2._numberString[j] - '0')) && i > 0) {
-            n = char((b1._numberString[i] - '0') + 10);
-            takeOffOne = true;
-            if (j > 0 || b1._numberString[i - 1] != '0') {
-                p = char((b1._numberString[i - 1] - '0') - 1);
-                if (p == -1) {
-                    p = 9;
-                    shouldBeTen = true;
-                }
-                takeOffOne = false;
-            }
-            if (shouldBeTen) {
-                int index = i - 1;
-                for (int a = i - 1; (b1._numberString[a] - '0') == 0; --a) {
-                    b1._numberString[a] = static_cast<char>(p + '0');
-                    --index;
-                }
-                int t = (b1._numberString[index] - '0') - 1;
-                b1._numberString[index] = static_cast<char>(t + '0');
-            }
-            b1._numberString[i - 1] = static_cast<char>(p + '0');
-            shouldBeTen = false;
-        }
-        std::stringstream ss;
-        if (((b1._numberString[i] - '0') == (b2._numberString[j] - '0'))) {
-            ss << "0";
-        }
-        else {
-            if (n <= 0) {
-                ss << ((b1._numberString[i] - '0') - (b2._numberString[j] - '0'));
-            }
-            else {
-                ss << (n - (b2._numberString[j] - '0'));
-            }
-        }
-
-        results.insert(0, ss.str());
-        --i;
-        n = 0;
-    }
-    if (takeOffOne) {
-        std::string number = "";
-        for (int j = b1._numberString.length() - b2._numberString.length() - 1; j >= 0; --j) {
-            if (b1._numberString[j] == '0') {
-                number += "0";
-                continue;
-            }
-            else {
-                number.insert(number.begin(), b1._numberString[j]);
-                int t = atoi(number.c_str());
-                --t;
-                b1._numberString.replace(0, number.size(), std::to_string(t));
-                break;
-            }
-        }
-    }
-    while (i >= 0) {
-        std::stringstream ss;
-        if (i == 0) {
-            if (b1._numberString[i] - '0' != 0) {
-                ss << (b1._numberString[i] - '0');
-                results.insert(0, ss.str());
-            }
-        }
-        else {
-            ss << (b1._numberString[i] - '0');
-            results.insert(0, ss.str());
-        }
-
-        --i;
-    }
-    //In the case of all 0's, we only want to return one of them
-    if (results.find_first_not_of('0') == std::string::npos) {
-        results = "0";
-    }
-    else if (results[0] == '0') {
-        int index = results.find_first_not_of('0');
-        results = results.substr(index, results.length() - 1);
-    }
-    return BigNumber(results);
-}
-
-BigNumber BigNumber::subtractll(const long long &other) {
-    return this->subtract(BigNumber(other));
-}
-
-BigNumber BigNumber::subtractstr(const std::string &other) {
-    return this->subtract(BigNumber(other));
-}
-
-BigNumber BigNumber::multiply(BigNumber other) {
-    BigNumber b1 = other > *this ? other : *this;
-    BigNumber b2 = other > *this ? *this : other;
-    if (b1.isNegative() || b2.isNegative()) {
-        if (b1.isNegative() && b2.isNegative()) {
-            return b1.negate().multiply(b2.negate());
-        }
-        else if (b1.isNegative() && !b2.isNegative()) {
-            return b1.negate().multiply(b2).negate();
-        }
-        else {
-            return b2.negate().multiply(b1).negate();
-        }
-    }
-    if (b1 == 0 || b2 == 0) return 0;
-    int carry = 0;
-    int zeroCounter = 0;
-    BigNumber b = 0;
-    
-    for (unsigned int i = 0; i < b1._numberString.size() - b2._numberString.size(); ++i) {
-        b2._numberString.insert(b2._numberString.begin(), '0');
-    }
-    for (long long int i = (b2._numberString.size() - 1); i >= 0; --i) {
-        std::string rr;
-        for (long long int j = int(b1._numberString.size() - 1); j >= 0; --j) {
-            int val = ((b2._numberString[i] - '0') * (b1._numberString[j] - '0')) + carry;
-            carry = 0;
-            if (val > 9 && j != 0) {
-                carry = val / 10;
-                rr.insert(0, std::to_string(val % 10));
-            }
-            else {
-                rr.insert(0, std::to_string(val));
-            }
-        }
-        if (zeroCounter > 0) {
-            for (int x = 0; x < zeroCounter; ++x) {
-                rr.append("0");
-            }
-        }
-        ++zeroCounter;
-        b += BigNumber(rr);
-    }
-    if (b._numberString.find_first_not_of('0') != std::string::npos) {
-        b.setString(b._numberString.erase(0, b._numberString.find_first_not_of('0')));
-    }
-    else {
-        //In the case of all 0's, we only want to return one of them
-        b.setString("0");
-    }
-    return b;
-}
-
-BigNumber BigNumber::multiplyll(const long long &other) {
-    if (other == 0)
-        return 0;
-    if (other == 1)
-        return *this;
-    auto original = *this;
-    for (auto i = 0; i < other - 1; ++i) {
-        *this += original;
-    }
-    return *this;
-}
-
-BigNumber BigNumber::multiplystr(const std::string &other) {
-    return this->multiply(BigNumber(other));
-}
-
-BigNumber BigNumber::divide(BigNumber other) {
-    if (other == 0) {
-        std::cerr << "You cannot divide by 0!" << std::endl;
-    }
-    BigNumber b1 = *this, b2 = other;
-    bool sign = false;
-    if (b1.isNegative() && b2.isNegative()) {
-        b1.negate();
-        b2.negate();
-    }
-    else if (b1.isNegative() && !b2.isNegative()) {
-        b1.negate();
-        sign = true;
-    }
-    else if (!b1.isNegative() && b2.isNegative()) {
-        b2.negate();
-        sign = true;
-    }
-    BigNumber quotient = 0;
-    while (b1 >= b2) {
-        b1 -= b2;
-        ++quotient;
-    }
-    if (sign) quotient.negate();
-    return quotient;
-}
-
-BigNumber BigNumber::dividell(const long long &other) {
-    return this->divide(BigNumber(other));
-}
-
-BigNumber BigNumber::dividestr(const std::string &other) {
-    return this->divide(BigNumber(other));
-}
-
-BigNumber BigNumber::pow(int exponent) {
-    if (exponent < 0) std::cerr << "Powers less than 0 are not supported" << std::endl;
-    if (exponent == 0) return BigNumber("1");
-    if (exponent == 1) return *this;
-    BigNumber result = 1, base = *this;
-    while (exponent) {
-        if (exponent & 1) {
-            result *= base;
-        }
-        exponent >>= 1;
-        base *= base;
-    }
-    return result;
-}
-
-std::string BigNumber::getString() {
-    return this->_numberString;
-}
-
-BigNumber BigNumber::setString(const std::string &newStr) {
-    this->_numberString = newStr;
-    return *this;
-}
-
-BigNumber BigNumber::negate() {
-    if (this->_numberString[0] == '-') {
-        this->_numberString.erase(0, 1);
-    }
-    else {
-        this->_numberString.insert(this->_numberString.begin(), '-');
-    }
-    return *this;
-}
-
-BigNumber BigNumber::trimLeadingZeros() {
-    BigNumber b = *this;
-    if (b._numberString.find_first_not_of('0') != std::string::npos) {
-        b.setString(b._numberString.erase(0, b._numberString.find_first_not_of('0')));
-    }
-    return b;
-}
-
-bool BigNumber::equals(const BigNumber &other) {
-    return this->_numberString == other._numberString;
-}
-
-bool BigNumber::equals(const long long &other) {
-    return this->getString() == std::to_string(other);
-}
-
-bool BigNumber::equals(const std::string &other) {
-    return this->getString() == other;
-}
-
-unsigned int BigNumber::digits() {
-    return this->_numberString.length() - static_cast<int>(this->isNegative());
-}
-
-bool BigNumber::isNegative() const {
-    return this->_numberString[0] == '-';
-}
-
-bool BigNumber::isPositive() {
-    return !this->isNegative();
-}
-
-bool BigNumber::isEven() {
-    return this->_numberString[this->_numberString.length() - 1] % 2 == 0;
-}
-
-bool BigNumber::isOdd() {
-    return !this->isEven();
-}
-
-BigNumber BigNumber::abs() const {
-    return BigNumber(this->_numberString.substr(static_cast<unsigned int>(this->isNegative())));
-}
-
-std::ostream &operator<<(std::ostream &os, const BigNumber &num) {
-    os << num._numberString;
-    return os;
-}
-
-BigNumber operator+(BigNumber b1, const BigNumber &b2) {
-    return b1.add(b2);
-}
-
-BigNumber operator+(BigNumber b1, const long long &b2) {
-    return b1.addll(b2);
-}
-
-BigNumber operator+(BigNumber b1, const std::string &b2) {
-    return b1.addstr(b2);
-}
-
-BigNumber operator-(BigNumber b1, const BigNumber &b2) {
-    return b1.subtract(b2);
-}
-
-BigNumber operator-(BigNumber b1, const long long &b2) {
-    return b1.subtractll(b2);
-}
-
-BigNumber operator-(BigNumber b1, const std::string &b2) {
-    return b1.subtractstr(b2);
-}
-
-BigNumber operator*(BigNumber b1, const BigNumber &b2) {
-    return b1.multiply(b2);
-}
-
-BigNumber operator*(BigNumber b1, const long long &b2) {
-    return b1.multiplyll(b2);
-}
-
-BigNumber operator*(BigNumber b1, const std::string &b2) {
-    return b1.multiplystr(b2);
-}
-
-BigNumber operator/(BigNumber b1, const BigNumber &b2) {
-    return b1.divide(b2);
-}
-
-BigNumber operator/(BigNumber b1, const long long &b2) {
-    return b1.dividell(b2);
-}
-
-BigNumber operator/(BigNumber b1, const std::string &b2) {
-    return b1.dividestr(b2);
-}
-
-BigNumber operator^(BigNumber b1, const int &b2) {
-    return b1.pow(b2);
-}
-
-bool operator==(BigNumber b1, const BigNumber &b2) {
-    return b1.equals(b2);
-}
-
-bool operator==(BigNumber b1, const long long &b2) {
-    return b1.equals(b2);
-}
-
-bool operator==(BigNumber b1, const std::string &b2) {
-    return b1.equals(b2);
-}
-
-bool operator>(BigNumber b1, const BigNumber &b2) {
-    if (b1.isNegative() || b2.isNegative()) {
-        if (b1.isNegative() && b2.isNegative()) {
-            BigNumber bt = b2;
-            b1._numberString.erase(0, 1);
-            bt._numberString.erase(0, 1);
-            return b1 < bt;
-        }
-        else {
-            return !(b1.isNegative() && !b2.isNegative());
-        }
-    }
-    b1 = b1.trimLeadingZeros();
-    auto c = BigNumber(b2);
-    c = c.trimLeadingZeros();
-    if (b1 == c) {
-        return false;
-    }
-    if (b1._numberString.size() > c._numberString.size()) {
-        return true;
-    }
-    else if (c._numberString.size() > b1._numberString.size()) {
-        return false;
-    }
-    else {
-        for (unsigned int i = 0; i < b1._numberString.size(); ++i) {
-            if (b1[i] == static_cast<unsigned int>(c._numberString[i] - '0')) {
-                continue;
-            }
-            return b1[i] > static_cast<unsigned int>(c._numberString[i] - '0');
-        }
-    }
-    return false;
-}
-
-bool operator<(BigNumber b1, const BigNumber &b2) {
-    return !(b1 == b2) && !(b1 > b2);
-}
-
-bool operator>=(BigNumber b1, const BigNumber &b2) {
-    return b1 > b2 || b1 == b2;
-}
-
-bool operator<=(BigNumber b1, const BigNumber &b2) {
-    return b1 < b2 || b1 == b2;
-}
-
-unsigned int BigNumber::operator[](int index) {
-    if (this->_numberString[index] == '-') {
-        std::cerr << "You cannot get the negative sign from the number" << std::endl;
-    }
-    return static_cast<unsigned int>(this->_numberString[index] - '0');
-}
-
-BigNumber& BigNumber::operator=(const BigNumber &other) {
-    this->_numberString = other._numberString;
-    return *this;
-}
-
-BigNumber& BigNumber::operator=(const long long &other) {
-    this->_numberString = std::to_string(other);
-    return *this;
-}
-
-BigNumber& BigNumber::operator=(const std::string &other) {
-    this->_numberString = other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator+=(const BigNumber &other) {
-    *this = *this + other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator+=(const long long &other) {
-    *this = *this + other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator+=(const std::string &other) {
-    *this = *this + other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator-=(const BigNumber &other) {
-    *this = *this - other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator-=(const long long &other) {
-    *this = *this - other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator-=(const std::string &other) {
-    *this = *this - other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator*=(const BigNumber &other) {
-    *this = *this * other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator*=(const long long &other) {
-    *this = *this * other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator*=(const std::string &other) {
-    *this = *this * other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator/=(const BigNumber &other) {
-    *this = *this / other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator/=(const long long &other) {
-    *this = *this / other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator/=(const std::string &other) {
-    *this = *this / other;
-    return *this;
-}
-
-BigNumber& BigNumber::operator++() {
-    *this += BigNumber("1");
-    return *this;
-}
-
-BigNumber& BigNumber::operator--() {
-    *this -= BigNumber("1");
-    return *this;
-}
-
-BigNumber BigNumber::operator++(int) {
-    BigNumber t(this->getString());
-    ++(*this);
-    return t;
-}
-
-BigNumber BigNumber::operator--(int) {
-    BigNumber t(this->getString());
-    --(*this);
-    return t;
-}
+#endif // BIGNUMBER_H
