@@ -345,7 +345,9 @@ class BigNumber {
 		 * Throws in case of division by 0.
 		 */
 		BigNumber operator/(const BigNumber& number) const noexcept(false) {
-			return this->divide(number).first;
+			if (this->isPositive() == number.isPositive())
+				return this->divide(number).first;
+			return this->divide(-number).first;
 		}
 
 
