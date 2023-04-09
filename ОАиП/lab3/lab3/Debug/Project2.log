@@ -1,0 +1,6 @@
+﻿  main.c
+E:\Programming\C++\Project2\main.c(39,21): warning C4474: "scanf_s" : для строки формата передано слишком много аргументов
+E:\Programming\C++\Project2\main.c(39,21): message : заполнители и их параметры ожидают переменное число аргументов в количестве 0, но было предоставлено 1
+  main.cpp
+Debug\main.obj : warning LNK4042: объект указан более одного раза; лишние не учитываются
+  Project2.vcxproj -> E:\Programming\C++\Project2\Debug\Project2.exe
