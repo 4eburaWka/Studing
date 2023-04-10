@@ -13,20 +13,23 @@ class Hopfield():
         prevY = Y
         for _ in range(14):
             Y = self.nextY(Y, self.W)
-            if np.allclose(Y, self.nextY(Y, self.W), atol=0):
+            if np.allclose(prevY, Y, atol=0):
                 return Y
-            if np.allclose(prevY, self.nextY(Y, self.W), atol=0):
+            if np.allclose(Y, self.nextY(Y, self.W), atol=0):
                 return
             prevY = Y
 
-    def async_(self, Y):
-        for _ in range(14):
-            list_idx = list(range(Y.shape[1]))
-            np.random.shuffle(list_idx)
-            for idx in list_idx:
-                Y[0, idx] = self.nextY(Y, self.W[:, idx])
-            if np.allclose(Y, self.nextY(Y, self.W), atol=0):
-                return Y
+    def async_(self,Y): 
+        temp = Y.copy() 
+        for i in range(14): 
+            index = list(range(Y.shape[1])) 
+            np.random.shuffle(index) 
+            for i in index: 
+                Y[0, i] = self.nextY(Y, self.W[:, i]) 
+            if np.all(Y == temp): 
+                return Y 
+            else : 
+                temp = Y.copy()
 
             
 reference_images = np.array([
