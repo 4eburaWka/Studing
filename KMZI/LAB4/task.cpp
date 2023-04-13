@@ -4,9 +4,29 @@
 using namespace pr0crustes;
 using namespace std;
 
+unsigned long long gcd(unsigned long long a, unsigned long long b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
+
+pair<unsigned long long, unsigned long long> fermat_factorization(unsigned long long n) {
+    unsigned long long a, x, y;
+    while (true) {
+        a = rand() % (n - 1) + 1;
+        x = a * a - n;
+        y = sqrt(x);
+        if (y * y == x) {
+            unsigned long long p = gcd(n, a - y);
+            unsigned long long q = gcd(n, a + y);
+            if (p != 1 && q != 1) {
+                return make_pair(p, q);
+            }
+        }
+    }
+}
 bool isPrime(unsigned long long N);
 void dividing(unsigned long long N);
-bool fermat_factorization(unsigned long long n);
+// pair<unsigned long long, unsigned long long> fermat_factorization(unsigned long long n);
 void combined_method(unsigned long long n);
 
 int main() {
@@ -20,21 +40,26 @@ int main() {
         cin >> menu;
 
         switch(menu){
-        case 1:
+        case 1:{
             cout << "Введите число: "; cin >> N;
             dividing(N); cout << endl << endl;
             break;
-        case 2:
+        }    
+        case 2:{
             cout << "Введите число: "; cin >> N;
-            fermat_factorization(N); cout << endl;
+            pair<unsigned long long, unsigned long long> a = fermat_factorization(N);
+            cout << a.first << " " << a.second << endl;
             break;
-        case 3:
+        }
+        case 3:{
             cout << "Введите число: "; cin >> N;
             combined_method(N); cout << endl;
             break;
-        case 4:
+        }    
+        case 4:{
             return 0;
             break;
+        }    
         }
     }
 }
@@ -69,25 +94,6 @@ void dividing(unsigned long long n){
 }
 
 
-bool fermat_factorization(unsigned long long n) {
-    unsigned long long a = ceil(sqrt(n)); // находим первое число, ближайшее к sqrt(n)
-    unsigned long long b2 = a*a - n; // b^2 = a^2 - n
-    unsigned long long b = sqrt(b2);
-    unsigned count = 0; // ограничение на количество итераций
-
-    while (b * b != b2) { // если b не целое, то увеличиваем a и пересчитываем b^2
-        a++;
-        b2 = a*a - n;
-        b = sqrt(b2);
-        count++;
-        if (count > 100) { // ограничение на количество итераций
-            return false;
-        }
-    }
-
-    cout << a - b << " " << a + b << endl;
-    return true;
-}
 
 void combined_method(unsigned long long n){
     bool is_prime = isPrime(n);

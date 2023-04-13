@@ -36,6 +36,8 @@ BigNumber generate_prime(BigNumber k) {
     return n;
 }
 
+
+
 int main() {
     BigNumber k;
     cout << "Enter k: ";
