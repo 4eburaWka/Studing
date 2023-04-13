@@ -25,10 +25,20 @@ unsigned long long generate_prime(unsigned long long k) {
     return n;
 }
 
-unsigned long long main() {
+int main() {
     unsigned long long k;
     cout << "Enter k: ";
     cin >> k;
     unsigned long long prime = generate_prime(k);
     cout << "Prime number: " << prime << endl;
+
+    int check_arr[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
+        47, 53, 59, 67, 71, 83, 89, 101, 107, 109, 113, 127, 131, 137,
+        139, 149, 157, 167, 179, 181, 191, 197, 199, 211};
+    
+    for (int num: check_arr)
+        if (prime % num == 0) {
+            cout << "Число " << prime << "делится на " << num << endl;
+            return 0;
+    }
  }

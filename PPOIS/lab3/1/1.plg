@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: 1 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\4eBuRaWa\AppData\Local\Temp\RSP3772.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/1.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Studing\PPOIS\lab3\1\1.cpp"
+]
+Creating command line "cl.exe @C:\Users\4eBuRaWa\AppData\Local\Temp\RSP3772.tmp" 
+Creating temporary file "C:\Users\4eBuRaWa\AppData\Local\Temp\RSP3773.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/1.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\Studing\PPOIS\lab3\1\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\Users\4eBuRaWa\AppData\Local\Temp\RSP3773.tmp" 
+Creating temporary file "C:\Users\4eBuRaWa\AppData\Local\Temp\RSP3774.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/1.pdb" /debug /machine:I386 /out:"Debug/1.exe" /pdbtype:sept 
+.\Debug\StdAfx.obj
+.\Debug\1.obj
+]
+Creating command line "link.exe @C:\Users\4eBuRaWa\AppData\Local\Temp\RSP3774.tmp"
+<h3>Output Window</h3>
+Compiling...
+StdAfx.cpp
+Compiling...
+1.cpp
+e:\studing\ppois\lab3\1\1.cpp(72) : fatal error C1010: unexpected end of file while looking for precompiled header directive
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+1.exe - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
