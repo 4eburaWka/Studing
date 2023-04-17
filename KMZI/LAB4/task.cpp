@@ -4,30 +4,11 @@
 using namespace pr0crustes;
 using namespace std;
 
-unsigned long long gcd(unsigned long long a, unsigned long long b) {
-    if (b == 0) return a;
-    return gcd(b, a % b);
-}
-
-pair<unsigned long long, unsigned long long> fermat_factorization(unsigned long long n) {
-    unsigned long long a, x, y;
-    while (true) {
-        a = rand() % (n - 1) + 1;
-        x = a * a - n;
-        y = sqrt(x);
-        if (y * y == x) {
-            unsigned long long p = gcd(n, a - y);
-            unsigned long long q = gcd(n, a + y);
-            if (p != 1 && q != 1) {
-                return make_pair(p, q);
-            }
-        }
-    }
-}
 bool isPrime(unsigned long long N);
 void dividing(unsigned long long N);
-// pair<unsigned long long, unsigned long long> fermat_factorization(unsigned long long n);
-void combined_method(unsigned long long n);
+unsigned long long gcd(unsigned long long a, unsigned long long b);
+pair<unsigned long long, unsigned long long> fermat_factorization(unsigned long long n);
+pair<unsigned long long, unsigned long long> combined_method(unsigned long long n);
 
 int main() {
     short menu;
@@ -53,7 +34,8 @@ int main() {
         }
         case 3:{
             cout << "Введите число: "; cin >> N;
-            combined_method(N); cout << endl;
+            pair<unsigned long long, unsigned long long> a = combined_method(N); 
+            cout << a.first << " " << a.second << endl;
             break;
         }    
         case 4:{
@@ -75,6 +57,17 @@ bool isPrime(unsigned long long n){
     return is_prime;
 }
 
+bool iSprostota(unsigned long long number) {
+    for (size_t i = 2; i < number; i++)
+    {
+        float temp = number%i;
+        if(temp == 0)
+            return false;
+    }
+    return true;
+    
+}
+
 void dividing(unsigned long long n){
     if (n % 2 == 0) {
         cout << "2 ";
@@ -93,26 +86,26 @@ void dividing(unsigned long long n){
     }
 }
 
+unsigned long long gcd(unsigned long long a, unsigned long long b) {
+    if (b == 0) return a;
+    return gcd(b, a % b);
+}
 
-
-void combined_method(unsigned long long n){
-    bool is_prime = isPrime(n);
-
-    if (is_prime) {
-        cout << n << " is a prime number." << endl;
-        return;
-    }
-
-    dividing(n);
-
-    cout << "\n\nМетод Ферма: " << endl;
-    unsigned long long k = ceil(sqrt(n));
+pair<unsigned long long, unsigned long long> fermat_factorization(unsigned long long n) {
+    if (n % 2 == 0)
+        return make_pair(2, n / 2);
+    unsigned long long k = sqrt(n);
     while (true) {
         unsigned long long r = sqrt(k * k - n);
         if (r * r == k * k - n) {
-            cout << (k - r) << (k + r) << endl;
-            return;
+            return make_pair(k - r, k + r);
         }
         k++;
     }
+}
+
+pair<unsigned long long, unsigned long long> combined_method(unsigned long long n){
+    if (iSprostota(n)) 
+        return make_pair(1, n);
+    return fermat_factorization(n);
 }

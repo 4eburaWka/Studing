@@ -18,9 +18,11 @@ unsigned long long generate_prime(unsigned long long k) {
     unsigned long long n = pow(2, k) - 1;
     unsigned long long i = 2;
     while (!is_prime(n)) {
-        n = pow(2, k) - 1;
-        n = n * i;
-        i++;
+        // n = pow(2, k) - 1;
+        // n = n * i;
+        // i++;
+        n *= 2;
+        n++;
     }
     return n;
 }
@@ -38,7 +40,7 @@ int main() {
     
     for (int num: check_arr)
         if (prime % num == 0) {
-            cout << "Число " << prime << "делится на " << num << endl;
+            cout << "Число " << prime << " делится на " << num << endl;
             return 0;
     }
  }

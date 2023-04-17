@@ -29,9 +29,11 @@ BigNumber generate_prime(BigNumber k) {
     BigNumber n = BigNumber(2).pow(k) - 1;
     BigNumber i = 2;
     while (!is_prime(n)) {
-        n = BigNumber(2).pow(k) - 1;
-        n = n * i;
-        i++;
+        // n = BigNumber(2).pow(k) - 1;
+        // n = n * i;
+        // i++;
+        n *= 2;
+        n++;
     }
     return n;
 }
