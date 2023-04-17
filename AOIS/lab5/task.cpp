@@ -1,119 +1,79 @@
 #include <iostream>
 #include <ctime>
 #include <fstream>
-#include <semaphore.h>
+#include "windows.h"
 using namespace std;
 
 HANDLE hSemaphore;
 int a = 1, b = 1, c = 1;
 
-void aa(void *pParams)
-{
-    srand(time(0));
+void first(void *pParams){
+    srand(time(NULL));
     int s = 0;
-    int n = *((int *)pParams);
-    while (n)
-    {
-        s = (rand() / 2) % 3 + 1;
-        WaitForSingleObject(hSemaphore, INFINITE);
-        a = s;
-        n--;
-    }
-    _endthread();
-}
-void bb(void *pParams)
-{
-    srand(time(0));
-    // Sleep(1000);
-    int s = 0;
-    int n = *((int *)pParams);
+    int n = 100;
     while (n)
     {
         s = rand() % 3 + 1;
         WaitForSingleObject(hSemaphore, INFINITE);
-        b = s;
-        n--;
-    }
-    _endthread();
-}
-void cc(void *pParams)
-{
-    srand(time(0));
-    // Sleep(1000);
-    int s = 0;
-    int n = *((int *)pParams);
-    while (n)
-    {
-        s = (rand() * 2) % 3 + 1;
-        WaitForSingleObject(hSemaphore, INFINITE);
-        c = s;
+        *(int *)pParams = s;
         n--;
     }
     _endthread();
 }
 
-int main(void)
-{
-    ofstream fout;
-    fout.open("file.txt");
+int main(void){
+    ofstream fout("E:\\Studing\\AOIS\\lab5\\file.txt");
 
-    srand(time(0));
-    setlocale(LC_ALL, "Russian");
-    int aaa = 0, bbb = 0, ccc = 0;
-    int n = 1000;
-    _beginthread(aa, 0, &n);
-    _beginthread(bb, 0, &n);
-    _beginthread(cc, 0, &n);
+    srand(time(NULL));
+    int first_wins = 0, second_wins = 0, third_wins = 0;
+    int n = 100;
+    _beginthread(first, 0, &a);
+    _beginthread(first, 0, &b);
+    _beginthread(first, 0, &c);
 
     hSemaphore = CreateSemaphore(NULL, 3, 3, NULL);
 
-    while (n)
-    {
+    while (n){
         Sleep(20);
         cout << a << " " << b << " " << c << endl;
         fout << a << " " << b << " " << c << endl;
-        switch (a)
-        {
+        switch (a){
         case 1:
-            switch (b)
-            {
+            switch (b){
             case 1:
-                switch (c)
-                {
+                switch (c){
                 case 2:
-                    ccc++;
+                    third_wins++;
                     break;
                 case 3:
-                    aaa++;
-                    bbb++;
+                    first_wins++;
+                    second_wins++;
                     break;
                 default:
                     break;
                 }
                 break;
             case 2:
-                switch (c)
-                {
+                switch (c){
                 case 1:
-                    bbb++;
+                    second_wins++;
                     break;
                 case 2:
-                    bbb++;
-                    ccc++;
+                    second_wins++;
+                    third_wins++;
                     break;
                 default:
                     break;
                 }
                 break;
             case 3:
-                switch (c)
-                {
+                switch (c){
                 case 1:
-                    aaa++;
-                    ccc++;
+                    first_wins++;
+                    third_wins++;
                     break;
                 case 3:
-                    aaa++;
+                    first_wins++;
                     break;
                 default:
                     break;
@@ -124,45 +84,41 @@ int main(void)
             }
             break;
         case 2:
-            switch (b)
-            {
+            switch (b){
             case 1:
-                switch (c)
-                {
+                switch (c){
                 case 1:
-                    aaa++;
+                    first_wins++;
                     break;
                 case 2:
-                    aaa++;
-                    ccc++;
+                    first_wins++;
+                    third_wins++;
                     break;
                 default:
                     break;
                 }
                 break;
             case 2:
-                switch (c)
-                {
+                switch (c){
                 case 1:
-                    aaa++;
-                    bbb++;
+                    first_wins++;
+                    second_wins++;
                     break;
                 case 3:
-                    ccc++;
+                    third_wins++;
                     break;
                 default:
                     break;
                 }
                 break;
             case 3:
-                switch (c)
-                {
+                switch (c){
                 case 2:
-                    bbb++;
+                    second_wins++;
                     break;
                 case 3:
-                    bbb++;
-                    ccc++;
+                    second_wins++;
+                    third_wins++;
                     break;
                 default:
                     break;
@@ -173,45 +129,42 @@ int main(void)
             }
             break;
         case 3:
-            switch (b)
-            {
+            switch (b){
             case 1:
                 switch (c)
                 {
                 case 1:
-                    bbb++;
-                    ccc++;
+                    second_wins++;
+                    third_wins++;
                     break;
                 case 3:
-                    bbb++;
+                    second_wins++;
                     break;
                 default:
                     break;
                 }
                 break;
             case 2:
-                switch (c)
-                {
+                switch (c){
                 case 2:
-                    aaa++;
+                    first_wins++;
                     break;
                 case 3:
-                    aaa++;
-                    ccc++;
+                    first_wins++;
+                    third_wins++;
                     break;
                 default:
                     break;
                 }
                 break;
             case 3:
-                switch (c)
-                {
+                switch (c){
                 case 1:
-                    ccc++;
+                    third_wins++;
                     break;
                 case 2:
-                    bbb++;
-                    aaa++;
+                    second_wins++;
+                    first_wins++;
                     break;
                 default:
                     break;
@@ -227,12 +180,9 @@ int main(void)
         ReleaseSemaphore(hSemaphore, 3, NULL);
         n--;
     }
-    cout << aaa << " " << bbb << " " << ccc << endl;
-    fout << "\t" << aaa << " " << bbb << " " << ccc << endl;
-    cout << "The end!" << endl;
+    cout << "1: " << first_wins << "\n2: " << second_wins << "\n3: " << third_wins << endl;
+    fout << "1: " << first_wins << "\n2: " << second_wins << "\n3: " << third_wins << endl;
     _endthread();
     CloseHandle(hSemaphore);
     fout.close();
-    system("Pause");
-    return 0;
 }

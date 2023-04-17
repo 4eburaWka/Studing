@@ -10,16 +10,16 @@ class Hopfield():
         return np.where(Y @ W <= 0, 0, 1)
 
     def sync(self, Y):
-        prevY = Y
-        for _ in range(14):
-            Y = self.nextY(Y, self.W)
-            if np.allclose(prevY, Y, atol=0):
+        temp = Y.copy()
+        for i in range(20):
+            Y = self.nextY(temp, self.W)
+            if np.all(Y == self.nextY(Y, self.W)):
                 return Y
-            if np.allclose(Y, self.nextY(Y, self.W), atol=0):
+            if np.all(temp == self.nextY(Y, self.W)):
                 return
-            prevY = Y
+            temp = Y
 
-    def async_(self,Y): 
+    def async_(self, Y): 
         temp = Y.copy() 
         for i in range(14): 
             index = list(range(Y.shape[1])) 
