@@ -30,14 +30,14 @@ def check_sum(bitset, sum):
                 r[i] += 1
     r = [i % 2 == pb for i in r]
     if all(r):
-        return "Сумма верная!"
-    return int("".join([str(int(s)) for s in r]), 2)
+        return "Сумма верная!", f"{pb=}"
+    return int("".join([str(int(s)) for s in r[::-1]]), 2), r, f"{pb=}"
 
-
-bitset = [1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0]  # input("Введите последовательность: "`)
+str1 = "11001010111"
+bitset = [int(x) for x in str1]  # input("Введите последовательность: "`)
 sum = get_sum(bitset)
 print(sum)
-bitset[5] = not bitset[5]
+bitset[6] = not bitset[6]
 bitset[3] = not bitset[3]
 
 print(check_sum(bitset, sum))

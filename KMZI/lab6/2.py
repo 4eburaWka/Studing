@@ -21,6 +21,8 @@ def get_sum(bitset):
         temp = xor(temp, [0,0,0,0,0])
         chastnoe.append(0)
     temp.pop(0)
-    return temp
-print(get_sum([1,1,0,0,1,0,1,1]))
+    return chastnoe, temp
+#11001010
+str = "11010000"
+print(get_sum([int(x) for x in str]))
         
