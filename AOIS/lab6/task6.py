@@ -60,7 +60,7 @@ mem.write(data[2])
 
 print(mem.find("101?"))
 print(mem.find("??11"))
-print(mem.find("101?"))
+print(mem.find("1?"))
 
 str = "1234"
 str.find("34")
