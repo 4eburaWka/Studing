@@ -9,29 +9,60 @@ class ASM:
     def _is_cell_empty(self, block_number, cell_number):
         return self.memory[block_number][cell_number][0] == 1
 
-    def find(self, value):
+    def find(self, value, operator):
         finding_address = get_array_from_string(value)
         addresses = [[not self._is_cell_empty(block_number, cell_number) for cell_number, _ in enumerate(block)] for block_number, block in enumerate(self.memory)]
+        result = []
         for i, bit in enumerate(finding_address):
             if bit == 2:
                 continue
+            flag = True
 
             for block_number, block in enumerate(self.memory):
                 for cell_number, cell in enumerate(block):
-                    if not addresses[block_number][cell_number]:
+                    if not addresses[block_number][cell_number] and flag:
                         continue
-                    if cell[i+1] != finding_address[i]:
-                        addresses[block_number][cell_number] = False
+
+                    if operator == '==':
+                        if cell[i+1] != finding_address[i]:
+                            addresses[block_number][cell_number] = False
+                    elif operator == '<':
+                        if cell[i+1] > finding_address[i]:
+                            addresses[block_number][cell_number] = False
+                        else:
+                            result.append((block_number, cell_number))
+                    elif operator == '>':
+                        if cell[i+1] < finding_address[i]:
+                            addresses[block_number][cell_number] = False
+                        else:
+                            result.append((block_number, cell_number))
+                    elif operator == '<=':
+                        if cell[i+1] >= finding_address[i]:
+                            addresses[block_number][cell_number] = False
+                        else:
+                            result.append((block_number, cell_number))
+                    elif operator == '>=':
+                        if cell[i+1] <= finding_address[i]:
+                            addresses[block_number][cell_number] = False
+                        else:
+                            result.append((block_number, cell_number))
+                    elif operator == '<>':
+                        if cell[i+1] == finding_address[i]:
+                            addresses[block_number][cell_number] = False
+                        else:
+                            result.append((block_number, cell_number))
+                    
+
             if [block.count(1) for block in addresses].count(1) == 1:
                 for block_number, block in enumerate(addresses):
-                    if block.count(1):
-                        return (block_number, block.index(1))
-        result = []
-        for block_number, block in enumerate(addresses):
-            for cell_number, cell in enumerate(block):
-                if cell:
-                    result.append((block_number, cell_number))
-        return result
+                    return (block_number, block.index(1))
+
+        if operator == '==':
+            for block_number, block in enumerate(addresses):
+                for cell_number, cell in enumerate(block):
+                    if cell:
+                        result.append((block_number, cell_number))
+        return sorted(list(set(result)))
         """
         addresses = [not self._is_cell_empty(i) for i, cell in enumerate(self.memory)] # поставить 1 напротив заполненной ячейки, 0 - напротив пустой
         for i, bit in enumerate(finding_address):
@@ -61,7 +92,7 @@ class ASM:
 
     def delete(self, value):
         cell_numbers = self.find(value)
-        if isinstance(cell_numbers[0], tuple):
+        if not cell_numbers or isinstance(cell_numbers[0], tuple):
             print("Найдено несколько значений!")
             return
         self.memory[cell_numbers[0]][cell_numbers[1]][0] = 1
@@ -77,9 +108,7 @@ mem.write(data[0])
 mem.write(data[1])
 mem.write(data[2])
 
-print(mem.find("101?"))
-print(mem.find("??11"))
-print(mem.find("1?"))
-
-str = "1234"
-str.find("34")
+print(mem.find("101?", '=='))
+print(mem.find("11", '<'))
+# print(mem.find("??11", '=='))
+# print(mem.find("1?", '=='))
