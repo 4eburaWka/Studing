@@ -1,0 +1,798 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="client-nojs" dir="ltr" lang="ru"><head>
+
+
+<title>RSA — Википедия</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="generator" content="MediaWiki 1.18wmf1">
+<link rel="alternate" type="application/x-wiki" title="Править" href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit">
+<link rel="edit" title="Править" href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit">
+<link rel="apple-touch-icon" href="http://ru.wikipedia.org/apple-touch-icon.png">
+<link rel="shortcut icon" href="http://ru.wikipedia.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="http://ru.wikipedia.org/w/opensearch_desc.php" title="Википедия (ru)">
+<link rel="EditURI" type="application/rsd+xml" href="http://ru.wikipedia.org/w/api.php?action=rsd">
+<link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="alternate" type="application/atom+xml" title="Википедия&nbsp;— Atom-лента" href="http://ru.wikipedia.org/w/index.php?title=%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:RecentChanges&amp;feed=atom">
+<link rel="stylesheet" href="RSA_files/load_003.css" type="text/css" media="all">
+<meta name="ResourceLoaderDynamicStyles" content="">
+<link rel="stylesheet" href="RSA_files/load_002.css" type="text/css" media="all">
+<noscript><link rel="stylesheet" href="RSA_files/load.css" type="text/css" media="all"></noscript>
+<style type="text/css" media="all">a:lang(ar),a:lang(ckb),a:lang(fa),a:lang(kk-arab),a:lang(mzn),a:lang(ps),a:lang(ur){text-decoration:none}a.new,#quickbar a.new{color:#ba0000}
+
+/* cache key: ruwiki:resourceloader:filter:minify-css:4:c88e2bcd56513749bec09a7e29cb3ffa */</style>
+<script src="RSA_files/load_002.php" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.config.set({"wgCanonicalNamespace": "", "wgCanonicalSpecialPageName": false, "wgNamespaceNumber": 0, "wgPageName": "RSA", "wgTitle": "RSA", "wgCurRevisionId": 41711323, "wgArticleId": 36427, "wgIsArticle": true, "wgAction": "view", "wgUserName": null, "wgUserGroups": ["*"], "wgCategories": ["Криптография"], "wgBreakFrames": false, "wgRestrictionEdit": [], "wgRestrictionMove": [], "wgSearchNamespaces": [0], "wgFlaggedRevsParams": {"tags": {"accuracy": {"levels": 3, "quality": 2, "pristine": 4}}}, "wgStableRevisionId": 41711323, "wgVectorEnabledModules": {"collapsiblenav": true, "collapsibletabs": true, "editwarning": true, "expandablesearch": false, "footercleanup": false, "sectioneditlinks": false, "simplesearch": true, "experiments": true}, "wgWikiEditorEnabledModules": {"toolbar": true, "dialogs": true, "hidesig": true, "templateEditor": false, "templates": false, "preview": false, "previewDialog": false, "publish": false, "toc": false}, "Geo": {"city": "", "country": ""}, "wgNoticeProject": "wikipedia"});
+}
+</script><script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.page.startup"]);
+}
+</script>
+<!--[if lt IE 7]><style type="text/css">body{behavior:url("/w/skins-1.18/vector/csshover.min.htc")}</style><![endif]--></head><body class="mediawiki ltr sitedir-ltr ns-0 ns-subject page-RSA action-view skin-vector">
+		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<!-- content -->
+		<div id="content">
+			<a id="top"></a>
+			<div id="mw-js-message" style="display: none;"></div>
+						<!-- sitenotice -->
+			<div id="siteNotice"><!-- centralNotice loads here --></div>
+			<!-- /sitenotice -->
+						<!-- firstHeading -->
+			<h1 id="firstHeading" class="firstHeading">RSA</h1>
+			<!-- /firstHeading -->
+			<!-- bodyContent -->
+			<div id="bodyContent">
+								<!-- tagline -->
+				<div id="siteSub">Материал из Википедии — свободной энциклопедии</div>
+				<!-- /tagline -->
+								<!-- subtitle -->
+				<div id="contentSub"></div>
+				<!-- /subtitle -->
+																<!-- jumpto -->
+				<div id="jump-to-nav">
+					Перейти к: <a href="#mw-head">навигация</a>,
+					<a href="#p-search">поиск</a>
+				</div>
+				<!-- /jumpto -->
+								<!-- bodycontent -->
+				<div dir="ltr" class="mw-content-ltr" lang="ru"><p><b>RSA</b> (<a href="http://ru.wikipedia.org/wiki/%D0%90%D0%B1%D0%B1%D1%80%D0%B5%D0%B2%D0%B8%D0%B0%D1%82%D1%83%D1%80%D0%B0#.D0.91.D1.83.D0.BA.D0.B2.D0.B5.D0.BD.D0.BD.D0.B0.D1.8F" title="Аббревиатура">буквенная аббревиатура</a> от фамилий Rivest, Shamir и Adleman)&nbsp;— <a href="http://ru.wikipedia.org/wiki/%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%81_%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%BC_%D0%BA%D0%BB%D1%8E%D1%87%D0%BE%D0%BC" title="Криптографическая система с открытым ключом" class="mw-redirect">криптографический алгоритм с открытым ключом</a>.</p>
+<p>RSA стал первым алгоритмом такого типа, пригодным и для <a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5" title="Шифрование">шифрования</a>, и для <a href="http://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C" title="Цифровая подпись" class="mw-redirect">цифровой подписи</a>. Алгоритм используется в большом числе криптографических приложений.</p>
+<table id="toc" class="toc">
+<tbody><tr>
+<td>
+<div id="toctitle">
+<h2>Содержание</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#.D0.98.D1.81.D1.82.D0.BE.D1.80.D0.B8.D1.8F"><span class="tocnumber">1</span> <span class="toctext">История</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#.D0.9E.D0.BF.D0.B8.D1.81.D0.B0.D0.BD.D0.B8.D0.B5_.D0.B0.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC.D0.B0"><span class="tocnumber">2</span> <span class="toctext">Описание алгоритма</span></a>
+<ul>
+<li class="toclevel-2 tocsection-3"><a href="#.D0.92.D0.B2.D0.B5.D0.B4.D0.B5.D0.BD.D0.B8.D0.B5"><span class="tocnumber">2.1</span> <span class="toctext">Введение</span></a></li>
+<li class="toclevel-2 tocsection-4"><a href="#.D0.90.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC_.D1.81.D0.BE.D0.B7.D0.B4.D0.B0.D0.BD.D0.B8.D1.8F_.D0.BE.D1.82.D0.BA.D1.80.D1.8B.D1.82.D0.BE.D0.B3.D0.BE_.D0.B8_.D1.81.D0.B5.D0.BA.D1.80.D0.B5.D1.82.D0.BD.D0.BE.D0.B3.D0.BE_.D0.BA.D0.BB.D1.8E.D1.87.D0.B5.D0.B9"><span class="tocnumber">2.2</span> <span class="toctext">Алгоритм создания открытого и секретного ключей</span></a></li>
+<li class="toclevel-2 tocsection-5"><a href="#.D0.A8.D0.B8.D1.84.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5_.D0.B8_.D1.80.D0.B0.D1.81.D1.88.D0.B8.D1.84.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5"><span class="tocnumber">2.3</span> <span class="toctext">Шифрование и расшифрование</span></a>
+<ul>
+<li class="toclevel-3 tocsection-6"><a href="#.D0.A1.D1.85.D0.B5.D0.BC.D0.B0_RSA"><span class="tocnumber">2.3.1</span> <span class="toctext">Схема RSA</span></a></li>
+<li class="toclevel-3 tocsection-7"><a href="#.D0.9A.D0.BE.D1.80.D1.80.D0.B5.D0.BA.D1.82.D0.BD.D0.BE.D1.81.D1.82.D1.8C_.D1.81.D1.85.D0.B5.D0.BC.D1.8B_RSA"><span class="tocnumber">2.3.2</span> <span class="toctext">Корректность схемы RSA</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2 tocsection-8"><a href="#.D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.80"><span class="tocnumber">2.4</span> <span class="toctext">Пример</span></a></li>
+<li class="toclevel-2 tocsection-9"><a href="#.D0.A6.D0.B8.D1.84.D1.80.D0.BE.D0.B2.D0.B0.D1.8F_.D0.BF.D0.BE.D0.B4.D0.BF.D0.B8.D1.81.D1.8C"><span class="tocnumber">2.5</span> <span class="toctext">Цифровая подпись</span></a></li>
+<li class="toclevel-2 tocsection-10"><a href="#.D0.A1.D0.BA.D0.BE.D1.80.D0.BE.D1.81.D1.82.D1.8C_.D1.80.D0.B0.D0.B1.D0.BE.D1.82.D1.8B_.D0.B0.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC.D0.B0_RSA"><span class="tocnumber">2.6</span> <span class="toctext">Скорость работы алгоритма RSA</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-11"><a href="#.D0.9A.D1.80.D0.B8.D0.BF.D1.82.D0.BE.D0.B0.D0.BD.D0.B0.D0.BB.D0.B8.D0.B7_RSA.5B6.5D"><span class="tocnumber">3</span> <span class="toctext">Криптоанализ RSA<sup>[6]</sup></span></a></li>
+<li class="toclevel-1 tocsection-12"><a href="#.D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_RSA"><span class="tocnumber">4</span> <span class="toctext">Применение RSA</span></a></li>
+<li class="toclevel-1 tocsection-13"><a href="#.D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.87.D0.B0.D0.BD.D0.B8.D1.8F"><span class="tocnumber">5</span> <span class="toctext">Примечания</span></a></li>
+<li class="toclevel-1 tocsection-14"><a href="#.D0.9B.D0.B8.D1.82.D0.B5.D1.80.D0.B0.D1.82.D1.83.D1.80.D0.B0"><span class="tocnumber">6</span> <span class="toctext">Литература</span></a></li>
+</ul>
+</td>
+</tr>
+</tbody></table>
+<h2><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=1" title="Править секцию: История">править</a>]</span> <span class="mw-headline" id=".D0.98.D1.81.D1.82.D0.BE.D1.80.D0.B8.D1.8F">История</span></h2>
+<p>Опубликованная в ноябре 1976 года статья <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B8%D1%84%D1%84%D0%B8,_%D0%A3%D0%B8%D1%82%D1%84%D0%B8%D0%BB%D0%B4" title="Диффи, Уитфилд">Уитфилда Диффи</a> и <a href="http://ru.wikipedia.org/wiki/%D0%A5%D0%B5%D0%BB%D0%BB%D0%BC%D0%B0%D0%BD,_%D0%9C%D0%B0%D1%80%D1%82%D0%B8%D0%BD" title="Хеллман, Мартин">Мартина Хеллмана</a> <i>«Новые направления в криптографии»</i>
+перевернула представление о криптографических системах, заложив основы
+криптографии с открытым ключом. Разработанный впоследствии <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%94%D0%B8%D1%84%D1%84%D0%B8-%D0%A5%D0%B5%D0%BB%D0%BB%D0%BC%D0%B0%D0%BD%D0%B0" title="Алгоритм Диффи-Хеллмана" class="mw-redirect">алгоритм Диффи-Хеллмана</a>-Меркля
+позволял двум сторонам получить общий секретный ключ, используя
+незащищенный канал связи. Однако этот алгоритм не решал проблему <a href="http://ru.wikipedia.org/wiki/%D0%90%D1%83%D1%82%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F" title="Аутентификация">аутентификации</a>.
+Без дополнительных средств, один из пользователей не мог быть уверен,
+что он обменялся ключами именно с тем пользователем, который ему был
+нужен.</p>
+<p>Изучив эту статью, трое ученых <a href="http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B9%D0%B2%D0%B5%D1%81%D1%82,_%D0%A0%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%B4" title="Райвест, Рональд" class="mw-redirect">Рональд Райвест</a> (Ronald Linn Rivest), <a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%B0%D0%BC%D0%B8%D1%80,_%D0%90%D0%B4%D0%B8" title="Шамир, Ади">Ади Шамир</a> (Adi Shamir) и <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%B4%D0%BB%D0%B5%D0%BC%D0%B0%D0%BD,_%D0%9B%D0%B5%D0%BE%D0%BD%D0%B0%D1%80%D0%B4" title="Адлеман, Леонард" class="mw-redirect">Леонард Адлеман</a> (Leonard Adleman) из <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D1%81%D1%81%D0%B0%D1%87%D1%83%D1%81%D0%B5%D1%82%D1%81%D0%BA%D0%B8%D0%B9_%D0%A2%D0%B5%D1%85%D0%BD%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9_%D0%98%D0%BD%D1%81%D1%82%D0%B8%D1%82%D1%83%D1%82" title="Массачусетский Технологический Институт" class="mw-redirect">Массачусетского Технологического Института</a> (MIT) приступили к поискам математической функции, которая бы позволяла реализовать сформулированную <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B8%D1%84%D1%84%D0%B8,_%D0%A3%D0%B8%D1%82%D1%84%D0%B8%D0%BB%D0%B4" title="Диффи, Уитфилд">Уитфилдом Диффи</a> и <a href="http://ru.wikipedia.org/wiki/%D0%A5%D0%B5%D0%BB%D0%BB%D0%BC%D0%B0%D0%BD,_%D0%9C%D0%B0%D1%80%D1%82%D0%B8%D0%BD" title="Хеллман, Мартин">Мартином Хеллманом</a> модель <a href="http://ru.wikipedia.org/wiki/%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%81_%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%BC_%D0%BA%D0%BB%D1%8E%D1%87%D0%BE%D0%BC" title="Криптосистема с открытым ключом">криптографической системы с открытым ключом</a>.
+После работы над более чем 40 возможными вариантами, им удалось найти
+алгоритм, основанный на различии в том, насколько легко находить
+большие простые числа и насколько сложно раскладывать на множители
+произведение двух больших простых чисел, получивший впоследствии
+название RSA. Система была названа по первым буквам фамилий её
+создателей.</p>
+<p>Описание RSA было опубликовано в августе <a href="http://ru.wikipedia.org/wiki/1977_%D0%B3%D0%BE%D0%B4" title="1977 год">1977 года</a> в журнале <a href="http://ru.wikipedia.org/wiki/Scientific_American" title="Scientific American">Scientific American</a>. Авторы RSA поддерживали идею её активного распространения. В свою очередь, <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%B3%D0%B5%D0%BD%D1%82%D1%81%D1%82%D0%B2%D0%BE_%D0%BD%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9_%D0%B1%D0%B5%D0%B7%D0%BE%D0%BF%D0%B0%D1%81%D0%BD%D0%BE%D1%81%D1%82%D0%B8_%28%D0%A1%D0%A8%D0%90%29" title="Агентство национальной безопасности (США)" class="mw-redirect">Агентство национальной безопасности (США)</a>, опасаясь использования этого алгоритма в <a href="http://ru.wikipedia.org/wiki/%D0%9D%D0%B5%D0%B3%D0%BE%D1%81%D1%83%D0%B4%D0%B0%D1%80%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F_%D0%BE%D1%80%D0%B3%D0%B0%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F" title="Негосударственная организация" class="mw-redirect">негосударственных структурах</a>,
+на протяжении нескольких лет безуспешно требовало прекращения
+распространения системы. Ситуация порой доходила до абсурда&nbsp;—
+например, когда программист Адам Бек (Adam Back) описал на языке <a href="http://ru.wikipedia.org/wiki/Perl" title="Perl">Perl</a>
+алгоритм RSA, состоящий из пяти строк, правительство США запретило
+распространение этой программы за пределами страны. Люди, недовольные
+подобным ограничением, в знак протеста напечатали текст этой программы
+на своих футболках.</p>
+<p>В <a href="http://ru.wikipedia.org/wiki/1983_%D0%B3%D0%BE%D0%B4" title="1983 год">1983 году</a> MIT был выдан патент 4405829 США, срок действия которого истёк 21 сентября 2000 года.<sup id="cite_ref-0" class="reference"><a href="#cite_note-0">[1]</a></sup></p>
+<p>В <a href="http://ru.wikipedia.org/wiki/1977_%D0%B3%D0%BE%D0%B4" title="1977 год">1977 году</a> создателями RSA была зашифрована фраза «The Magic Words are Squeamish Ossifrage» («Волшебные слова&nbsp;— это брезгливый <a href="http://ru.wikipedia.org/wiki/%D0%AF%D0%B3%D0%BD%D1%8F%D1%82%D0%BD%D0%B8%D0%BA" title="Ягнятник" class="mw-redirect">ягнятник</a>»). За расшифровку была обещана награда в 100 долларов США. Лишь в конце <a href="http://ru.wikipedia.org/wiki/1995_%D0%B3%D0%BE%D0%B4" title="1995 год">1995 года</a>
+удалось практически реализовать раскрытие шифра RSA для 500-значного
+ключа. На протяжении полугода более 600 добровольцев жертвовали
+процессорное время 1600 машин (две из которых были факс-машинами).
+Координирование проходило через Интернет, и это был один из первых
+подобных проектов <a href="http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D1%91%D0%BD%D0%BD%D1%8B%D0%B5_%D0%B2%D1%8B%D1%87%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F" title="Распределённые вычисления">распределённых вычислений</a>. Полученную награду победители пожертвовали в <a href="http://ru.wikipedia.org/wiki/%D0%A4%D0%BE%D0%BD%D0%B4_%D1%81%D0%B2%D0%BE%D0%B1%D0%BE%D0%B4%D0%BD%D0%BE%D0%B3%D0%BE_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%BD%D0%BE%D0%B3%D0%BE_%D0%BE%D0%B1%D0%B5%D1%81%D0%BF%D0%B5%D1%87%D0%B5%D0%BD%D0%B8%D1%8F" title="Фонд свободного программного обеспечения">фонд свободного программного обеспечения</a>.</p>
+<p>В декабре <a href="http://ru.wikipedia.org/wiki/1997_%D0%B3%D0%BE%D0%B4" title="1997 год">1997 года</a> была обнародована информация, согласно которой британский математик <a href="http://ru.wikipedia.org/w/index.php?title=%D0%9A%D0%BE%D0%BA%D1%81,_%D0%9A%D0%BB%D0%B8%D1%84%D1%84%D0%BE%D1%80%D0%B4&amp;action=edit&amp;redlink=1" class="new" title="Кокс, Клиффорд (страница отсутствует)">Клиффорд Кокс</a> (Clifford Cocks), работавший в центре правительственной связи (<a href="http://ru.wikipedia.org/wiki/GCHQ" title="GCHQ" class="mw-redirect">GCHQ</a>) <a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B5%D0%BB%D0%B8%D0%BA%D0%BE%D0%B1%D1%80%D0%B8%D1%82%D0%B0%D0%BD%D0%B8%D1%8F" title="Великобритания">Великобритании</a>, описал криптосистему аналогичную RSA в <a href="http://ru.wikipedia.org/wiki/1973_%D0%B3%D0%BE%D0%B4" title="1973 год">1973 году</a>.<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[2]</a></sup></p>
+<h2><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=2" title="Править секцию: Описание алгоритма">править</a>]</span> <span class="mw-headline" id=".D0.9E.D0.BF.D0.B8.D1.81.D0.B0.D0.BD.D0.B8.D0.B5_.D0.B0.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC.D0.B0">Описание алгоритма</span></h2>
+<h3><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=3" title="Править секцию: Введение">править</a>]</span> <span class="mw-headline" id=".D0.92.D0.B2.D0.B5.D0.B4.D0.B5.D0.BD.D0.B8.D0.B5">Введение</span></h3>
+<p>Криптографические системы с открытым ключом используют так называемые <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD%D0%BD%D1%8F%D1%8F_%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F" title="Односторонняя функция">необратимые функции</a>, которые обладают следующим свойством:</p>
+<ul>
+<li>Если известно <img class="tex" alt="x\," src="RSA_files/6b206a28e60f665e235f89f460448467.png">, то <img class="tex" alt="f(x)\," src="RSA_files/550f51512f9bb16a0f613ae65e1d3088.png"> вычислить относительно просто</li>
+<li>Если известно <img class="tex" alt="y=f(x)\," src="RSA_files/e80d41f8fbe708890c5f6abbeea6817c.png">, то для вычисления <img class="tex" alt="x\," src="RSA_files/6b206a28e60f665e235f89f460448467.png"> нет простого (эффективного) пути.</li>
+</ul>
+<p>Под однонаправленностью понимается не теоретическая
+однонаправленность, а практическая невозможность вычислить обратное
+значение, используя современные вычислительные средства, за обозримый
+интервал времени.</p>
+<p>В основу криптографической системы с открытым ключом RSA положена
+задача умножения и разложения составных чисел на простые сомножители,
+которая является вычислительно однонаправленной задачей (см. также <a href="http://ru.wikipedia.org/wiki/%D0%A2%D0%B5%D1%81%D1%82_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D1%82%D1%8B" title="Тест простоты">Тест простоты</a>, <a href="http://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F" title="Факторизация">Факторизация</a>) .</p>
+<p>В криптографической системе с открытым ключом каждый участник располагает как открытым ключом (<a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%8F%D0%B7%D1%8B%D0%BA" title="Английский язык">англ.</a>&nbsp;<i><span xml:lang="en" lang="en">public key</span></i>), так и закрытым ключом (<a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%8F%D0%B7%D1%8B%D0%BA" title="Английский язык">англ.</a>&nbsp;<i><span xml:lang="en" lang="en">private key</span></i>).
+Каждый ключ&nbsp;— это часть информации. В криптографической системе
+RSA каждый ключ состоит из пары целых чисел. Каждый участник создаёт
+свой открытый и закрытый ключ самостоятельно. Закрытый ключ каждый из
+них держит в секрете, а открытые ключи можно сообщать кому угодно или
+даже публиковать их. Открытый и закрытый ключи каждого участника обмена
+сообщениями образуют «согласованную пару» в том смысле, что они
+являются <b>взаимно обратными</b>, т.е</p>
+<pre><img class="tex" alt="\forall\," src="RSA_files/71a682de227582a7134c80c457c1316f.png"> сообщения <img class="tex" alt="M \in W\," src="RSA_files/2d0a118d6be63af593c4a548eea9e469.png">, где <img class="tex" alt="W\," src="RSA_files/2f1e8d5af98f2c9643b0334c73ccc25b.png"> — множество допустимых сообщений.
+  <img class="tex" alt="\forall\," src="RSA_files/71a682de227582a7134c80c457c1316f.png"> открытого и секретного ключа <img class="tex" alt="P\," src="RSA_files/8a140337171d690f8dd0eebd94448bf0.png"> и <img class="tex" alt="S\," src="RSA_files/ef2463c540aa8ecc181a9c1d9ddf0982.png"> 
+    <img class="tex" alt="\exist\," src="RSA_files/ff73dca6223b1eb4c36089baf3cc1b96.png"> соответствующие функции шифрования <img class="tex" alt="E_p()\," src="RSA_files/a5e330cf98fdf4eb84dfdce7de7087aa.png"> и расшифрования <img class="tex" alt="D_s():\," src="RSA_files/837cfe2b950c87d08fd98671160f7baa.png">  
+                     
+                               <img class="tex" alt="M=D_s(E_p(M))\," src="RSA_files/efc4559fa455aad52b7288a307738b46.png">
+                               <img class="tex" alt="M=D_p(E_s(M))\," src="RSA_files/5e8169f958704049271b935414e5be48.png">
+</pre>
+<h3><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=4" title="Править секцию: Алгоритм создания открытого и секретного ключей">править</a>]</span> <span class="mw-headline" id=".D0.90.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC_.D1.81.D0.BE.D0.B7.D0.B4.D0.B0.D0.BD.D0.B8.D1.8F_.D0.BE.D1.82.D0.BA.D1.80.D1.8B.D1.82.D0.BE.D0.B3.D0.BE_.D0.B8_.D1.81.D0.B5.D0.BA.D1.80.D0.B5.D1.82.D0.BD.D0.BE.D0.B3.D0.BE_.D0.BA.D0.BB.D1.8E.D1.87.D0.B5.D0.B9">Алгоритм создания открытого и секретного ключей</span></h3>
+<p>RSA-ключи генерируются следующим образом:<sup id="cite_ref-rsa-in-hac_2-0" class="reference"><a href="#cite_note-rsa-in-hac-2">[3]</a></sup></p>
+<ol>
+<li>Выбираются два различных <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%BE" title="Случайное простое число">случайных простых числа</a> <span class="texhtml" dir="ltr"><i>p</i></span> и <span class="texhtml" dir="ltr"><i>q</i></span> заданного размера (например, 1024 <a href="http://ru.wikipedia.org/wiki/%D0%91%D0%B8%D1%82" title="Бит">бита</a> каждое).</li>
+<li>Вычисляется их произведение <span class="texhtml" dir="ltr"><i>n</i> = <i>p</i><i>q</i></span>, которое называется <b>модулем</b>.</li>
+<li>Вычисляется значение <a href="http://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%AD%D0%B9%D0%BB%D0%B5%D1%80%D0%B0" title="Функция Эйлера">функции Эйлера</a> от числа <i>n</i>:
+<dl>
+<dd><span class="texhtml" dir="ltr">φ(<i>n</i>) = (<i>p</i> − 1)(<i>q</i> − 1).</span></dd>
+</dl>
+</li>
+<li>Выбирается целое число <span class="texhtml" dir="ltr"><i>e</i></span> (<span class="texhtml" dir="ltr">1 &lt; <i>e</i> &lt; φ(<i>n</i>)</span>), <a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B7%D0%B0%D0%B8%D0%BC%D0%BD%D0%BE_%D0%BF%D1%80%D0%BE%D1%81%D1%82%D1%8B%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B0" title="Взаимно простые числа">взаимно простое</a> со значением функции <span class="texhtml" dir="ltr">φ(<i>n</i>)</span>. Обычно в качестве <i>e</i> берут простые числа, содержащие небольшое количество единичных битов в <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B2%D0%BE%D0%B8%D1%87%D0%BD%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%81%D1%87%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F" title="Двоичная система счисления">двоичной записи</a>, например, простые <a href="http://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%A4%D0%B5%D1%80%D0%BC%D0%B0" title="Числа Ферма">числа Ферма</a> 17, 257 или 65537.
+<ul>
+<li>Число <span class="texhtml" dir="ltr"><i>e</i></span> называется <b>открытой экспонентой</b> (<a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%8F%D0%B7%D1%8B%D0%BA" title="Английский язык">англ.</a>&nbsp;<i><span xml:lang="en" lang="en">public exponent</span></i>)</li>
+<li>Время, необходимое для шифрования с использованием <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%B1%D1%8B%D1%81%D1%82%D1%80%D0%BE%D0%B3%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B2_%D1%81%D1%82%D0%B5%D0%BF%D0%B5%D0%BD%D1%8C" title="Алгоритм быстрого возведения в степень">быстрого возведения в степень</a>, пропорционально числу единичных бит в <span class="texhtml" dir="ltr"><i>e</i></span>.</li>
+<li>Слишком малые значения <span class="texhtml" dir="ltr"><i>e</i></span>, например 3, потенциально могут ослабить безопасность схемы RSA.<sup id="cite_ref-Boneh_3-0" class="reference"><a href="#cite_note-Boneh-3">[4]</a></sup></li>
+</ul>
+</li>
+<li>Вычисляется число <span class="texhtml" dir="ltr"><i>d</i></span>, <a href="http://ru.wikipedia.org/wiki/%D0%9C%D1%83%D0%BB%D1%8C%D1%82%D0%B8%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F_%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F" title="Мультипликативная функция">мультипликативно</a> обратное к числу <span class="texhtml" dir="ltr"><i>e</i></span> по модулю <span class="texhtml" dir="ltr">φ(<i>n</i>)</span>, то есть число, удовлетворяющее условию:
+<dl>
+<dd><img class="tex" alt="d e \equiv  1\pmod{\varphi(n)}," src="RSA_files/ff24bff8afdf7410b8b01f4cb0dde49e.png"> или: <span class="texhtml" dir="ltr"><i>d</i><i>e</i> = 1 + <i>k</i>φ(<i>n</i>)</span>, где <span class="texhtml" dir="ltr"><i>k</i></span>&nbsp;— некоторое <a href="http://ru.wikipedia.org/wiki/%D0%A6%D0%B5%D0%BB%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%BE" title="Целое число">целое число</a>.</dd>
+</dl>
+<ul>
+<li>Примечание: Можно вычислять и так (e*d) mod ((p-1)*(q-1)) = 1.
+Результат операции i mod j&nbsp;— остаток от целочисленного деления i
+на j, то есть если имеем (d*3) mod 20 = 1. Значит d будет, например 7.
+(Может быть и другим, например 27).</li>
+<li>Число <span class="texhtml" dir="ltr"><i>d</i></span> называется <b>секретной экспонентой</b>.</li>
+<li>Обычно, оно вычисляется при помощи <a href="http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%95%D0%B2%D0%BA%D0%BB%D0%B8%D0%B4%D0%B0" title="Расширенный алгоритм Евклида" class="mw-redirect">расширенного алгоритма Евклида</a>.</li>
+</ul>
+</li>
+<li>Пара <i>e, n</i> публикуется в качестве <b>открытого ключа RSA</b> (<a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%8F%D0%B7%D1%8B%D0%BA" title="Английский язык">англ.</a>&nbsp;<i><span xml:lang="en" lang="en">RSA public key</span></i>).</li>
+<li>Пара <i>d, n</i> играет роль <b>секретного ключа RSA</b> (<a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B3%D0%BB%D0%B8%D0%B9%D1%81%D0%BA%D0%B8%D0%B9_%D1%8F%D0%B7%D1%8B%D0%BA" title="Английский язык">англ.</a>&nbsp;<i><span xml:lang="en" lang="en">RSA private key</span></i>) и держится в секрете.</li>
+</ol>
+<h3><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=5" title="Править секцию: Шифрование и расшифрование">править</a>]</span> <span class="mw-headline" id=".D0.A8.D0.B8.D1.84.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5_.D0.B8_.D1.80.D0.B0.D1.81.D1.88.D0.B8.D1.84.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5">Шифрование и расшифрование</span></h3>
+<h4><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=6" title="Править секцию: Схема RSA">править</a>]</span> <span class="mw-headline" id=".D0.A1.D1.85.D0.B5.D0.BC.D0.B0_RSA">Схема RSA</span></h4>
+<p>Предположим, сторона <img class="tex" alt="B \," src="RSA_files/d5742827d055e40cd568fd71271f4681.png"> хочет послать стороне <img class="tex" alt="A \," src="RSA_files/7b80ebccd4420d9579e7d488396b7f5c.png"> сообщение <img class="tex" alt="M \," src="RSA_files/1dd4ab77983ec94cab2e7ff337a739e8.png">.</p>
+<p>Сообщением являются <a href="http://ru.wikipedia.org/wiki/%D0%A6%D0%B5%D0%BB%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%BE" title="Целое число">целые числа</a> лежащие от <img class="tex" alt="0 \," src="RSA_files/b7277a3bac777f05d8acc80a07ed0e19.png"> до <img class="tex" alt="n-1 \," src="RSA_files/a5896570512282553d57a34390426fb1.png">, т.е <img class="tex" alt="M \isin D=\mathbb{Z}_{n}\," src="RSA_files/9b9f19784a2e03e7b3fae4c40f8b9f32.png">.</p>
+<div class="center">
+<div class="floatnone"><a href="http://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:RSA.svg" class="image"><img alt="RSA.svg" src="RSA_files/650px-RSA.png" height="155" width="650"></a></div>
+</div>
+<table class="" style="background: transparent none repeat scroll 0% 0%; border-collapse: collapse; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 100%; text-align: left;">
+<tbody><tr valign="top">
+<td style="width: 50%;">
+<p><b>Алгоритм</b>:<sup id="cite_ref-rsa-in-hac_2-1" class="reference"><a href="#cite_note-rsa-in-hac-2">[3]</a></sup></p>
+<ul>
+<li>Взять <i>открытый ключ</i> <img class="tex" alt="(e,n) \," src="RSA_files/d4ec0effe5dde7f509327ab01b7fd5de.png"> стороны <img class="tex" alt="A \," src="RSA_files/7b80ebccd4420d9579e7d488396b7f5c.png"></li>
+<li>Взять открытый текст <img class="tex" alt="M \," src="RSA_files/1dd4ab77983ec94cab2e7ff337a739e8.png"></li>
+<li>Передать шифрованное сообщение:</li>
+</ul>
+<p><img class="tex" alt="P_A(M)=M^e \mod n~~~~~~~~~~(1)\," src="RSA_files/af63637ceb144657476ebae1311d7101.png"></p>
+</td>
+<td style="width: 50%;">
+<p><b>Алгоритм</b>:</p>
+<ul>
+<li>Принять зашифрованное сообщение <img class="tex" alt="C \," src="RSA_files/761e195b5e8196bddef5841e9451e2a6.png"></li>
+<li>Применить свой <i>секретный ключ</i> <img class="tex" alt="(d,n) \," src="RSA_files/68213526d6e04bc60291f8f035512b09.png"> для расшифровки сообщения:</li>
+</ul>
+<p><img class="tex" alt="S_A(C)=C^d \mod n~~~~~~~~~~(2)\," src="RSA_files/4a1a493126d65629b12e71754ef31c2c.png"></p>
+</td>
+</tr>
+</tbody></table>
+<h4><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=7" title="Править секцию: Корректность схемы RSA">править</a>]</span> <span class="mw-headline" id=".D0.9A.D0.BE.D1.80.D1.80.D0.B5.D0.BA.D1.82.D0.BD.D0.BE.D1.81.D1.82.D1.8C_.D1.81.D1.85.D0.B5.D0.BC.D1.8B_RSA">Корректность схемы RSA</span></h4>
+<dl>
+<dd>Уравнения <img class="tex" alt="(1)\," src="RSA_files/09805d958fc7ab3d6c57c02f71afdc39.png"> и <img class="tex" alt="(2)\," src="RSA_files/ed004ded4d1925b3ebfc6e1ad87a0b0f.png">, на которых основана схема RSA, определяют <a href="#.D0.9E.D0.BF.D0.B8.D1.81.D0.B0.D0.BD.D0.B8.D0.B5_.D0.B0.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC.D0.B0">взаимно обратные преобразования</a> множества <img class="tex" alt="\mathbb{Z}_{n}\," src="RSA_files/b5888012c7a72539b867099aed564a57.png"></dd>
+</dl>
+<div class="NavFrame collapsed" style="">
+<div class="NavHead" style="">Доказательство&nbsp;&nbsp;</div>
+<div class="NavContent" style="text-align: left;">
+<p>Действительно, для <img class="tex" alt="\forall M \isin \mathbb{Z}_{n}\," src="RSA_files/fc88f5b6326786af365706b7cafac0f9.png"></p>
+<dl>
+<dd><img class="tex" alt="P(S(M))=S(P(M))= M^{ed} \mod n \," src="RSA_files/f8f97c9c0444d8fd3a6b3db2d5d2c5d1.png"></dd>
+</dl>
+<p><u>Докажем</u>, что <img class="tex" alt=" M^{ed} \equiv M \pmod p ~~~\forall M \," src="RSA_files/21d29038d1acf3fca01d28a4a5b3e592.png">.</p>
+<p>Возможны <b>два случая</b>:</p>
+<ul>
+<li><img class="tex" alt="M \not\equiv 0 \pmod p \," src="RSA_files/8d8cc9332ed66a92c0eb939ba98b7ea5.png">.</li>
+</ul>
+<p>Поскольку числа <img class="tex" alt="e\," src="RSA_files/b5f7e60e340c9674ec2f7559eb9505d5.png"> и <img class="tex" alt="d\," src="RSA_files/3d6de401d007ea0cffc99610ad623239.png"> являются взаимно обратными относительно умножения по модулю <span class="texhtml" dir="ltr">φ(<i>n</i>) = (<i>p</i> − 1)(<i>q</i> − 1)</span>, т.e</p>
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="ed=1+k(p-1)(q-1)\," src="RSA_files/46d00bb178c151f1030f50fb35d96820.png"> для некоторого целого <img class="tex" alt="k\," src="RSA_files/bff2e94865b44c361e46c4beb2b040fe.png"> , тогда</dd>
+</dl>
+</dd>
+</dl>
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="M^{ed}~~\equiv M(M^{p-1})^{k(q-1)} \pmod p \equiv " src="RSA_files/570d80d39956043fec4bdf8ba24a955c.png">
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="\equiv M(1)^{k(q-1)} \pmod p \equiv " src="RSA_files/eb5aa77e0a5d29398d7044d3f5fe8fa8.png"></dd>
+<dd><img class="tex" alt="\equiv M \pmod p ," src="RSA_files/a741dd0426f594ba0b55c9f024c82c3f.png"></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>где второе тождество следует из <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BB%D0%B0%D1%8F_%D1%82%D0%B5%D0%BE%D1%80%D0%B5%D0%BC%D0%B0_%D0%A4%D0%B5%D1%80%D0%BC%D0%B0" title="Малая теорема Ферма">теоремы Ферма</a>.</p>
+<ul>
+<li><img class="tex" alt="M \equiv 0 \pmod p \," src="RSA_files/bb72eeea1bb2fde6c7ac887810cc536d.png">, тогда <img class="tex" alt="M^{ed} \equiv M \pmod p \," src="RSA_files/4339e5c630e2c8bde651d9384b78fa80.png"></li>
+</ul>
+<p>Таким образом, при всех <img class="tex" alt="M\," src="RSA_files/1dd4ab77983ec94cab2e7ff337a739e8.png"> выполняется равенство</p>
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="M^{ed} \equiv M \pmod p\," src="RSA_files/4339e5c630e2c8bde651d9384b78fa80.png"></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<p><u>Аналогично можно показать</u>, что <img class="tex" alt="M^{ed} \equiv M \pmod q~~~ \forall M\," src="RSA_files/0ac286f4ae03629b305cd3837c514aa3.png">.</p>
+<p>Таким образом, из <a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%B8%D1%82%D0%B0%D0%B9%D1%81%D0%BA%D0%B0%D1%8F_%D1%82%D0%B5%D0%BE%D1%80%D0%B5%D0%BC%D0%B0_%D0%BE%D0%B1_%D0%BE%D1%81%D1%82%D0%B0%D1%82%D0%BA%D0%B0%D1%85" title="Китайская теорема об остатках">Китайской теоремы об остатках</a></p>
+<dl>
+<dd><img class="tex" alt="\boldsymbol {M^{ed} \equiv M \pmod n~~~\forall M}\," src="RSA_files/3eab6cd3808135a6c30c642720d835e2.png"></dd>
+</dl>
+</div>
+</div>
+<p><sup id="cite_ref-rsa-in-hac_2-2" class="reference"><a href="#cite_note-rsa-in-hac-2">[3]</a></sup> <sup id="cite_ref-4" class="reference"><a href="#cite_note-4">[5]</a></sup></p>
+<h3><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=8" title="Править секцию: Пример">править</a>]</span> <span class="mw-headline" id=".D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.80">Пример</span></h3>
+<table class="standard" style="text-align: center;">
+<tbody><tr>
+<th>Этап</th>
+<th>Описание операции</th>
+<th>Результат операции</th>
+</tr>
+<tr>
+<th rowspan="7">Генерация <a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BB%D1%8E%D1%87_%28%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F%29" title="Ключ (криптография)">ключей</a></th>
+<td>Выбрать два простых числа</td>
+<td><img class="tex" alt="p=3557, q=2579\," src="RSA_files/963bc6425c345f4658be1fd4bc83a28d.png"></td>
+</tr>
+<tr>
+<td>Вычислить модуль</td>
+<td><img class="tex" alt="n=p\cdot q=3557\cdot2579=9173503" src="RSA_files/0ba32834a8256c7833c8a31cd11ba735.png"></td>
+</tr>
+<tr>
+<td>Вычислить <a href="http://ru.wikipedia.org/wiki/%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F_%D0%AD%D0%B9%D0%BB%D0%B5%D1%80%D0%B0" title="Функция Эйлера">функцию Эйлера</a></td>
+<td><span class="texhtml" dir="ltr">φ(<i>n</i>) = (<i>p</i> − 1)(<i>q</i> − 1) = 9167368</span></td>
+</tr>
+<tr>
+<td><a href="#.D0.A1.D0.BA.D0.BE.D1.80.D0.BE.D1.81.D1.82.D1.8C_.D1.80.D0.B0.D0.B1.D0.BE.D1.82.D1.8B_.D0.B0.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC.D0.B0_RSA">Выбрать открытую экспоненту</a></td>
+<td><img class="tex" alt="e=3\," src="RSA_files/4e47e64bee2d9b5adf846fec32ec893f.png"></td>
+</tr>
+<tr>
+<td><a href="#.D0.92.D1.8B.D0.B1.D0.BE.D1.80_.D0.B7.D0.BD.D0.B0.D1.87.D0.B5.D0.BD.D0.B8.D1.8F_.D1.81.D0.B5.D0.BA.D1.80.D0.B5.D1.82.D0.BD.D0.BE.D0.B3.D0.BE_.D0.BF.D0.BE.D0.BA.D0.B0.D0.B7.D0.B0.D1.82.D0.B5.D0.BB.D1.8F">Вычислить секретную экспоненту</a></td>
+<td><img class="tex" alt="d=6111579\ (k=2)\," src="RSA_files/eded6e71186b4bd781d02d3d9138b29f.png"></td>
+</tr>
+<tr>
+<td>Опубликовать <i>открытый ключ</i></td>
+<td><img class="tex" alt="(e,n)=(3,9173503)\," src="RSA_files/79801ed65a407348b6cf1e361c2a26f1.png"></td>
+</tr>
+<tr>
+<td>Сохранить <i>секретный ключ</i></td>
+<td><img class="tex" alt="(d,n)=(6111579,9173503)\," src="RSA_files/4ead6ac8a5c2019a7be014cfb1fc8540.png"></td>
+</tr>
+<tr>
+<th rowspan="2"><a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5" title="Шифрование">Шифрование</a></th>
+<td>Выбрать текст для зашифровки</td>
+<td><img class="tex" alt="M=111111\," src="RSA_files/ffe66f9851fd01e795844b99ba959600.png"></td>
+</tr>
+<tr>
+<td>Вычислить шифротекст</td>
+<td><img class="tex" alt="P(M)=M^e \bmod n=111111^3\bmod\ 9173503=4051753\," src="RSA_files/2ac40bd241773d6e46580478b3367dfc.png"></td>
+</tr>
+<tr>
+<th>Расшифрование</th>
+<td>Вычислить исходное сообщение</td>
+<td><img class="tex" alt="S(C)=C^d \bmod n=4051753^{6111579}\bmod\ 9173503=111111\," src="RSA_files/fb528c6cadf754c81bf355740ace53fe.png"></td>
+</tr>
+</tbody></table>
+<h3><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=9" title="Править секцию: Цифровая подпись">править</a>]</span> <span class="mw-headline" id=".D0.A6.D0.B8.D1.84.D1.80.D0.BE.D0.B2.D0.B0.D1.8F_.D0.BF.D0.BE.D0.B4.D0.BF.D0.B8.D1.81.D1.8C">Цифровая подпись</span></h3>
+<p>Система RSA может использоваться не только для шифрования, но и для <a href="http://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C" title="Цифровая подпись" class="mw-redirect">цифровой подписи</a>.</p>
+<p>Предположим, что стороне <img class="tex" alt="A\," src="RSA_files/7b80ebccd4420d9579e7d488396b7f5c.png"> нужно отправить стороне <img class="tex" alt="B\," src="RSA_files/d5742827d055e40cd568fd71271f4681.png"> ответ <img class="tex" alt="M'\," src="RSA_files/289b24719224e5287178888d92f4c432.png">, подтверждённый <b>цифровой подписью</b>.</p>
+<div class="center">
+<div class="floatnone"><a href="http://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:SignatureRSA.svg" class="image"><img alt="SignatureRSA.svg" src="RSA_files/700px-SignatureRSA.png" height="267" width="700"></a></div>
+</div>
+<table class="" style="background: transparent none repeat scroll 0% 0%; border-collapse: collapse; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous; width: 100%; text-align: left;">
+<tbody><tr valign="top">
+<td style="width: 50%;">
+<p><b>Алгоритм</b>:</p>
+<ul>
+<li>Взять открытый текст <img class="tex" alt="M'~~~\," src="RSA_files/7f785e24c842d1559f54ba2991beb5c5.png"></li>
+<li>Создать цифровую подпись <img class="tex" alt="\sigma \," src="RSA_files/312418a7fcf9d47adc8e5683e89c58cd.png"> с помощью своего секретного ключа<img class="tex" alt="(d,n) \," src="RSA_files/68213526d6e04bc60291f8f035512b09.png"></li>
+</ul>
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="\sigma = S_A(M')=M'^d \mod n\," src="RSA_files/14fbbd679dcd0eeb47d3d02e926a43cb.png"></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<ul>
+<li>Передать пару <img class="tex" alt="(M',\sigma )\," src="RSA_files/fffb40b4c2cab94c3832113a38126e7c.png">, состоящую из сообщения и подписи.</li>
+</ul>
+</td>
+<td style="width: 50%;">
+<p><b>Алгоритм</b>:</p>
+<ul>
+<li>Принять пару <img class="tex" alt="(M',\sigma )\," src="RSA_files/fffb40b4c2cab94c3832113a38126e7c.png"></li>
+<li>Взять открытый ключ <img class="tex" alt="(e,n)\," src="RSA_files/d4ec0effe5dde7f509327ab01b7fd5de.png"> стороны <img class="tex" alt="A\," src="RSA_files/7b80ebccd4420d9579e7d488396b7f5c.png"></li>
+<li>Проверить подлинность подписи:</li>
+</ul>
+<p><img class="tex" alt="P_A(\sigma )=\sigma ^e \mod n \equiv M' \rarr \," src="RSA_files/aeb18ed43faf7d83e18ae131f78b445a.png"> подпись верная</p>
+</td>
+</tr>
+</tbody></table>
+<p>Поскольку <a href="http://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C" title="Цифровая подпись" class="mw-redirect">цифровая подпись</a> обеспечивает как <a href="http://ru.wikipedia.org/wiki/%D0%90%D1%83%D1%82%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F" title="Аутентификация">аутентификацию</a>
+автора сообщения, так и подтверждение целостности содержимого
+подписанного сообщения, она служит аналогом подписи, сделанной от руки
+в конце рукописного документа.</p>
+<p>Важное свойство цифровой подписи заключается в том, что её может
+проверить каждый, кто имеет доступ к открытому ключу ее автора. Один из
+участников обмена сообщениями после проверки подлинности цифровой
+подписи может передать подписанное сообщение ещё кому-то, кто тоже в
+состоянии проверить эту подпись. Например, сторона <img class="tex" alt="A\," src="RSA_files/7b80ebccd4420d9579e7d488396b7f5c.png"> может переслать стороне <img class="tex" alt="B\," src="RSA_files/d5742827d055e40cd568fd71271f4681.png"> электронный <a href="http://ru.wikipedia.org/wiki/%D0%A7%D0%B5%D0%BA" title="Чек">чек</a>. После того как сторона <img class="tex" alt="B\," src="RSA_files/d5742827d055e40cd568fd71271f4681.png"> проверит подпись стороны <img class="tex" alt="A\," src="RSA_files/7b80ebccd4420d9579e7d488396b7f5c.png"> на чеке, она может передать его в свой <a href="http://ru.wikipedia.org/wiki/%D0%91%D0%B0%D0%BD%D0%BA" title="Банк">банк</a>, служащие которого также имеют возможность проверить подпись и осуществить соответствующую денежную операцию.</p>
+<p>Заметим, что подписанное сообщение <img class="tex" alt="M'\," src="RSA_files/289b24719224e5287178888d92f4c432.png"> не <a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5" title="Шифрование">зашифровано</a>.
+Оно пересылается в исходном виде и его содержимое не защищено. Путём
+совместного применения представленных выше схем шифрования и цифровой
+подписи в системе RSA можно создавать <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B5" title="Сообщение">сообщения</a>,
+которые будут и зашифрованы, и содержать цифровую подпись. Для этого
+автор сначала должен добавить к сообщению свою цифровую подпись, а
+затем&nbsp;— зашифровать получившуюся в результате пару (состоящую из
+самого сообщения и подписи к нему) с помощью открытого ключа
+принадлежащего получателю. Получатель расшифровывает полученное
+сообщение с помощью своего секретного ключа. Если проводить <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BD%D0%B0%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F" title="Аналогия">аналогию</a> с пересылкой обычных бумажных <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82" title="Документ">документов</a>, то этот процесс похож на то, как если бы автор документа поставил под ним свою <a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%B5%D1%87%D0%B0%D1%82%D1%8C" title="Печать">печать</a>, а затем положил его в бумажный <a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BD%D0%B2%D0%B5%D1%80%D1%82" title="Конверт">конверт</a> и запечатал, с тем чтобы конверт был распечатан только тем человеком, кому адресовано сообщение.</p>
+<h3><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=10" title="Править секцию: Скорость работы алгоритма RSA">править</a>]</span> <span class="mw-headline" id=".D0.A1.D0.BA.D0.BE.D1.80.D0.BE.D1.81.D1.82.D1.8C_.D1.80.D0.B0.D0.B1.D0.BE.D1.82.D1.8B_.D0.B0.D0.BB.D0.B3.D0.BE.D1.80.D0.B8.D1.82.D0.BC.D0.B0_RSA">Скорость работы алгоритма RSA</span></h3>
+<p>Поскольку генерация ключей происходит значительно реже операций,
+реализующих шифрование, расшифрование, а также создание и проверку
+цифровой подписи, задача вычисления <img class="tex" alt="a=b^e \bmod n \," src="RSA_files/fb9a942633bb2208fe85dcb249d6b3a0.png"> представляет основную вычислительную сложность. Эта задача может быть разрешена с помощью <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D0%B1%D1%8B%D1%81%D1%82%D1%80%D0%BE%D0%B3%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B2_%D1%81%D1%82%D0%B5%D0%BF%D0%B5%D0%BD%D1%8C" title="Алгоритм быстрого возведения в степень">алгоритма быстрого возведения в степень</a>. Таким образом для вычисления <img class="tex" alt="  M^e \bmod n \," src="RSA_files/4333fc5de027e086ef7a0d9048c3629d.png"> требуется <img class="tex" alt="O( \ln e) \," src="RSA_files/ffefdfbe8570bd19772b9d143ff906cf.png"> операций <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%B4%D1%83%D0%BB%D1%8C%D0%BD%D0%B0%D1%8F_%D0%B0%D1%80%D0%B8%D1%84%D0%BC%D0%B5%D1%82%D0%B8%D0%BA%D0%B0" title="Модульная арифметика" class="mw-redirect">умножения по модулю</a>.</p>
+<div class="NavFrame collapsed" style="">
+<div class="NavHead" style="">Доказательство&nbsp;&nbsp;</div>
+<div class="NavContent" style="text-align: left;">
+<ul>
+<li>представим <img class="tex" alt="e \," src="RSA_files/b5f7e60e340c9674ec2f7559eb9505d5.png"> в двоичной системе счисления:</li>
+</ul>
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="e=e_{k} \cdot 2^{k}+e_{k-1} \cdot 2^{k-1}+...+e_{1} \cdot 2+e_{0}" src="RSA_files/c9f084bd5b7c0e31853eb170d77e4c12.png">, где <img class="tex" alt="e_{k}=1, e_{i} \in \{ 0,1 \}" src="RSA_files/4d18b4bbfb10667495101abd847a976a.png"></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<ul>
+<li>положим <img class="tex" alt="M_0=M \," src="RSA_files/068a17ffe152c582cedc92e199e51569.png"> и затем для <img class="tex" alt="i=1,...,k \," src="RSA_files/6a90d31f7f11e797c40eb6edcd0349e0.png"> вычислим</li>
+</ul>
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dd><img class="tex" alt="M_i=(M_{i-1}^2 \cdot M^{e_{k-i}} )\bmod n \," src="RSA_files/c7ae2e6f876f1d2c38aece4908650dba.png"></dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<ul>
+<li>найденное <img class="tex" alt="M_k \," src="RSA_files/e989c0f3e34c6221ce562fd30b66b270.png"> и будет искомым значением <img class="tex" alt="  M^e \bmod n \," src="RSA_files/4333fc5de027e086ef7a0d9048c3629d.png"></li>
+</ul>
+<p>Т.к каждое вычисление на шаге 2 требует не более трёх умножений по модулю <img class="tex" alt="n \," src="RSA_files/a957404c96e59f1746f97ab668c8e1f8.png"> и этот шаг выполняется <img class="tex" alt="k \le \log_2 e \," src="RSA_files/5aada356b27827c00198ea9a9c570c81.png"> раз, то сложность алгоритма может быть оценена величиной <img class="tex" alt="O( \ln e) \," src="RSA_files/ffefdfbe8570bd19772b9d143ff906cf.png">.</p>
+</div>
+</div>
+<p>Чтобы проанализировать время выполнения операций с открытым и секретным ключами, предположим, что открытый ключ <img class="tex" alt="(e,n) \," src="RSA_files/d4ec0effe5dde7f509327ab01b7fd5de.png"> и секретный ключ <img class="tex" alt="(d,n) \," src="RSA_files/68213526d6e04bc60291f8f035512b09.png"> удовлетворяют соотношениям <img class="tex" alt=" \log_2 e =O(1),\log_2 d \le \beta \," src="RSA_files/6569fe88a840d1d306551b0461401138.png">. Тогда в процессах их применения выполняется соответственно <img class="tex" alt=" O(1)\," src="RSA_files/3cafa487bd35dc5de745b73b42e41f8c.png"> и <img class="tex" alt=" O(\beta)\," src="RSA_files/4388c161de759dfaef940d4260590174.png"> умножений по модулю.</p>
+<p>Таким образом время выполнения операций растёт с увеличением количества ненулевых битов в <a href="http://ru.wikipedia.org/wiki/%D0%94%D0%B2%D0%BE%D0%B8%D1%87%D0%BD%D0%B0%D1%8F_%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%81%D1%87%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F" title="Двоичная система счисления">двоичном представлении</a> открытой экспоненты <i>e</i>. Чтобы увеличить скорость шифрования, значение <i>e</i> часто выбирают равным 17, 257 или 65537&nbsp;— <a href="http://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%BE%D1%81%D1%82%D1%8B%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B0" title="Простые числа">простым числам</a>, двоичное представление которых содержит лишь две единицы: 17 = 0x11, 257 = 0x101, 65537 = 0x10001 (простые <a href="http://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%A4%D0%B5%D1%80%D0%BC%D0%B0" title="Числа Ферма">числа Ферма</a>).
+Стоит также заметить что скорость работы прямо зависит от количества
+умножений, и увеличение числа приводит к уменьшению скорости (т.к. в
+алгоритме быстрого умножения, на каждой итерации происходит умножение
+для увеличения степени). Т.е. если использовать вместо 17=0x11=0b10001
+13=0x0D=0b1101 то кол-во умножений будет одинаковым, т.е. скорость
+работы будет сравнима в обоих случаях. Действительно: в первом случае:
+4 умножения для получения степени 16 и 2 умножения результата на
+степень. Во втором случае: 3 умножения для получения степени 8 и 3
+умножения результат на степень. Поэтому, вместо 17 можно использовать
+13, а 65537 можно заменить на любое из (32771, 32801, 32833, 40961).
+ЗАМЕЧАНИЕ: Этот подход верен для случая быстрого окончания алгоритма,
+когда цикл завершается сразу, как только не остается не нулевых бит в
+степени.</p>
+<p>По эвристическим оценкам длина секретной экспоненты <i>d</i>, нетривиальным образом зависящей от открытой экспоненты <i>e</i> и модуля <i>n</i>, с большой вероятностью близка к длине <i>n</i>. Поэтому расшифрование данных идёт медленнее чем шифрование, а проверка подписи быстрее чем подписание.</p>
+<p>Алгоритм RSA намного медленнее чем <a href="http://ru.wikipedia.org/wiki/DES" title="DES">DES</a> и другие алгоритмы <a href="http://ru.wikipedia.org/wiki/%D0%91%D0%BB%D0%BE%D1%87%D0%BD%D1%8B%D0%B9_%D1%88%D0%B8%D1%84%D1%80" title="Блочный шифр">блочного шифрования</a>.</p>
+<h2><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=11" title="Править секцию: Криптоанализ RSA[6]">править</a>]</span> <span class="mw-headline" id=".D0.9A.D1.80.D0.B8.D0.BF.D1.82.D0.BE.D0.B0.D0.BD.D0.B0.D0.BB.D0.B8.D0.B7_RSA.5B6.5D">Криптоанализ RSA<sup id="cite_ref-5" class="reference"><a href="#cite_note-5">[6]</a></sup></span></h2>
+<dl>
+<dd>
+<div class="noprint"><i>Основная статья</i>: <i><b><a href="http://ru.wikipedia.org/wiki/%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B0%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7_RSA" title="Криптоанализ RSA">Криптоанализ RSA</a></b></i></div>
+</dd>
+</dl>
+<p>На 2009 год система шифрования на основе RSA считается надёжной, начиная с размера <img class="tex" alt=" n \," src="RSA_files/a957404c96e59f1746f97ab668c8e1f8.png"> в 1024 бита.</p>
+<p>Группе учёных из Швейцарии, Японии, Франции, Нидерландов, Германии и
+США удалось успешно вычислить данные, зашифрованные при помощи
+криптографического ключа стандарта RSA длиной 768 бит.<sup id="cite_ref-6" class="reference"><a href="#cite_note-6">[7]</a></sup>
+По словам исследователей, после их работы в качестве надежной системы
+шифрования можно рассматривать только RSA-ключи длиной 1024 бита и
+более. Причём от шифрования ключом длиной в 1024 бит стоит отказаться в
+ближайшие три-четыре года. <sup id="cite_ref-7" class="reference"><a href="#cite_note-7">[8]</a></sup></p>
+<p>Как следует из описания работы, вычисление значений ключа осуществлялось <a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%89%D0%B8%D0%B9_%D0%BC%D0%B5%D1%82%D0%BE%D0%B4_%D1%80%D0%B5%D1%88%D0%B5%D1%82%D0%B0_%D1%87%D0%B8%D1%81%D0%BB%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE_%D0%BF%D0%BE%D0%BB%D1%8F" title="Общий метод решета числового поля">общим методом решета числового поля</a>.</p>
+<p>На первый шаг (выбор пары полиномов степени 6 и 1) было потрачено
+около полугода вычислений на 80 процессорах, что составило около
+3&nbsp;% времени, потраченного на главный этап алгоритма (просеивание),
+который выполнялся на сотнях компьютеров в течение почти двух лет. Если
+интерполировать это время на работу одного процессора AMD Opteron
+2.2ГГц с 2Гб памяти, то получилось бы порядка 1500 лет. Обработка
+данных после просеивания для следующего ресурсоёмкого шага (линейной
+алгебры) потребовалось несколько недель на малом количестве
+процессоров. Заключительный шаг после нахождения нетривиальных решений
+ОСЛУ занял не более 12 часов.</p>
+<p>Решение ОСЛУ проводилось с помощью <a href="http://ru.wikipedia.org/w/index.php?title=%D0%9C%D0%B5%D1%82%D0%BE%D0%B4_%D0%92%D0%B8%D0%B4%D0%B5%D0%BC%D0%B0%D0%BD%D0%B0&amp;action=edit&amp;redlink=1" class="new" title="Метод Видемана (страница отсутствует)">метода Видемана</a>
+на нескольких раздельных кластерах и длилось чуть менее 4 месяцев. При
+этом размер разреженной матрицы составил 192 796 550х192 795 550 при
+наличии 27 795 115 920 ненулевых элементов (то есть в среднем 144
+ненулевых элементов на строку). Для хранения матрицы на жёстком диске
+понадобилось около 105 гигабайт. В то же время понадобилось около 5
+терабайт сжатых данных для построения данной матрицы.</p>
+<p>В итоге группе удалось вычислить 232-цифровой ключ, открывающий доступ к зашифрованным данным.</p>
+<p>Исследователи уверены, что с использованием их метода факторизации
+взломать 1024-битный RSA-ключ будет возможно в течение следующего
+десятилетия.</p>
+<p>Зная разложение модуля <img class="tex" alt=" n \," src="RSA_files/a957404c96e59f1746f97ab668c8e1f8.png"> на произведение двух простых чисел, противник может легко найти секретную экспоненту <img class="tex" alt=" d \," src="RSA_files/3d6de401d007ea0cffc99610ad623239.png"> и тем самым взломать RSA. Однако на сегодняшний день самый быстрый алгоритм <a href="http://ru.wikipedia.org/wiki/%D0%A4%D0%B0%D0%BA%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F" title="Факторизация">факторизации</a>&nbsp;— решето обобщённого числового поля (General Number Field Sieve), скорость которого для k-битного целого числа составляет</p>
+<p><img class="tex" alt=" \exp (( c + o(1))k^{\frac{1}{3}} \log^{\frac{2}{3}}k) ,  \," src="RSA_files/cd0eab4c1068af60ef1c68ad73da924a.png"> для некоторого <img class="tex" alt="c&lt; 2 \," src="RSA_files/8e857c427ca44118194cca93acf84ef1.png">,</p>
+<p>не позволяет разложить большое целое за приемлемое время.</p>
+<h2><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=12" title="Править секцию: Применение RSA">править</a>]</span> <span class="mw-headline" id=".D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_RSA">Применение RSA</span></h2>
+<p>Система RSA используется для защиты программного обеспечения и в схемах <a href="http://ru.wikipedia.org/wiki/%D0%A6%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BF%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C" title="Цифровая подпись" class="mw-redirect">цифровой подписи</a>.</p>
+<p>Также она используется в открытой системе шифрования <a href="http://ru.wikipedia.org/wiki/PGP" title="PGP">PGP</a> и иных системах шифрования (к примеру, DarkCryptTC и формат xdc) в сочетании с <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%BC%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D1%88%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" title="Симметричный алгоритм шифрования" class="mw-redirect">симметричными алгоритмами</a>.</p>
+<p>Из-за низкой скорости шифрования (около 30&nbsp;кбит/с при 512
+битном ключе на процессоре 2&nbsp;ГГц), сообщения обычно шифруют с
+помощью более производительных <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%B8%D0%BC%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC_%D1%88%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" title="Симметричный алгоритм шифрования" class="mw-redirect">симметричных алгоритмов</a> со случайным ключом (<i>сеансовый ключ</i>), а с помощью RSA шифруют лишь этот ключ, таким образом реализуется <a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B8%D0%B1%D1%80%D0%B8%D0%B4%D0%BD%D0%B0%D1%8F_%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0" title="Гибридная криптосистема">гибридная криптосистема</a>. Такой механизм имеет потенциальные уязвимости ввиду необходимости использовать криптостойкий <a href="http://ru.wikipedia.org/wiki/%D0%93%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80_%D1%81%D0%BB%D1%83%D1%87%D0%B0%D0%B9%D0%BD%D1%8B%D1%85_%D1%87%D0%B8%D1%81%D0%B5%D0%BB" title="Генератор случайных чисел" class="mw-redirect">генератор случайных чисел</a>
+для формирования случайного сеансового ключа симметричного шифрования и
+эффективно противостоящий атакам симметричный криптоалгоритм (в данное
+время широкое применение находят <a href="http://ru.wikipedia.org/wiki/Advanced_Encryption_Standard" title="Advanced Encryption Standard">AES</a>, <a href="http://ru.wikipedia.org/wiki/IDEA" title="IDEA">IDEA</a>, <a href="http://ru.wikipedia.org/wiki/Serpent" title="Serpent">Serpent</a>, <a href="http://ru.wikipedia.org/wiki/Twofish" title="Twofish">Twofish</a>).</p>
+<h2><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=13" title="Править секцию: Примечания">править</a>]</span> <span class="mw-headline" id=".D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.87.D0.B0.D0.BD.D0.B8.D1.8F">Примечания</span></h2>
+<div class="references-small" style="">
+<ol class="references">
+<li id="cite_note-0"><b><a href="#cite_ref-0">↑</a></b> <span><a rel="nofollow" class="external text" href="http://www.google.com/patents?vid=4405829">U.S. Patent 4&nbsp;405&nbsp;829</a></span></li>
+<li id="cite_note-1"><b><a href="#cite_ref-1">↑</a></b> C. C. Cocks <a rel="nofollow" class="external text" href="http://www.cesg.gov.uk/publications/media/notense.pdf">A note on «non-secret encryption»</a>.&nbsp;<span class="ref-info" title="на английском языке" style="font-size: 85%; cursor: help; color: rgb(136, 136, 136);">(англ.)</span> 20 ноября 1973.</li>
+<li id="cite_note-rsa-in-hac-2">↑ <a href="#cite_ref-rsa-in-hac_2-0"><sup><i><b>1</b></i></sup></a> <a href="#cite_ref-rsa-in-hac_2-1"><sup><i><b>2</b></i></sup></a> <a href="#cite_ref-rsa-in-hac_2-2"><sup><i><b>3</b></i></sup></a> <span class="citation"><i>A. Menezes, P. van Oorschot, S. Vanstone.</i> <a rel="nofollow" class="external text" href="http://www.cacr.math.uwaterloo.ca/hac/about/chap8.pdf">8.2. RSA public-key encryption</a> // <a rel="nofollow" class="external text" href="http://www.cacr.math.uwaterloo.ca/hac/">Handbook of Applied Cryptography</a>&nbsp;—  CRC-Press, 1996. — 816&nbsp;p. — (Discrete Mathematics and Its Applications). — <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/0849385237" class="internal mw-magiclink-isbn">ISBN 0-8493-8523-7</a>.</span></li>
+<li id="cite_note-Boneh-3"><b><a href="#cite_ref-Boneh_3-0">↑</a></b> <span class="citation"><cite style="font-style: normal;">Boneh, Dan (1999). «<a rel="nofollow" class="external text" href="http://crypto.stanford.edu/%7Edabo/abstracts/RSAattack-survey.html">Twenty Years of attacks on the RSA Cryptosystem</a>». <i>Notices of the American Mathematical Society (AMS)</i> <b>46</b> (2): 203–213.</cite></span></li>
+<li id="cite_note-4"><b><a href="#cite_ref-4">↑</a></b> <span class="citation"><i><a href="http://ru.wikipedia.org/wiki/%D0%A0%D0%B8%D0%B2%D0%B5%D1%81%D1%82,_%D0%A0%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%B4_%D0%9B%D0%B8%D0%BD%D0%BD" title="Ривест, Рональд Линн">Rivest R.L.</a>, <a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%B0%D0%BC%D0%B8%D1%80,_%D0%90%D0%B4%D0%B8" title="Шамир, Ади">Shamir A.</a>, <a href="http://ru.wikipedia.org/wiki/%D0%90%D0%B4%D0%BB%D0%B5%D0%BC%D0%B0%D0%BD,_%D0%9B%D0%B5%D0%BE%D0%BD%D0%B0%D1%80%D0%B4_%D0%9C%D0%B0%D0%BA%D1%81" title="Адлеман, Леонард Макс">Adleman L.</a></i>&nbsp;<a rel="nofollow" class="external text" href="http://people.csail.mit.edu/rivest/Rsapaper.pdf">A method for obtaining digital signatures and public-key cryptosystems</a> // <i>Communications of the ACM</i>. — 1978. — Т.&nbsp;21. — №&nbsp;2. — С.&nbsp;120—126. — <a href="http://ru.wikipedia.org/wiki/DOI" title="DOI" class="mw-redirect">DOI</a>:<a rel="nofollow" class="external text" href="http://dx.doi.org/10.1145%2F359340.359342">10.1145/359340.359342</a></span></li>
+<li id="cite_note-5"><b><a href="#cite_ref-5">↑</a></b> Ян
+С.&nbsp;Й.&nbsp;Криптоанализ RSA.&nbsp;— М.-Ижевск: НИЦ «Регулярная и
+хаотическая динамика», Ижевский институт компьютерных исследований,
+2011.&nbsp;— 312 с.</li>
+<li id="cite_note-6"><b><a href="#cite_ref-6">↑</a></b> <a rel="nofollow" class="external text" href="https://documents.epfl.ch/users/l/le/lenstra/public/papers/rsa768.txt">Анонс факторизации RSA-768</a> &nbsp;<span class="ref-info" title="на английском языке" style="font-size: 85%; cursor: help; color: rgb(136, 136, 136);">(англ.)</span></li>
+<li id="cite_note-7"><b><a href="#cite_ref-7">↑</a></b> <a rel="nofollow" class="external text" href="http://eprint.iacr.org/2010/006">Факторизация RSA-768</a> &nbsp;<span class="ref-info" title="на английском языке" style="font-size: 85%; cursor: help; color: rgb(136, 136, 136);">(англ.)</span></li>
+</ol>
+</div>
+<h2><span class="editsection">[<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit&amp;section=14" title="Править секцию: Литература">править</a>]</span> <span class="mw-headline" id=".D0.9B.D0.B8.D1.82.D0.B5.D1.80.D0.B0.D1.82.D1.83.D1.80.D0.B0">Литература</span></h2>
+<ul>
+<li><span class="citation"><i>A. Menezes, P. van Oorschot, S. Vanstone.</i> <a rel="nofollow" class="external text" href="http://www.cacr.math.uwaterloo.ca/hac/">Handbook of Applied Cryptography</a>&nbsp;—  CRC-Press, 1996. — 816&nbsp;p. — (Discrete Mathematics and Its Applications). — <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/0849385237" class="internal mw-magiclink-isbn">ISBN 0-8493-8523-7</a>.</span></li>
+<li><span class="citation"><i>Венбо Мао</i> Современная криптография. Теория и практика = Modern Cryptography: Theory and Practice&nbsp;—  <span style="border-bottom: 1px dotted gray; cursor: default;" title="Москва">М</span>.: Вильямс, 2005. — 768&nbsp;с. — <span style="white-space: nowrap;">2 000 экз</span>. — <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/5845908477" class="internal mw-magiclink-isbn">ISBN 5-8459-0847-7</a>, <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/0130669431" class="internal mw-magiclink-isbn">ISBN 0-13-066943-1</a>.</span></li>
+<li><span class="citation"><i><a href="http://ru.wikipedia.org/w/index.php?title=%D0%A4%D0%B5%D1%80%D0%B3%D1%8E%D1%81%D0%BE%D0%BD,_%D0%9D%D0%B8%D0%BB%D1%8C%D1%81&amp;action=edit&amp;redlink=1" class="new" title="Фергюсон, Нильс (страница отсутствует)">Нильс Фергюсон</a>, <a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%BD%D0%B0%D0%B9%D0%B5%D1%80,_%D0%91%D1%80%D1%8E%D1%81" title="Шнайер, Брюс">Брюс Шнайер</a></i> Практическая криптография = Practical Cryptography: Designing and Implementing Secure Cryptographic Systems&nbsp;—  <span style="border-bottom: 1px dotted gray; cursor: default;" title="Москва">М</span>.: <a href="http://ru.wikipedia.org/w/index.php?title=%D0%94%D0%B8%D0%B0%D0%BB%D0%B5%D0%BA%D1%82%D0%B8%D0%BA%D0%B0_%28%D0%B8%D0%B7%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%D0%BE%29&amp;action=edit&amp;redlink=1" class="new" title="Диалектика (издательство) (страница отсутствует)">«Диалектика»</a>, 2004. — 432&nbsp;с. — <span style="white-space: nowrap;">3 000 экз</span>. — <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/5845907330" class="internal mw-magiclink-isbn">ISBN 5-8459-0733-0</a>, <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/0471223573" class="internal mw-magiclink-isbn">ISBN 0-4712-2357-3</a>.</span></li>
+<li><span class="citation"><i><a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%BD%D0%B0%D0%B9%D0%B5%D1%80,_%D0%91%D1%80%D1%8E%D1%81" title="Шнайер, Брюс">Шнайер Б.</a></i> <a rel="nofollow" class="external text" href="http://www.ssl.stu.neva.ru/psw/crypto/appl_rus/appl_cryp.htm">Прикладная криптография. Протоколы, алгоритмы, исходные тексты на языке Си</a> = Applied Cryptography. Protocols, Algorithms and Source Code in C&nbsp;—  <span style="border-bottom: 1px dotted gray; cursor: default;" title="Москва">М</span>.: <a href="http://ru.wikipedia.org/w/index.php?title=%D0%A2%D1%80%D0%B8%D1%83%D0%BC%D1%84_%28%D0%B8%D0%B7%D0%B4%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D1%82%D0%B2%D0%BE%29&amp;action=edit&amp;redlink=1" class="new" title="Триумф (издательство) (страница отсутствует)">Триумф</a>, 2002. — 816&nbsp;с. — <span style="white-space: nowrap;">3000 экз</span>. — <a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:BookSources/5893920554" class="internal mw-magiclink-isbn">ISBN 5-89392-055-4</a>.</span></li>
+</ul>
+<table class="navbox collapsible autocollapsed nowraplinks" style="margin: auto; text-align: center;">
+<tbody><tr>
+<th colspan="2" style="background: rgb(202, 218, 186) none repeat scroll 0% 0%; text-align: center; width: 100%; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;">
+<div style="float: left; width: 6em; text-align: left;">
+<div class="noprint plainlinksneverexpand" style="padding: 0pt; background-color: transparent; font-size: xx-small; color: rgb(0, 0, 0); white-space: nowrap;"><a href="http://ru.wikipedia.org/wiki/%D0%A8%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD:%D0%90%D1%81%D0%B8%D0%BC%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D1%88%D0%B8%D1%84%D1%80%D1%8B" title="Шаблон:Асимметричные шифры"><span style="color: rgb(0, 43, 184);" title="Просмотр этого шаблона">п</span></a>·<a href="http://ru.wikipedia.org/w/index.php?title=%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5_%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D0%B0:%D0%90%D1%81%D0%B8%D0%BC%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D1%88%D0%B8%D1%84%D1%80%D1%8B&amp;action=edit&amp;redlink=1" class="new" title="Обсуждение шаблона:Асимметричные шифры (страница отсутствует)"><span style="color: rgb(0, 43, 184);" title="Обсуждение этого шаблона">о</span></a>·<a class="external text" href="http://ru.wikipedia.org/w/index.php?title=%D0%A8%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD:%D0%90%D1%81%D0%B8%D0%BC%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D1%88%D0%B8%D1%84%D1%80%D1%8B&amp;action=edit"><span style="color: rgb(0, 43, 184);" title="Вы можете отредактировать этот шаблон. Пожалуйста, используйте клавишу предварительного просмотра перед сохранением">р</span></a></div>
+</div>
+<span style="font-size: 110%;"><a href="http://ru.wikipedia.org/wiki/%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%81_%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%BC_%D0%BA%D0%BB%D1%8E%D1%87%D0%BE%D0%BC" title="Криптосистема с открытым ключом">Асимметричные шифры</a></span></th>
+</tr>
+<tr>
+<td style="width: 100%;" colspan="2"><strong class="selflink">RSA</strong> &nbsp;• <a href="http://ru.wikipedia.org/wiki/DSA" title="DSA">DSA</a> &nbsp;• <a href="http://ru.wikipedia.org/wiki/Digital_Signature_Standard" title="Digital Signature Standard">DSS</a> &nbsp;• <a href="http://ru.wikipedia.org/wiki/NTRUEncrypt" title="NTRUEncrypt">NTRUEncrypt</a> &nbsp;• <span style="white-space: nowrap;"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D1%85%D0%B5%D0%BC%D0%B0_%D0%AD%D0%BB%D1%8C-%D0%93%D0%B0%D0%BC%D0%B0%D0%BB%D1%8F" title="Схема Эль-Гамаля">Схема Эль-Гамаля</a></span> &nbsp;• <span style="white-space: nowrap;"><a href="http://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%BD%D1%86%D0%B5%D0%B2%D0%B0%D1%8F_%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9C%D0%B5%D1%80%D0%BA%D0%BB%D1%8F-%D0%A5%D0%B5%D0%BB%D0%BB%D0%BC%D0%B0%D0%BD%D0%B0" title="Ранцевая криптосистема Меркля-Хеллмана">Криптосистема Меркля-Хеллмана</a></span> &nbsp;• <a href="http://ru.wikipedia.org/wiki/%D0%A1%D1%85%D0%B5%D0%BC%D0%B0_%D0%A8%D0%BD%D0%BE%D1%80%D1%80%D0%B0" title="Схема Шнорра">Схема Шнорра</a> &nbsp;• <a href="http://ru.wikipedia.org/wiki/%D0%AD%D0%BB%D0%BB%D0%B8%D0%BF%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BA%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F" title="Эллиптическая криптография">Эллиптическая криптография</a> &nbsp;• <span style="white-space: nowrap;"><a href="http://ru.wikipedia.org/wiki/%D0%93%D0%9E%D0%A1%D0%A2_%D0%A0_34.10-2001" title="ГОСТ Р 34.10-2001">ГОСТ Р 34.10-2001</a></span>&nbsp;• <span style="white-space: nowrap;"><a href="http://ru.wikipedia.org/wiki/%D0%94%D0%A1%D0%A2%D0%A3_4145-2002" title="ДСТУ 4145-2002">ДСТУ 4145-2002</a></span></td>
+</tr>
+</tbody></table>
+
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 2771/1000000
+Post-expand include size: 29876/2048000 bytes
+Template argument size: 10593/2048000 bytes
+Expensive parser function count: 0/500
+-->
+
+<!-- Saved in parser cache with key ruwiki:pcache:idhash:36427-0!1!0!!ru!4!* and timestamp 20120214102233 generated by mw11 -->
+</div>				<!-- /bodycontent -->
+								<!-- printfooter -->
+				<div class="printfooter">
+				Источник — «<a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;oldid=41711323">http://ru.wikipedia.org/w/index.php?title=RSA&amp;oldid=41711323</a>»				</div>
+				<!-- /printfooter -->
+												<!-- catlinks -->
+				<div id="catlinks" class="catlinks"><div id="mw-normal-catlinks"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Categories" title="Служебная:Categories">Категория</a>: <ul><li><a href="http://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F:%D0%9A%D1%80%D0%B8%D0%BF%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D1%8F" title="Категория:Криптография">Криптография</a></li></ul></div></div>				<!-- /catlinks -->
+												<div class="visualClear"></div>
+				<!-- debughtml -->
+								<!-- /debughtml -->
+			</div>
+			<!-- /bodyContent -->
+		</div>
+		<!-- /content -->
+		<!-- header -->
+		<div id="mw-head" class="noprint">
+			
+<!-- 0 -->
+<div id="p-personal" class="">
+	<h5>Личные инструменты</h5>
+	<ul>
+		<li id="pt-login"><a href="http://ru.wikipedia.org/w/index.php?title=%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:UserLogin&amp;returnto=RSA" title="Здесь можно зарегистрироваться в системе, но это необязательно. [o]" accesskey="o">Представиться / зарегистрироваться</a></li>
+	</ul>
+</div>
+
+<!-- /0 -->
+			<div id="left-navigation">
+				
+<!-- 0 -->
+<div id="p-namespaces" class="vectorTabs">
+	<h5>Пространства имён</h5>
+	<ul>
+					<li id="ca-nstab-main" class="selected"><span><a href="http://ru.wikipedia.org/wiki/RSA" title="Содержание статьи [c]" accesskey="c">Статья</a></span></li>
+					<li id="ca-talk"><span><a href="http://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5:RSA" title="Обсуждение содержания страницы [t]" accesskey="t">Обсуждение</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-variants" class="vectorMenu emptyPortlet">
+		<h5><span>Варианты</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+			</div>
+			<div id="right-navigation">
+				
+<!-- 0 -->
+<div id="p-views" class="vectorTabs">
+	<h5>Просмотры</h5>
+	<ul>
+					<li id="ca-view" class="selected"><span><a href="http://ru.wikipedia.org/wiki/RSA">Чтение</a></span></li>
+					<li id="ca-edit"><span><a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=edit" title="Эту статью можно изменять. Перед сохранением изменений, пожалуйста, нажмите кнопку предварительного просмотра для визуальной проверки результата [e]" accesskey="e">Правка</a></span></li>
+					<li id="ca-history" class="collapsible"><span><a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;action=history" title="Журнал изменений страницы [h]" accesskey="h">История</a></span></li>
+			</ul>
+</div>
+
+<!-- /0 -->
+
+<!-- 1 -->
+<div id="p-cactions" class="vectorMenu emptyPortlet">
+	<h5><span>Действия</span><a href="#"></a></h5>
+	<div class="menu">
+		<ul>
+					</ul>
+	</div>
+</div>
+
+<!-- /1 -->
+
+<!-- 2 -->
+<div id="p-search">
+	<h5><label for="searchInput">Поиск</label></h5>
+	<form action="/w/index.php" id="searchform">
+		<input name="title" value="Служебная:Search" type="hidden">
+				<div id="simpleSearch">
+						<input name="search" title="Искать это слово [f]" accesskey="f" id="searchInput" type="text">						<button type="submit" name="button" title="Найти страницы, содержащие указанный текст" id="searchButton"><img src="RSA_files/search-ltr.png" alt="Найти"></button>					</div>
+			</form>
+</div>
+
+<!-- /2 -->
+			</div>
+		</div>
+		<!-- /header -->
+		<!-- panel -->
+			<div id="mw-panel" class="noprint">
+				<!-- logo -->
+					<div id="p-logo"><a style="background-image: url(//upload.wikimedia.org/wikipedia/commons/f/f6/Wikipedia-logo-v2-ru.png);" href="http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0" title="Заглавная страница"></a></div>
+				<!-- /logo -->
+				
+<!-- navigation -->
+<div class="portal" id="p-navigation">
+	<h5>Навигация</h5>
+	<div class="body">
+		<ul>
+			<li id="n-mainpage"><a href="http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0" title="Перейти на заглавную страницу [z]" accesskey="z">Заглавная страница</a></li>
+			<li id="n-browse"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9F%D0%BE%D0%B8%D1%81%D0%BA_%D0%BF%D0%BE_%D0%BA%D0%B0%D1%82%D0%B5%D0%B3%D0%BE%D1%80%D0%B8%D1%8F%D0%BC" title="Поиск по категориям">Рубрикация</a></li>
+			<li id="n-index"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%90%D0%BB%D1%84%D0%B0%D0%B2%D0%B8%D1%82%D0%BD%D1%8B%D0%B9_%D1%83%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C" title="Поиск по двум первым буквам">Указатель А — Я</a></li>
+			<li id="n-featured"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%98%D0%B7%D0%B1%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5_%D1%81%D1%82%D0%B0%D1%82%D1%8C%D0%B8" title="Статьи, считающиеся лучшими статьями проекта">Избранные статьи</a></li>
+			<li id="n-randompage"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Random" title="Посмотреть случайную страницу [x]" accesskey="x">Случайная статья</a></li>
+			<li id="n-currentevents"><a href="http://ru.wikipedia.org/wiki/%D0%9F%D0%BE%D1%80%D1%82%D0%B0%D0%BB:%D0%A2%D0%B5%D0%BA%D1%83%D1%89%D0%B8%D0%B5_%D1%81%D0%BE%D0%B1%D1%8B%D1%82%D0%B8%D1%8F" title="Статьи о текущих событиях в мире">Текущие события</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /navigation -->
+
+<!-- SEARCH -->
+
+<!-- /SEARCH -->
+
+<!-- participation -->
+<div class="portal" id="p-participation">
+	<h5>Участие</h5>
+	<div class="body">
+		<ul>
+			<li id="n-bug_in_article"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%A1%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D1%8F_%D0%BE%D0%B1_%D0%BE%D1%88%D0%B8%D0%B1%D0%BA%D0%B0%D1%85" title="Сообщить об ошибке в этой статье">Сообщить об ошибке</a></li>
+			<li id="n-portal"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9F%D0%BE%D1%80%D1%82%D0%B0%D0%BB_%D1%81%D0%BE%D0%BE%D0%B1%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%B0" title="О проекте, о том, что вы можете сделать, где что находится">Портал сообщества</a></li>
+			<li id="n-forum"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%A4%D0%BE%D1%80%D1%83%D0%BC" title="Форум участников Википедии">Форум</a></li>
+			<li id="n-recentchanges"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:RecentChanges" title="Список последних изменений [r]" accesskey="r">Свежие правки</a></li>
+			<li id="n-newpages"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:NewPages" title="Список недавно созданных страниц">Новые страницы</a></li>
+			<li id="n-help"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%A1%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B0" title="Справочник по проекту «Википедия»">Справка</a></li>
+			<li id="n-sitesupport"><a href="http://donate.wikimedia.org/wiki/Special:FundraiserLandingPage?uselang=ru&amp;country=RU&amp;template=Lp-layout-default" title="Поддержите нас">Пожертвования</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /participation -->
+
+<!-- coll-print_export -->
+<div class="portal" id="p-coll-print_export">
+	<h5>Печать/экспорт</h5>
+	<div class="body">
+		<ul id="collectionPortletList"><li id="coll-create_a_book"><a href="http://ru.wikipedia.org/w/index.php?title=%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Book&amp;bookcmd=book_creator&amp;referer=RSA" title="Создать книгу или коллекцию статей" rel="nofollow">Создать книгу</a></li><li id="coll-download-as-rl"><a href="http://ru.wikipedia.org/w/index.php?title=%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Book&amp;bookcmd=render_article&amp;arttitle=RSA&amp;oldid=41711323&amp;writer=rl" title="Скачать PDF-версию этой вики-страницы" rel="nofollow">Скачать как PDF</a></li><li id="t-print"><a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;printable=yes" title="Версия этой страницы для печати [p]" accesskey="p">Версия для печати</a></li></ul>	</div>
+</div>
+
+<!-- /coll-print_export -->
+
+<!-- TOOLBOX -->
+<div class="portal" id="p-tb">
+	<h5>Инструменты</h5>
+	<div class="body">
+		<ul>
+			<li id="t-whatlinkshere"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:WhatLinksHere/RSA" title="Список всех страниц, которые ссылаются на эту страницу [j]" accesskey="j">Ссылки сюда</a></li>
+			<li id="t-recentchangeslinked"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:RecentChangesLinked/RSA" title="Последние изменения в страницах, на которые ссылается эта страница [k]" accesskey="k">Связанные правки</a></li>
+			<li id="t-specialpages"><a href="http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:SpecialPages" title="Список служебных страниц [q]" accesskey="q">Спецстраницы</a></li>
+			<li id="t-permalink"><a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;oldid=41711323" title="Постоянная ссылка на эту версию страницы">Постоянная ссылка</a></li>
+<li id="t-cite"><a href="http://ru.wikipedia.org/w/index.php?title=%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Cite&amp;page=RSA&amp;id=41711323" title="Информация о том, как цитировать эту страницу">Цитировать страницу</a></li>		</ul>
+	</div>
+</div>
+
+<!-- /TOOLBOX -->
+
+<!-- LANGUAGES -->
+<div class="portal" id="p-lang">
+	<h5>На других языках</h5>
+	<div class="body">
+		<ul>
+			<li class="interwiki-ar"><a href="http://ar.wikipedia.org/wiki/%D8%AE%D9%88%D8%A7%D8%B1%D8%B2%D9%85%D9%8A%D8%A9_%D8%A2%D8%B1_%D8%A5%D8%B3_%D8%A5%D9%8A%D9%87">العربية</a></li>
+			<li class="interwiki-bg"><a href="http://bg.wikipedia.org/wiki/RSA">Български</a></li>
+			<li class="interwiki-ca"><a href="http://ca.wikipedia.org/wiki/RSA">Català</a></li>
+			<li class="interwiki-cs"><a href="http://cs.wikipedia.org/wiki/RSA">Česky</a></li>
+			<li class="interwiki-da"><a href="http://da.wikipedia.org/wiki/RSA">Dansk</a></li>
+			<li class="interwiki-de"><a href="http://de.wikipedia.org/wiki/RSA-Kryptosystem">Deutsch</a></li>
+			<li class="interwiki-el"><a href="http://el.wikipedia.org/wiki/RSA">Ελληνικά</a></li>
+			<li class="interwiki-en"><a href="http://en.wikipedia.org/wiki/RSA_%28algorithm%29">English</a></li>
+			<li class="interwiki-eo"><a href="http://eo.wikipedia.org/wiki/RSA">Esperanto</a></li>
+			<li class="interwiki-es"><a href="http://es.wikipedia.org/wiki/RSA">Español</a></li>
+			<li class="interwiki-et"><a href="http://et.wikipedia.org/wiki/RSA_%28algoritm%29">Eesti</a></li>
+			<li class="interwiki-eu"><a href="http://eu.wikipedia.org/wiki/RSA">Euskara</a></li>
+			<li class="interwiki-fa"><a href="http://fa.wikipedia.org/wiki/%D8%A2%D8%B1%D8%A7%D8%B3%E2%80%8C%D8%A7%DB%8C">فارسی</a></li>
+			<li class="interwiki-fi"><a href="http://fi.wikipedia.org/wiki/RSA">Suomi</a></li>
+			<li class="interwiki-fr"><a href="http://fr.wikipedia.org/wiki/Rivest_Shamir_Adleman">Français</a></li>
+			<li class="interwiki-gl"><a href="http://gl.wikipedia.org/wiki/RSA">Galego</a></li>
+			<li class="interwiki-he"><a href="http://he.wikipedia.org/wiki/RSA">עברית</a></li>
+			<li class="interwiki-hr"><a href="http://hr.wikipedia.org/wiki/RSA">Hrvatski</a></li>
+			<li class="interwiki-hu"><a href="http://hu.wikipedia.org/wiki/RSA-elj%C3%A1r%C3%A1s">Magyar</a></li>
+			<li class="interwiki-id"><a href="http://id.wikipedia.org/wiki/RSA">Bahasa Indonesia</a></li>
+			<li class="interwiki-is"><a href="http://is.wikipedia.org/wiki/RSA">Íslenska</a></li>
+			<li class="interwiki-it"><a href="http://it.wikipedia.org/wiki/RSA">Italiano</a></li>
+			<li class="interwiki-ja"><a href="http://ja.wikipedia.org/wiki/RSA%E6%9A%97%E5%8F%B7">日本語</a></li>
+			<li class="interwiki-ka"><a href="http://ka.wikipedia.org/wiki/RSA_%E1%83%90%E1%83%9A%E1%83%92%E1%83%9D%E1%83%A0%E1%83%98%E1%83%97%E1%83%9B%E1%83%98">ქართული</a></li>
+			<li class="interwiki-ko"><a href="http://ko.wikipedia.org/wiki/RSA_%EC%95%94%ED%98%B8">한국어</a></li>
+			<li class="interwiki-lt"><a href="http://lt.wikipedia.org/wiki/RSA">Lietuvių</a></li>
+			<li class="interwiki-lv"><a href="http://lv.wikipedia.org/wiki/RSA_%C5%A1ifr%C4%93%C5%A1anas_algoritms">Latviešu</a></li>
+			<li class="interwiki-nl"><a href="http://nl.wikipedia.org/wiki/RSA_%28cryptografie%29">Nederlands</a></li>
+			<li class="interwiki-no"><a href="http://no.wikipedia.org/wiki/RSA">‪Norsk (bokmål)‬</a></li>
+			<li class="interwiki-pl"><a href="http://pl.wikipedia.org/wiki/RSA_%28kryptografia%29">Polski</a></li>
+			<li class="interwiki-pt"><a href="http://pt.wikipedia.org/wiki/RSA">Português</a></li>
+			<li class="interwiki-ro"><a href="http://ro.wikipedia.org/wiki/RSA">Română</a></li>
+			<li class="interwiki-simple"><a href="http://simple.wikipedia.org/wiki/RSA">Simple English</a></li>
+			<li class="interwiki-sl"><a href="http://sl.wikipedia.org/wiki/RSA">Slovenščina</a></li>
+			<li class="interwiki-sr"><a href="http://sr.wikipedia.org/wiki/RSA">Српски / Srpski</a></li>
+			<li class="interwiki-sv"><a href="http://sv.wikipedia.org/wiki/RSA">Svenska</a></li>
+			<li class="interwiki-th"><a href="http://th.wikipedia.org/wiki/RSA">ไทย</a></li>
+			<li class="interwiki-tr"><a href="http://tr.wikipedia.org/wiki/RSA">Türkçe</a></li>
+			<li class="interwiki-uk"><a href="http://uk.wikipedia.org/wiki/RSA">Українська</a></li>
+			<li class="interwiki-vi"><a href="http://vi.wikipedia.org/wiki/RSA_%28m%C3%A3_h%C3%B3a%29">Tiếng Việt</a></li>
+			<li class="interwiki-zh"><a href="http://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95">中文</a></li>
+		</ul>
+	</div>
+</div>
+
+<!-- /LANGUAGES -->
+			</div>
+		<!-- /panel -->
+		<!-- footer -->
+		<div id="footer">
+							<ul id="footer-info">
+											<li id="footer-info-lastmod"> Последнее изменение этой страницы: 10:48, 13 февраля 2012.</li>
+											<li id="footer-info-copyright">Текст доступен по <a rel="license" href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%A2%D0%B5%D0%BA%D1%81%D1%82_%D0%BB%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D0%B8_Creative_Commons_Attribution-ShareAlike_3.0_Unported">лицензии Creative Commons Attribution-ShareAlike</a><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/" style="display: none;"></a>; в отдельных случаях могут действовать дополнительные условия.
+<span class="noprint">Подробнее см. <a href="http://wikimediafoundation.org/wiki/Terms_of_Use/ru">Условия использования</a>.</span><br>
+Wikipedia® — зарегистрированная торговая марка <a href="http://wikimediafoundation.org/wiki/%D0%9F%D1%80%D0%B8%D1%91%D0%BC%D0%BD%D0%B0%D1%8F">Wikimedia Foundation, Inc.</a>, некоммерческой организации.<br></li><li class="noprint"><a class="internal" href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9A%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B">Свяжитесь с нами</a></li>
+									</ul>
+							<ul id="footer-places">
+											<li id="footer-places-privacy"><a href="http://wikimediafoundation.org/wiki/%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0_%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B4%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8" title="wikimedia:Политика конфиденциальности">Политика конфиденциальности</a></li>
+											<li id="footer-places-about"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5" title="Википедия:Описание">Описание Википедии</a></li>
+											<li id="footer-places-disclaimer"><a href="http://ru.wikipedia.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D0%BF%D0%B5%D0%B4%D0%B8%D1%8F:%D0%9E%D1%82%D0%BA%D0%B0%D0%B7_%D0%BE%D1%82_%D0%BE%D1%82%D0%B2%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8" title="Википедия:Отказ от ответственности">Отказ от ответственности</a></li>
+											<li id="footer-places-mobileview"><a href="http://ru.wikipedia.org/w/index.php?title=RSA&amp;useformat=mobile" class="noprint">Мобильная версия</a></li>
+									</ul>
+										<ul id="footer-icons" class="noprint">
+					<li id="footer-copyrightico">
+						<a href="http://wikimediafoundation.org/"><img src="RSA_files/wikimedia-button.png" alt="Wikimedia Foundation" height="31" width="88"></a>
+					</li>
+					<li id="footer-poweredbyico">
+						<a href="http://www.mediawiki.org/"><img src="RSA_files/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" height="31" width="88"></a>
+					</li>
+				</ul>
+						<div style="clear: both;"></div>
+		</div>
+		<!-- /footer -->
+		<!-- fixalpha -->
+		<script type="text/javascript"> if ( window.isMSIE55 ) fixalpha(); </script>
+		<!-- /fixalpha -->
+		<script src="RSA_files/load.php" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.loader.load(["mediawiki.user", "mediawiki.util", "mediawiki.page.ready", "mediawiki.legacy.wikibits", "mediawiki.legacy.ajax", "mediawiki.legacy.mwsuggest", "ext.flaggedRevs.advanced", "ext.vector.collapsibleNav", "ext.vector.collapsibleTabs", "ext.vector.editWarning", "ext.vector.simpleSearch"]);
+}
+</script>
+<script src="RSA_files/index.php" type="text/javascript"></script>
+<script src="RSA_files/load_003.php" type="text/javascript"></script>
+<script type="text/javascript">if ( window.mediaWiki ) {
+	mw.user.options.set({"ccmeonemails":0,"cols":80,"date":"default","diffonly":0,"disablemail":0,"disablesuggest":0,"editfont":"default","editondblclick":0,"editsection":1,"editsectiononrightclick":0,"enotifminoredits":0,"enotifrevealaddr":0,"enotifusertalkpages":1,"enotifwatchlistpages":0,"extendwatchlist":0,"externaldiff":0,"externaleditor":0,"fancysig":0,"forceeditsummary":0,"gender":"unknown","hideminor":0,"hidepatrolled":0,"highlightbroken":1,"imagesize":2,"justify":0,"math":1,"minordefault":0,"newpageshidepatrolled":0,"nocache":0,"noconvertlink":0,"norollbackdiff":0,"numberheadings":0,"previewonfirst":0,"previewontop":1,"quickbar":5,"rcdays":7,"rclimit":50,"rememberpassword":0,"rows":25,"searchlimit":20,"showhiddencats":false,"showjumplinks":1,"shownumberswatching":1,"showtoc":1,"showtoolbar":1,"skin":"vector","stubthreshold":0,"thumbsize":4,"underline":2,"uselivepreview":0,"usenewrc":0,"watchcreations":1,"watchdefault":0,"watchdeletion":0,"watchlistdays":3,"watchlisthideanons":0,
+	"watchlisthidebots":0,"watchlisthideliu":0,"watchlisthideminor":0,"watchlisthideown":0,"watchlisthidepatrolled":0,"watchmoves":0,"wllimit":250,"flaggedrevssimpleui":1,"flaggedrevsstable":0,"flaggedrevseditdiffs":true,"flaggedrevsviewdiffs":false,"vector-simplesearch":1,"useeditwarning":1,"vector-collapsiblenav":1,"usebetatoolbar":1,"usebetatoolbar-cgd":1,"variant":"ru","language":"ru","searchNs0":true,"searchNs1":false,"searchNs2":false,"searchNs3":false,"searchNs4":false,"searchNs5":false,"searchNs6":false,"searchNs7":false,"searchNs8":false,"searchNs9":false,"searchNs10":false,"searchNs11":false,"searchNs12":false,"searchNs13":false,"searchNs14":false,"searchNs15":false,"searchNs100":false,"searchNs101":false,"searchNs102":false,"searchNs103":false,"searchNs104":false,"searchNs105":false});;mw.user.tokens.set({"editToken":"+\\","watchToken":false});;mw.loader.state({"user.options":"ready","user.tokens":"ready"});
+	
+	/* cache key: ruwiki:resourceloader:filter:minify-js:4:0d815e41c7908021df336506c23a2008 */
+}
+</script><script src="RSA_files/a" type="text/javascript"></script><!-- Served by mw49 in 0.100 secs. -->
+	</body></html>

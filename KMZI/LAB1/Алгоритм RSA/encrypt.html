@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<!-- $Id: encrypt.html 246 2009-06-14 14:55:14Z gray $ -->
+
+
+	<title>RSA для чайников: шифрование и расшифровка</title>
+	<link rel="stylesheet" type="text/css" href="encrypt_files/main.css">
+	<link rel="alternate" type="application/rss+xml" href="http://kastaneda.kiev.ua/svnlog.rss">
+	<link rel="up" href="http://kastaneda.kiev.ua/crypto/">
+	<link rel="copyright" href="http://kastaneda.kiev.ua/about/faq/copyrights.html">
+	<link rel="prev" href="http://kastaneda.kiev.ua/crypto/rsa/keygen.html">
+	<link rel="next" href="http://kastaneda.kiev.ua/crypto/rsa/sign.html">
+</head><body>
+	<h1><abbr xml:lang="en" title="Rivest-Shamir-Adleman encryption algorithm">RSA</abbr>:
+		шифрование и расшифровка</h1>
+	
+<div id="main">
+	<div id="content">
+
+
+<p>Не забыли, какое у нас есть ценное соотношение?</p>
+
+<ul>
+	<li><span class="expr"><var>A</var> = <var>B</var><sup><var>e</var></sup> <span title="остаток от деления">mod</span> <var>n</var></span></li>
+	<li><span class="expr"><var>B</var> = <var>A</var><sup><var>d</var></sup> <span title="остаток от деления">mod</span> <var>n</var></span></li>
+</ul>
+
+<p>Здесь есть одна трудность — посчитать <span class="expr"><var>x</var><sup><var>e</var></sup> <span title="остаток от деления">mod</span> <var>n</var></span> за приемлимое время. Может быть, нам подойдёт такая вот функция?</p>
+
+<form action=""><div class="large"><textarea cols="66" rows="3" class="x-rsa-article" xml:lang="C">define modpow(x, e, n) {
+  return x^e % n;
+}</textarea></div></form>
+
+<p>Наш открытый ключ — <span class="expr">(50927, 11)</span>. Если мы захотим зашифровать сообщение «1234» <span class="note"><span class="brace">(</span>сообщение — это число<span class="brace">)</span></span>, то нам потребуется посчитать значение <span class="expr">1234<sup>11</sup> <span title="остаток от деления">mod</span> 50927</span>. Если будем считать «в лоб», то сначала надо будет определить значение 1234<sup>11</sup> — а это 10103381606301936187653160695875584. Это <em>всего лишь</em> 11-я степень, а в настоящей криптографии <var>e</var> и <var>d</var> — числа с десятками знаков.</p>
+
+<p>К счастью, есть <a href="http://en.wikipedia.org/wiki/Modular_exponentiation">алгоритм побыстрее</a>, и он в 
+<abbr xml:lang="en">RSA</abbr> играет довольно важную роль.</p>
+
+<form action=""><div class="large"><textarea cols="66" rows="9" class="x-rsa-article" xml:lang="C">define modpow(x, e, n) {
+  r = 1;
+  while( e&gt;0 ) {
+    if( (e%2)==1 ) { r = (r*x) % n }
+    e = e/2;
+    x = (x * x) % n;
+  }
+  return r;
+}</textarea></div></form>
+
+<p>Вот теперь — другое дело. Поехали!</p>
+
+<form action=""><div class="large"><textarea cols="66" rows="6" class="x-rsa-article" xml:lang="C">n = 50927
+d = 27491
+e = 11
+
+define encrypt(msg) { return modpow(msg,e,n) }
+define decrypt(enc) { return modpow(enc,d,n) }</textarea></div></form>
+
+<p class="large"><img src="encrypt_files/enc.png" alt="Снимок экрана" height="255" width="545"></p>
+
+<p>Получилось! При помощи открытого ключа наше число (1234)
+превращается в шифр (49136), которое, в свою очередь, при помощи
+закрытого ключа превращается обратно в 1234. Теперь попробуем
+разобраться с <a href="http://kastaneda.kiev.ua/crypto/rsa/sign.html">электронной подписью</a>.</p>
+
+	
+	</div>
+	<div id="navigation">
+		<h2>Разделы сайта</h2>
+<ul><li><a href="http://kastaneda.kiev.ua/about/">Моя персона</a></li><li><a href="http://kastaneda.kiev.ua/webdev/">Веб-разработка</a></li><li><a href="http://kastaneda.kiev.ua/desktop/">Мой десктоп</a></li><li><a href="http://kastaneda.kiev.ua/irc/">IRC-канал</a></li><li><a href="http://kastaneda.kiev.ua/crypto/">Криптография</a><ul><li><a href="http://kastaneda.kiev.ua/crypto/gpg/">Кое-что о GPG</a></li><li><a href="http://kastaneda.kiev.ua/crypto/rsa/">RSA для чайников</a><ul><li><a href="http://kastaneda.kiev.ua/crypto/rsa/theory.html">Теория</a></li><li><a href="http://kastaneda.kiev.ua/crypto/rsa/keygen.html">Делаем ключи</a></li><li><strong>Шифрование</strong></li><li><a href="http://kastaneda.kiev.ua/crypto/rsa/sign.html">ЭЦП</a></li><li><a href="http://kastaneda.kiev.ua/crypto/rsa/epilogue.html">Эпилог</a></li></ul></li></ul></li><li><a href="http://kastaneda.kiev.ua/tools/">Инструменты</a></li></ul>		<h2>Поиск</h2>
+		<form action="/search.php" method="get">
+			<p><input name="q" type="text"></p>
+		</form>
+	</div>
+</div>
+
+<address>
+	© 1999–2012,
+		<a href="mailto:karlos@kastaneda.kiev.ua">Дмитрий Колесников</a>
+	• <a href="http://kastaneda.kiev.ua/sitemap.php">Карта сайта</a>
+	• Размещено на <a href="http://bunker.org.ua/">«Бункере»</a>
+	•
+	<span xml:lang="en">Valid
+		<a href="http://validator.w3.org/check/referer">XHTML</a> &amp;
+		<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
+	</span>
+</address>
+
+<script src="encrypt_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+	try {
+		var pageTracker = _gat._getTracker("UA-7610138-1");
+		pageTracker._trackPageview();
+	} catch(err) { }
+</script>
+</body></html>

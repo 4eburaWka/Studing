@@ -1,0 +1,23 @@
+Nvidia RTX 4090
+3600
+3456
+True
+ASUS
+18655
+450
+
+Nvidia GTX 1030
+1200
+350
+
+Palit
+10000
+55
+
+AMD Radeon RX 580
+1400
+785
+
+ASUS
+11000
+230
