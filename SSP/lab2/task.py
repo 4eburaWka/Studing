@@ -6,11 +6,10 @@ def write_array_to_file(array):
 def check(filename, sorting_mode):
     with open(filename, 'r') as file:
         num1 = int(file.readline())
-        while num2 := file.readline() != '':
-            if num1 > int(num2) and sorting_mode == 1:
-                return "Error!"
-            elif num1 < int(num2) and sorting_mode == 2:
-                return "Error!"
+        while (num2 := file.readline()) != '':
+            if (num1 > int(num2) and sorting_mode == 1) or (num1 < int(num2) and sorting_mode == 2):
+                return "Error!", str(num1)
+            num1 = int(num2)
         return "Success!"
 
 numbers = []

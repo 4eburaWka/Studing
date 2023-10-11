@@ -102,6 +102,7 @@ void addValues(Bitset *bitset, int bit, int size) {
 }
 
 char *ripemd320(const char *message) {
+    printf("%s\n", message);
     uint32_t h0 = 0x67452301,
     h1 = 0xEFCDAB89,
     h2 = 0x98BADCFE,
@@ -139,9 +140,9 @@ char *ripemd320(const char *message) {
         A2 = h5, B2 = h6, C2 = h7, D2 = h8, E2 = h9, T;
 
         for (int j = 0; j < 80; j++) {
-            T = (A1 + f(j, B1, C1, D1) + bitarray.set[i * 16 + R1[j]] + K1(j)) << S1[j] + E1;
+            T = (A1 ^ f(j, B1, C1, D1) ^ bitarray.set[i * 16 + R1[j]] ^ K1(j)) << S1[j] ^ E1;
             A1 = E1;   E1 = D1;   D1 = C1 << 10;   C1 = B1;   B1 = T;
-            T = (A2 + f(79 - j, B2, C2, D2) + bitarray.set[i * 16 + R2[j]] + K2(j)) << S2[j] + E2;
+            T = (A2 ^ f(79 - j, B2, C2, D2) ^ bitarray.set[i * 16 + R2[j]] ^ K2(j)) << S2[j] ^ E2;
             A2 = E2;   E2 = D2;   D2 = C2 << 10;   C2 = B2;   B2 = T;
 
             if (j == 15)
@@ -169,8 +170,10 @@ char *ripemd320(const char *message) {
     return res;
 }
 
-// int main() {
-//     char *res = ripemd320("Hello world!");
-//     printf("%s", res);
-//     free(res);
-// }
+int main() {
+    char *res = ripemd320("Hello");
+    printf("%s\n", res);
+    res = ripemd320("Hellj");
+    printf("%s", res);
+    free(res);
+}

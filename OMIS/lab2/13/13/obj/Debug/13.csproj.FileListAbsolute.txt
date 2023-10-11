@@ -1,0 +1,11 @@
+E:\Studing\OMIS\lab2\13\13\bin\Debug\13.exe.config
+E:\Studing\OMIS\lab2\13\13\bin\Debug\13.exe
+E:\Studing\OMIS\lab2\13\13\bin\Debug\13.pdb
+E:\Studing\OMIS\lab2\13\13\obj\Debug\13.csproj.AssemblyReference.cache
+E:\Studing\OMIS\lab2\13\13\obj\Debug\13.csproj.SuggestedBindingRedirects.cache
+E:\Studing\OMIS\lab2\13\13\obj\Debug\_13.Form1.resources
+E:\Studing\OMIS\lab2\13\13\obj\Debug\_13.Properties.Resources.resources
+E:\Studing\OMIS\lab2\13\13\obj\Debug\13.csproj.GenerateResource.cache
+E:\Studing\OMIS\lab2\13\13\obj\Debug\13.csproj.CoreCompileInputs.cache
+E:\Studing\OMIS\lab2\13\13\obj\Debug\13.exe
+E:\Studing\OMIS\lab2\13\13\obj\Debug\13.pdb
