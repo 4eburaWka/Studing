@@ -2,13 +2,14 @@ import tkinter as tk
 
 def select_odd():
     selected_items = listbox.curselection()
-    for i in (selected_items):
+    print(selected_items)
+    for i in reversed(selected_items):
         if i % 2 != 0:
             listbox.delete(i)
 
 def select_even():
     selected_items = listbox.curselection()
-    for i in (selected_items):
+    for i in reversed(selected_items):
         if i % 2 == 0:
             item = listbox.get(i)
             listbox.delete(i)
