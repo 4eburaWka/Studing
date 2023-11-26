@@ -1,3 +1,4 @@
+from math import isnan
 from matplotlib import pyplot as plt
 import numpy as np
 from scipy.special import expit
@@ -13,7 +14,7 @@ def normalize_data(data, min_val, max_val):
 ERROR = []
 
 class Network:
-    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.03):
+    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.2):
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.output_size = output_size
@@ -42,14 +43,14 @@ class Network:
         self.E += error[0]
         
         delta_hidden = error.dot(self.weights_hidden_output.T) * self.sigmoid_derivative(self.hidden_output)
-
-        # Адаптивный шаг обучения
-        adaptive_learning_rate = self.learning_rate / (1 + np.sum(np.square(delta_hidden)))
         
-        self.weights_hidden_output += self.hidden_output.T.dot(error) * adaptive_learning_rate
-        self.bias_output += np.sum(error, axis=0, keepdims=True) * adaptive_learning_rate
-        self.weights_input_hidden += inputs.T.dot(delta_hidden) * adaptive_learning_rate
-        self.bias_hidden += np.sum(delta_hidden, axis=0, keepdims=True) * adaptive_learning_rate
+        self.weights_hidden_output += self.hidden_output.T.dot(error) * self.learning_rate
+        self.bias_output += np.sum(error, axis=0, keepdims=True) * self.learning_rate
+        self.weights_input_hidden -= inputs.T.dot(delta_hidden) * self.learning_rate
+        self.bias_hidden += np.sum(delta_hidden, axis=0, keepdims=True) * self.learning_rate
+
+        self.learning_rate = ( 4*np.sum(delta_hidden * self.hidden_output * (1-self.hidden_output)) )/(( 1+np.sum(self.hidden_output))* np.sum(delta_hidden * self.hidden_output * (1-self.hidden_output)**2))/10 % 10
+        if isnan(self.learning_rate): self.learning_rate = 0.4
 
     def train(self, inputs, targets, epochs):
         for epoch in range(epochs):
@@ -59,6 +60,7 @@ class Network:
 
                 output = self.forward(input_data)
                 self.backward(input_data, target_data, output)
+                self.learning_rate = 1 / (1 + np.sum(input_data ** 2))
             self.E **= 2
             ERROR.append(self.E)
             self.E = 0
@@ -66,7 +68,8 @@ class Network:
     def predict(self, inputs):
         output = self.forward(inputs)
         result = [el[0] for el in output]
-        return normalize_data(result, -0.3, 0.3)
+        # return normalize_data(result, -0.3, 0.3)
+        return result
 
 def get_train_data(all_points, input_size):
     result_X = [all_points[i:i+input_size] for i in range(len(all_points) - input_size)]
@@ -83,7 +86,7 @@ X_train, Y_train = get_train_data(all_train_points, input_size)
 X_test, Y_test = get_train_data(all_test_points, input_size)
 
 NN = Network(input_size, hidden_size, output_size)
-NN.train(X_train, Y_train, 30)
+NN.train(X_train, Y_train, 150)
 plt.plot(range(len(ERROR)), ERROR)
 plt.show()
 

@@ -44,16 +44,18 @@ GO
 --END
 --GO
 
-CREATE PROCEDURE [опнбепйю япнйю цндмнярх]
-	@date smalldatetime,
-	@days Integer
-AS
-BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+--CREATE PROCEDURE [опнбепйю япнйю цндмнярх]
+--	@date smalldatetime,
+--	@days Integer
+--AS
+--BEGIN
+--	-- SET NOCOUNT ON added to prevent extra result sets from
+--	-- interfering with SELECT statements.
+--	SET NOCOUNT ON;
 
-    -- Insert statements for procedure here
-	SELECT CASE WHEN GETDATE() >= @date + @days THEN 'цндем' ELSE 'ме цндем' END
-END
-GO
+--    -- Insert statements for procedure here
+--	SELECT CASE WHEN GETDATE() >= @date + @days THEN 'цндем' ELSE 'ме цндем' END
+--END
+--GO
+
+

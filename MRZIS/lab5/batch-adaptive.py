@@ -14,7 +14,7 @@ def normalize_data(data, min_val, max_val):
 ERROR = []
 
 class Network:
-    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.03):
+    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.003):
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.output_size = output_size
@@ -69,7 +69,8 @@ class Network:
     def predict(self, inputs):
         output = self.forward(inputs)
         result = [el[0] for el in output]
-        return normalize_data(result, -0.3, 0.3)
+        # return normalize_data(result, -0.3, 0.3)
+        return result
 
 def get_train_data(all_points, input_size):
     result_X = [all_points[i:i+input_size] for i in range(len(all_points) - input_size)]
@@ -86,7 +87,7 @@ X_train, Y_train = get_train_data(all_train_points, input_size)
 X_test, Y_test = get_train_data(all_test_points, input_size)
 
 NN = Network(input_size, hidden_size, output_size)
-NN.train(X_train, Y_train, 30, batch_size=10)
+NN.train(X_train, Y_train, 250, batch_size=10)
 plt.plot(range(len(ERROR)), ERROR)
 plt.show()
 
