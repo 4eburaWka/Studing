@@ -1,42 +1,99 @@
-import tkinter as tk
-from tkinter import messagebox
+#3 VARIK
 
-win = None
+from threading import Thread
+import pygame, keyboard
+import sys
+import random
 
-def add_selected_items():
-    global win
 
-    selected_items = listbox.curselection()
-    selected_text = " ".join([listbox.get(idx) for idx in selected_items]) + " "
-    current_text = text_widget.get("1.0", "end-1c") or (win.text_widget.get("1.0", "end-1c") if win is not None else '')
-    
-    if len(current_text + selected_text) > 100:
-        if win is None:
-            win = tk.Tk()
-            win.title("Dialog")
-            win.text_widget = tk.Text(win, height=15, width=90)
-            win.text_widget.pack()
 
-        text_widget.delete("1.0", "end")
-        win.text_widget.insert("1.0", current_text + selected_text)
-    else:
-        text_widget.delete("1.0", "end")
-        text_widget.insert("1.0", current_text + selected_text)
+# Инициализация Pygame
+pygame.init()
+SPACE_BTN = False
 
-root = tk.Tk()
-root.title("Множественный выбор элементов")
+# Размеры экрана
+WIDTH, HEIGHT = 800, 600
 
-listbox = tk.Listbox(root, selectmode=tk.MULTIPLE)
-listbox.pack()
+# Цвета
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
 
-elements = ["Элемент 1", "Элемент 2", "Элемент 3", "Элемент 4", "Элемент 5"]
-for element in elements:
-    listbox.insert(tk.END, element)
+# Создание экрана
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Облако и капелька")
 
-add_button = tk.Button(root, text="Добавить выбранные", command=add_selected_items)
-add_button.pack()
+# Функция для создания капельки
+def create_drop(x, y):
+    return pygame.Rect(x, y, 5, 10)
 
-text_widget = tk.Text(root, height=5, width=30)
-text_widget.pack()
+drops = []
+cloud_x, cloud_y = 100, 100
+cloud_speed_x, cloud_speed_y = 1, 0
 
-root.mainloop()
+def event_handler():
+    global drops
+    while True:
+        keyboard.wait('space')
+        drops.append(create_drop(cloud_x + 20, cloud_y + 30))
+
+def generate_speed():
+    return random.randint(-5, 5)
+
+clock = pygame.time.Clock()
+size = 50
+def resize_cloud():
+    global size
+    while True:
+        size -= 1
+        clock.tick(6)
+
+# Основной цикл программы
+def main():
+    global cloud_x, cloud_y, cloud_speed_x, cloud_speed_y
+
+    # Список для хранения капелек
+    Thread(target=event_handler).start()
+    Thread(target=resize_cloud).start()
+
+    running = True
+    while running:
+        # Обработка событий
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False                    
+
+        # Движение облака
+        cloud_x += generate_speed()
+        cloud_y += generate_speed()
+
+        # Проверка выхода облака за границы экрана
+        if cloud_x < 0 or cloud_x > WIDTH - 100:
+            cloud_speed_x *= -1
+        if cloud_y < 0 or cloud_y > HEIGHT - 100:
+            cloud_speed_y *= -1
+
+        # Отрисовка белого фона
+        screen.fill(BLACK)
+
+        # Отрисовка облака
+        pygame.draw.ellipse(screen, WHITE, (cloud_x, cloud_y, size * 2, size))
+
+        # Движение и отрисовка капелек
+        for drop in drops:
+            drop.y += 5
+            pygame.draw.rect(screen, BLUE, drop)
+            # Удаляем капельки, которые вышли за границы экрана
+            if drop.y > HEIGHT:
+                drops.remove(drop)
+
+        # Обновление экрана
+        pygame.display.flip()
+        clock.tick(6)
+
+    # Завершение работы Pygame
+    pygame.quit()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()

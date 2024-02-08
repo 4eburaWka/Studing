@@ -1,4 +1,0 @@
-2023-10-03 12:46:30.062698 --- connection to server
-fhbwifnwifbwkfnjdskjnkdsnfhisuf --- 2023-10-03 12:46:33.601693
-fuhikfnskjfnskf --- 2023-10-03 12:46:34.878725
-2023-10-03 12:46:38.092952 --- disconnect from server
