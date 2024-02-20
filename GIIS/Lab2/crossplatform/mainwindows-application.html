@@ -1,0 +1,2319 @@
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+	<title>Qt 4.7: Пример Application | Документация</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+	<style type="text/css" media="all">@import "content.css"/*tpa=http://www.doc.crossplatform.ru/content.css*/;</style>
+</head>
+<style>
+@media screen
+{
+ 
+/* basic elements */
+ html
+    {
+        color: #000000;
+        background: #FFFFFF;
+    }
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td
+    {
+        margin: 0;
+        padding: 0;
+    }
+    table
+    {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+    fieldset, img
+    {
+        border: 0;
+		max-width:100%;
+    }
+    address, caption, cite, code, dfn, em, strong, th, var, optgroup
+    {
+        font-style: inherit;
+        font-weight: inherit;
+    }
+    del, ins
+    {
+        text-decoration: none;
+    }
+    li
+    {
+        list-style: none;
+    }
+    ol li
+    {
+        list-style: decimal;
+    }
+    caption, th
+    {
+        text-align: left;
+    }
+    h1, h2, h3, h4, h5, h6
+    {
+        font-size: 100%;
+    }
+    q:before, q:after
+    {
+        content: '';
+    }
+    abbr, acronym
+    {
+        border: 0;
+        font-variant: normal;
+    }
+    sup, sub
+    {
+        vertical-align: baseline;
+    }
+	tt, .qmlreadonly span, .qmldefault span
+	{
+		word-spacing:5px;
+	}
+    legend
+    {
+        color: #000000;
+    }
+    input, button, textarea, select, optgroup, option
+    {
+        font-family: inherit;
+        font-size: inherit;
+        font-style: inherit;
+        font-weight: inherit;
+    }
+    input, button, textarea, select
+    {
+        font-size: 100%;
+    }
+    strong
+    {
+        font-weight: bold;
+    }
+    em
+    {
+        font-style: italic;
+    }
+
+	/* adding Qt theme */	
+    html
+    {
+      /*  background-color: #e5e5e5;*/
+    }
+    body
+    {
+        background: #e6e7e8 url("page_bg.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/page_bg.png*/) repeat-x 0 0;
+        font: normal 13px/1.2 Verdana;
+        color: #363534;
+    }
+    a
+    {
+        color: #00732f;
+        text-decoration: none;
+    }
+    hr
+    {
+        background-color: #E6E6E6;
+        border: 1px solid #E6E6E6;
+        height: 1px;
+        width: 100%;
+        text-align: left;
+        margin: 15px 0px 15px 0px;
+    }
+
+    pre
+    {
+        border: 1px solid #DDDDDD;
+		-moz-border-radius: 7px 7px 7px 7px;
+		-webkit-border-radius: 7px 7px 7px 7px;
+		border-radius: 7px 7px 7px 7px;
+        margin: 0 20px 10px 10px;
+        padding: 20px 15px 20px 20px;
+        overflow-x: auto;
+    }
+    table, pre
+    {
+        font-size: 11px;
+        margin-bottom: 25px;
+    }
+	pre.highlightedCode {
+		display: block;
+		overflow:hidden;
+	}	
+    thead
+    {
+        margin-top: 5px;
+		font:600 12px/1.2 Arial;
+    }
+    th
+    {
+        padding: 5px 15px 5px 15px;
+    }
+    td
+    {
+        padding: 3px 15px 3px 20px;
+    }
+    tr.odd td:hover,  tr.even td:hover    {}
+		
+	td.rightAlign
+	{
+        padding: 3px 5px 3px 10px;
+	}
+    table tr.odd
+    {
+        border-left: 1px solid #E6E6E6;
+        background-color: #F6F6F6;
+        color: #66666E;
+    }
+    table tr.even
+    {
+        border-left: 1px solid #E6E6E6;
+        background-color: #ffffff;
+        color: #66666E;
+    }
+    table tr.odd td:hover, table tr.even td:hover
+    {
+     /*   background-color: #E6E6E6;*/ /* disabled until further notice */
+    }
+    		
+    span.comment
+    {
+        color: #8B0000;
+        font-style: italic;
+    }
+    span.string, span.char
+    {
+        color: #254117;
+    }
+
+
+/* end basic elements */
+
+/* font style elements */
+    .heading
+    {
+        font: normal bold 16px/1.2 Arial;
+        padding-bottom: 15px;
+    }
+    .subtitle
+    {
+        font-size: 13px;
+    }
+    .small-subtitle
+    {
+        font-size: 13px;
+    }
+/* end font style elements */
+
+/* global settings*/
+    .header, .footer, .wrapper
+    {
+        min-width: 600px;
+        max-width: 1500px;
+        margin: 0 30px;
+    }
+    .header, .footer
+    {
+        display: block;
+        clear: both;
+        overflow: hidden;
+    }
+    .header:after, .footer:after, .breadcrumb:after, .wrap .content:after, .group:after
+    {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+	
+/* end global settings*/
+/* header elements */
+    .header
+    {
+        height: 115px;
+        position: relative;
+        display: none;
+    }
+    .header .icon
+    {
+        position: absolute;
+        top: 13px;
+        left: 0;
+    }
+    .header .qtref
+    {
+        position: absolute;
+        top: 28px;
+        left: 88px;
+        width: 302px;
+        height: 22px;
+    }
+    .header .qtref span
+    {
+        display: block;
+        width: 302px;
+        height: 22px;
+        text-indent: -999em;
+        background: url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat -78px -235px;
+    }
+    .content a:visited
+    {
+        color: #4c0033;
+        text-decoration: none;
+    }
+     .content a:visited:hover
+    {
+        color: #4c0033;
+        text-decoration: underline;
+    }
+	
+    #nav-topright
+    {
+        height: 70px;
+    }
+
+    #nav-topright ul
+    {
+        list-style-type: none;
+        float: right;
+        width: 370px;
+        margin-top: 11px;
+    }
+
+    #nav-topright li
+    {
+        display: inline-block;
+        margin-right: 20px;
+        float: left;
+    }
+
+    #nav-topright li.nav-topright-last
+    {
+        margin-right: 0;
+    }
+
+    #nav-topright li a
+    {
+        background: transparent url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat;
+        height: 18px;
+        display: block;
+        overflow: hidden;
+        text-indent: -9999px;
+    }
+
+    #nav-topright li.nav-topright-home a
+    {
+        width: 65px;
+        background-position: -2px -91px;
+    }
+
+    #nav-topright li.nav-topright-home a:hover
+    {
+        background-position: -2px -117px;
+    }
+
+
+    #nav-topright li.nav-topright-dev a
+    {
+        width: 30px;
+        background-position: -76px -91px;
+    }
+
+    #nav-topright li.nav-topright-dev a:hover
+    {
+        background-position: -76px -117px;
+    }
+
+
+    #nav-topright li.nav-topright-labs a
+    {
+        width: 40px;
+        background-position: -114px -91px;
+    }
+
+    #nav-topright li.nav-topright-labs a:hover
+    {
+        background-position: -114px -117px;
+    }
+
+    #nav-topright li.nav-topright-doc a
+    {
+        width: 32px;
+        background-position: -162px -91px;
+    }
+
+    #nav-topright li.nav-topright-doc a:hover, #nav-topright li.nav-topright-doc-active a
+    {
+        background-position: -162px -117px;
+    }
+
+    #nav-topright li.nav-topright-blog a
+    {
+        width: 40px;
+        background-position: -203px -91px;
+    }
+
+    #nav-topright li.nav-topright-blog a:hover, #nav-topright li.nav-topright-blog-active a
+    {
+        background-position: -203px -117px;
+    }
+
+    #nav-topright li.nav-topright-shop a
+    {
+        width: 40px;
+        background-position: -252px -91px;
+    }
+
+    #nav-topright li.nav-topright-shop a:hover, #nav-topright li.nav-topright-shop-active a
+    {
+        background-position: -252px -117px;
+    }
+
+    #nav-logo
+    {
+        background: transparent url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat 0 -225px;
+        left: -3px;
+        position: absolute;
+        width: 75px;
+        height: 75px;
+        top: 13px;
+    }
+    #nav-logo a
+    {
+        width: 75px;
+        height: 75px;
+        display: block;
+        text-indent: -9999px;
+        overflow: hidden;
+    }
+
+
+    .shortCut-topleft-inactive
+    {
+        padding-left: 3px;
+        padding-right: 3px;
+        background: transparent url( "sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat 0px -58px;
+        height: 20px;
+    }
+    .shortCut-topleft-inactive span
+    {
+        font-variant: normal;
+    }
+	    .shortCut-topleft-inactive span a:hover,     .shortCut-topleft-active a:hover
+	{
+		text-decoration:none;
+	}
+    #shortCut
+    {
+        padding-top: 10px;
+        font-weight: bolder;
+        color: #b0adab;
+    }
+    #shortCut ul
+    {
+        list-style-type: none;
+        float: left;
+        width: 347px;
+        margin-left: 100px;
+    }
+    #shortCut li
+    {
+        display: inline-block;
+        margin-right: 25px;
+        float: left;
+        white-space: nowrap;
+    }
+    #shortCut li a
+    {
+        color: #b0adab;
+    }
+    #shortCut li a:hover
+    {
+        color: #44a51c;
+    }
+
+	
+	
+/* end header elements */	
+/* content and sidebar elements */
+    .wrapper
+    {
+    }
+    .wrapper .hd
+    {
+        padding-left: 216px;
+        height: 15px;
+        background: url("page.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/page.png*/) no-repeat 0 0;
+        overflow: hidden;
+        display: none;
+    }
+
+
+
+
+    .wrapper .hd span
+    {
+        height: 15px;
+        display: block;
+        overflow: hidden;
+        background: url("page.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/page.png*/) no-repeat 100% -30px;
+    }
+    .wrapper .bd
+    {
+        position: relative;
+    }
+
+
+
+
+    .wrapper .ft
+    {
+        padding-left: 216px;
+        height: 15px;
+        background: url("page.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/page.png*/) no-repeat 0 -75px;
+        overflow: hidden;
+        display: none;
+    }
+
+
+
+
+    .wrapper .ft span
+    {
+        height: 15px;
+        display: block;
+        background: url("page.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/page.png*/) no-repeat 100% -60px;
+        overflow: hidden;
+    }
+	.navTop{ 
+	float:right;
+	display:block;
+	padding-right:15px;
+
+
+	}
+	
+
+	
+/* end content and sidebar elements */	
+/* sidebar elements */
+    .sidebar
+    {
+        float: left;
+        margin-left: 5px;
+        width: 200px;
+        font-size: 11px;
+        display: none;
+    }
+
+
+
+
+
+
+    .sidebar .searchlabel
+    {
+        padding: 0 0 2px 17px;
+        font: normal bold 11px/1.2 Verdana;
+    }
+
+    .sidebar .search
+    {
+        padding: 0 15px 0 16px;
+    }
+
+    .sidebar .search form
+    {
+        background: url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat -6px -348px;
+		height:21px;
+		padding:2px 0 0 5px;
+		width:167px;
+    }
+
+    .sidebar .search form input#pageType
+    {
+        width: 158px;
+        height: 19px;
+        padding: 0;
+        border: 0px;
+        outline: none;
+        font: 13px/1.2 Verdana;
+    }
+
+    .sidebar .box
+    {
+        padding: 17px 15px 5px 16px;
+    }
+
+    .sidebar .box .first
+    {
+        background-image: none;
+    }
+
+    .sidebar .box h2
+    {
+        font: bold 16px/1.2 Arial;
+        padding: 0;
+    }
+    .sidebar .box h2 span
+    {
+        overflow: hidden;
+        display: inline-block;
+    }
+    .sidebar .box#lookup h2
+    {
+        background-image: none;
+    }
+    .sidebar #lookup.box h2 span
+    {
+    }
+    .sidebar .box#topics h2
+    {
+        background-image: none;
+    }
+    .sidebar #topics.box h2 span
+    {
+    }
+    .sidebar .box#examples h2
+    {
+        background-image: none;
+    }
+    .sidebar #examples.box h2 span
+    {
+    }
+
+    .sidebar .box .list
+    {
+        display: block;
+		max-height:200px;
+		min-height:120px;
+		overflow-y:auto;
+		overflow-x:none;
+    }
+    .list li a:hover
+    {
+        text-decoration: underline;
+    }
+    .sidebar .box ul
+    {
+	padding-bottom:5px;
+	padding-left:10px;
+	padding-top:5px;
+    }
+    .sidebar .box ul li
+    {
+        padding-left: 12px;
+        background: url("bullet_gt.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/bullet_gt.png*/) no-repeat 0 5px;
+        margin-bottom: 5px;
+    }
+    .sidebar .bottombar
+    {
+        background: url("box_bg.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/box_bg.png*/) repeat-x 0 bottom;
+    }
+	 .sidebar .box ul li.noMatch
+    {
+        background: none;
+		color:#FF2A00;
+		font-style:italic;
+    }
+	 .sidebar .box ul li.hit
+    {
+        background: none;
+		color:#AAD2F0;
+		font-style:italic;
+    }	
+	.sidebar .search form input.loading
+	{
+			background:url("spinner.gif"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/spinner.gif*/) no-repeat scroll right center transparent;
+	}
+
+.floatingResult{
+	z-index:1;
+	position:relative;
+	padding-top:0px;
+	background-color:white;
+	border:solid 1px black;
+	height:250px;
+	width:600px;
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+
+	.floatingResult:hover{
+		display:block;
+	}
+	.floatingResult:hover{
+	}
+	
+/* end sidebar elements */
+/* content elements */
+    .wrap
+    {
+        overflow: visible; 
+    }
+
+
+
+
+    .wrap .toolbar
+    {
+        height: 20px; 
+        position: relative;
+    }
+    .wrap .toolbar .toolblock
+    {
+        position: absolute;
+    }
+    .wrap .toolbar .breadcrumb
+    {
+        font-size: 11px;
+        line-height: 1.2;
+        padding: 0 0 10px 21px;
+        height: 10px;
+    }
+    .wrap .toolbar .toolbuttons
+    {
+        padding: 0 0 10px 21px;
+        right: 5px;
+        vertical-align: middle;
+        overflow: hidden;
+        display: none;
+    }
+    .wrap .toolbar .toolbuttons .active
+    {
+        color: #00732F;
+    }
+    .wrap .toolbar .toolbuttons ul
+    {
+        float: right;
+    }
+    .wrap .toolbar .toolbuttons li
+    {
+        float: left;
+        text-indent: -10px;
+        margin-top: -5px;
+        margin-right: 15px;
+        font-weight: bold;
+        color: #B0ADAB;
+    }
+
+    .toolbuttons #print
+    {
+        border-left: 1px solid #c5c4c4;
+        margin-top: 0;
+        padding-left: 7px;
+        text-indent: 0;
+    }
+    .toolbuttons #print a
+    {
+        width: 16px;
+        height: 16px;
+    }
+
+    .toolbuttons #print a span
+    {
+        width: 16px;
+        height: 16px;
+        text-indent: -999em;
+        display: block;
+        overflow: hidden;
+        background: url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat -137px -311px;
+    }
+
+    .toolbuttons #smallA
+    {
+        font-size: 10pt;
+    }
+    .toolbuttons #medA
+    {
+        font-size: 12pt;
+    }
+    .toolbuttons #bigA
+    {
+        font-size: 14pt;
+        margin-right: 7px;
+    }
+
+    #smallA:hover, #medA:hover, #bigA:hover
+    {
+        color: #00732F;
+    }
+
+
+    .wrap .content
+    {
+        padding: 30px;
+		word-wrap:break-word;
+    }
+
+    .wrap .breadcrumb ul
+    {
+    }
+    .wrap .breadcrumb ul li
+    {
+        float: left;
+        background: url("breadcrumb.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/breadcrumb.png*/) no-repeat 0 3px;
+        padding-left: 15px;
+        margin-left: 15px;
+        font-weight: bold;
+    }
+    .wrap .breadcrumb ul li.last
+    {
+        font-weight: normal;
+    }
+    .wrap .breadcrumb ul li a
+    {
+        color: #363534;
+    }
+    .wrap .breadcrumb ul li.first
+    {
+        background-image: none;
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+
+
+
+	.wrap .content ol li {
+	background:none;
+	font:normal 10pt/1.2 Verdana;
+
+	margin-bottom:10px;
+	margin-left:12px;
+	/*list-style-type:disc;*/
+	}
+
+    .wrap .content ol li
+    {
+	background:none;
+    margin-bottom: 10px; 
+	padding-left:0px;
+	margin-left:52px;
+    }
+	
+    .wrap .content li
+    {
+        background: url("bullet_sq.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/bullet_sq.png*/) no-repeat 0 5px;
+        font: normal 400 10pt/1.2 Verdana;
+        margin-bottom: 10px; 
+		padding-left:12px;
+    }
+
+    .content li:hover  {}
+
+    .wrap .content h1
+    {
+        font: bold 18px/1.2 Arial;
+    }
+    .wrap .content h2
+    {
+	border-bottom:1px solid #DDDDDD;
+	font:600 16px/1.2 Arial;
+	margin-top:15px;
+	width:100%;	
+    }
+    .wrap .content h3
+    {
+        font: bold 14px/1.2 Arial;
+		font:600 16px/1.2 Arial;
+		margin-top:15px;
+		width:100%;		
+    }
+    .wrap .content p
+    {
+        line-height: 20px;
+        padding: 5px;
+    }
+    .wrap .content table p
+    {
+        line-height: 20px;
+       /* padding: 0px;*/
+    }	
+    .wrap .content ul
+    {
+        padding-left: 25px;
+        padding-top: 10px;
+    }
+    a:hover
+    {
+        color: #4c0033;
+        text-decoration: underline;
+    }
+    .feedback
+    {
+        float: none;
+        position: absolute;
+        right: 15px;
+        bottom: 10px;
+        font: normal 8px/1 Verdana;
+        color: #B0ADAB;
+    }
+    .feedback:hover
+    {
+        float: right;
+        font: normal 8px/1 Verdana;
+        color: #00732F;
+        text-decoration: underline;
+    }
+	.alphaChar{
+	width:95%;
+	background-color:#F6F6F6;
+	border:1px solid #E6E6E6;
+	-moz-border-radius: 7px 7px 7px 7px;
+	border-radius: 7px 7px 7px 7px;
+	-webkit-border-radius: 7px 7px 7px 7px;
+	font-size:12pt;
+	padding-left:10px;
+	margin-top:10px;
+	margin-bottom:10px;
+	}
+	.flowList{
+	/*vertical-align:top;*/
+	/*margin:20px auto;*/
+	
+	column-count:3; 
+	-webkit-column-count:3;
+	-moz-column-count:3;
+/*
+	column-width:100%;
+	-webkit-column-width:200px;
+	-col-column-width:200px;
+*/
+	column-gap:41px;
+	-webkit-column-gap:41px;
+	-moz-column-gap:41px;
+
+	column-rule: 1px dashed #ccc;
+	-webkit-column-rule: 1px dashed #ccc;
+	-moz-column-rule: 1px dashed #ccc;
+	}	
+
+	.flowList dl{
+	}
+	.flowList dd{
+	/*display:inline-block;*/
+	margin-left:10px;
+	min-width:250px;
+	line-height: 1.2;
+
+	}
+	
+	.flowList dd a{
+	}
+	
+	.wrap .content .flowList p{
+	padding:0px;
+	}
+
+    .content .alignedsummary
+    {
+        margin: 15px;
+    }
+
+
+    .qmltype
+    {
+        text-align: center;
+        font-size: 160%;
+    }
+    .qmlreadonly
+    {
+        padding-left: 5px;
+        float: right;
+        color: #254117;
+    }
+
+    .qmldefault
+    {
+        padding-left: 5px;
+        float: right;
+        color: red;
+    }
+
+    .qmldoc
+    {
+    }
+
+    *.qmlitem p
+    {
+    }
+    #feedbackBox
+    {
+        display: none;
+        -moz-border-radius: 7px 7px 7px 7px;
+        -webkit-border-radius: 7px 7px 7px 7px;
+        border-radius: 7px 7px 7px 7px;
+        border: 1px solid #DDDDDD;
+        position: fixed;
+        top: 100px;
+        left: 33%;
+        height: 230px;
+        width: 400px;
+        padding: 5px;
+        background-color: #e6e7e8;
+        z-index: 4;
+    }
+    #feedcloseX 
+    {
+        display: inline;
+        padding: 5px 5px 0 0;
+        margin-bottom: 3px;
+        color: #363534;
+        font-weight:bold;
+        float: right;
+        text-decoration: none;
+    }
+
+    #feedbox
+    {
+        display: inline;
+        width: 370px;
+        height: 120px;
+        margin: 0px 25px 10px 15px;
+    }
+	#noteHead
+	{
+		font-weight:bold;
+		padding:10px 10px 10px 20px;
+	}
+    #feedsubmit
+    {
+        display: inline;
+        float: right;
+        margin: 4px 32px 0 0;
+    }
+	
+	.note
+	{
+		font-size:7pt;
+		padding-bottom:3px;
+		padding-left:20px;
+	}
+	
+    #blurpage
+    {
+        display: none;
+        position: fixed;
+        float: none;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        background: transparent url("feedbackground.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/feedbackground.png*/) 0 0;
+        z-index: 3;
+    }
+    .toc
+    {
+        float: right;
+        -moz-border-radius: 7px 7px 7px 7px;
+        -webkit-border-radius: 7px 7px 7px 7px;
+        border-radius: 7px 7px 7px 7px;
+        background-color: #F6F6F6;
+        border: 1px solid #DDDDDD;
+        margin: 0 20px 10px 10px;
+        padding: 20px 15px 20px 20px;
+        height: auto;
+        width: 200px;
+    }
+
+    .toc h3, .generic a
+    {
+        font: bold 12px/1.2 Arial;
+    }
+
+	.generic{
+	}
+	.generic td{
+	/*	padding:5px;*/
+	}
+	.generic .alphaChar{
+	margin-top:5px;
+	}
+	
+	.generic .odd .alphaChar{
+        background-color: #F6F6F6;
+	}
+	
+	.generic .even .alphaChar{
+        background-color: #FFFFFF;
+	}
+
+	.alignedsummary{}
+	.propsummary{}
+	.memItemLeft{}
+	.memItemRight{
+		padding:3px 15px 3px 0;
+	}
+	.bottomAlign{}
+	.highlightedCode
+	{
+	margin:10px;
+	}
+	.LegaleseLeft{}
+	.valuelist{}
+	.annotated td{
+	        padding: 3px 5px 3px 5px;
+	}
+	.obsolete{}
+	.compat{}
+	.flags{}
+	.qmlsummary{}
+	.qmlitem{}
+	.qmlproto{}
+	.qmlname{}
+	.qmlreadonly{}
+	.qmldefault{}
+	.qmldoc{}
+	.qt-style{}
+	.redFont{}
+	code{}
+	
+    .wrap .content .toc ul
+    {
+        padding-left: 0px;
+    }
+
+	.wrap .content .toc h3{
+	border-bottom:0px;
+	margin-top:0px;
+	}	
+	
+	.wrap .content .toc h3  a:hover{
+	color:#00732F;
+	text-decoration:none;
+	}
+
+
+    .wrap .content .toc .level2
+    {
+        margin-left: 15px;
+    }
+
+    .wrap .content .toc .level3
+    {
+        margin-left: 30px;
+    }
+
+    .content .toc li
+    {
+        font: normal 10px/1.2 Verdana;
+        background: url("bullet_dn.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/bullet_dn.png*/) no-repeat 0 5px;
+    }
+    .relpage
+    {
+        -moz-border-radius: 7px 7px 7px 7px;
+        -webkit-border-radius: 7px 7px 7px 7px;
+        border-radius: 7px 7px 7px 7px;
+        border: 1px solid #DDDDDD;
+        padding: 25px 25px;
+        clear: both;
+    }
+    .relpage ul
+    {
+        float: none;
+        padding: 15px;
+    }
+    .content .relpage li
+    {
+        font: normal 11px/1.2 Verdana;
+    }
+    h3.fn, span.fn
+    {
+		-moz-border-radius:7px 7px 7px 7px;
+		-webkit-border-radius:7px 7px 7px 7px;
+		border-radius:7px 7px 7px 7px;
+        background-color: #F6F6F6;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #E6E6E6;
+        font-weight: bold;
+		word-spacing:3px;
+		padding:3px 5px;
+    }
+
+	.functionIndex {
+	font-size:12pt;
+	word-spacing:10px;
+	margin-bottom:10px;
+    background-color: #F6F6F6;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #E6E6E6;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    border-radius: 7px 7px 7px 7px;
+	width:100%;
+	}
+	
+	.centerAlign
+	{
+	text-align:center;	
+	}
+	
+	.rightAlign
+	{
+	text-align:right;	
+	}
+
+	
+	.leftAlign
+	{
+	text-align:left;	
+	}
+
+	.topAlign{
+	vertical-align:top
+	}
+	
+	.functionIndex a{
+	display:inline-block;
+	}
+	
+/* end content elements */
+/* footer elements */
+
+   .footer
+    {
+        min-height: 100px;
+        color: #797775;
+        font: normal 9px/1 Verdana;
+        text-align: center;
+        padding-top: 40px;
+        background-color: #E6E7E8;
+        margin: 0;
+    }
+/* end footer elements */
+
+
+
+
+    /* start index box */
+    .indexbox
+    {
+        width: 100%;
+		display:inline-block;
+    }
+
+    .indexboxcont
+    {
+        display: block;
+
+    }
+
+    .indexboxbar
+    {
+        background: transparent url("horBar.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/horBar.png*/) repeat-x left bottom;
+        margin-bottom: 25px;
+
+
+    }
+
+    .indexboxcont .section
+    {
+        display: inline-block;
+        width: 49%; 
+        *width:42%;
+        _width:42%;
+        padding:0 2% 0 1%;
+        vertical-align:top;
+
+}
+
+    .indexboxcont .indexIcon
+    {
+        width: 11%; 
+        *width:18%;
+        _width:18%;
+        overflow:hidden;
+
+}
+
+.indexboxcont .section {
+  float: left;
+}
+
+    .indexboxcont .section p
+    {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+    .indexboxcont .sectionlist
+    {
+        display: inline-block;
+		vertical-align:top;
+		width: 32.5%;
+        padding: 0;
+    }
+    .indexboxcont .sectionlist ul
+    {
+        margin-bottom: 20px;
+    }
+
+    .indexboxcont .sectionlist ul li
+    {
+        line-height: 12px;
+    }
+
+    .content .indexboxcont li
+    {
+        font: normal bold 13px/1 Verdana;
+    }
+
+    .indexbox a:hover, .indexbox a:visited:hover
+    {
+        color: #4c0033;
+        text-decoration: underline;
+    }
+
+    .indexbox a:visited
+    {
+        color: #00732f;
+        text-decoration: none;
+    }
+	
+	.indexbox .indexIcon {
+	width: 11%;
+	}
+
+	
+    .indexbox .indexIcon span
+    {
+        display: block;
+    }
+    
+    .indexbox.guide .indexIcon span
+    {
+        width: 96px;
+        height: 137px;
+        background: url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat -5px -376px;
+        padding: 0;
+    }
+    
+    .indexbox.tools .indexIcon span
+    {
+        width: 115px;
+        height: 137px;
+        background: url("sprites-combined.png"/*tpa=http://www.doc.crossplatform.ru/qt/4.7.x/images/sprites-combined.png*/) no-repeat -111px -376px;
+        padding: 0;
+    }
+    .indexboxcont:after
+    {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+	
+
+
+/* start of creator spec*/
+	.creator
+	{
+	margin-left:0px;
+	margin-right:0px;
+	padding-left:0px;
+	padding-right:0px;
+	}
+	.creator .wrap .content ol li {
+	list-style-type:decimal;
+
+	}
+    .creator .header .icon,
+	.creator .feedback,
+	.creator .t_button,
+    .creator .feedback,
+	.creator #feedbackBox,
+	.creator #feedback,
+	.creator #blurpage,
+	/*.creator .indexbox .indexIcon span,*/
+	.creator .wrapper .hd,
+/*	.creator  .indexbox .indexIcon,*/
+	.creator .header #nav-logo,
+	.creator #offlinemenu,
+	.creator #offlinesearch,
+	.creator  .header #nav-topright,
+    .creator .header #shortCut ,
+	.creator .wrapper .hd,
+    .creator .wrapper .ft,
+	.creator .sidebar,
+	.creator .wrap .feedback
+    {
+	display:none;
+    }
+	
+	body.creator
+    {
+	background: none;
+
+        font: normal 13px/1.2 Verdana;
+        color: #363534;
+		background-color: #FAFAFA;
+    }
+
+	.wrap .content ol li {
+	
+	}
+
+
+    .creator .header, .footer, .wrapper
+    {
+        max-width: 1500px;
+        margin: 0px;
+    }
+
+   .creator .wrapper
+    {
+	position:relative;
+	top:5px;
+    }
+    .creator .wrapper .bd
+	{
+
+	background:#FFFFFF;
+	}
+
+
+   .creator .header, .footer
+    {
+        display: block;
+        clear: both;
+        overflow: hidden;
+    }
+    .creator .wrap .content p
+
+    {
+        line-height: 20px;
+        padding: 5px;
+    }
+
+    .creator .header .qtref span
+    {
+		background:none;
+    }	
+
+
+	
+		.creator .footer
+    {
+		border-top:1px solid #E5E5E5;
+        height: 50px;
+		margin:0px;
+		padding:10px;
+    }
+	
+		.creator .footer p
+		{
+		text-align:justify;
+		max-width:900px;
+    }
+	    
+     .creator .wrap
+    {
+
+        padding:0 5px 0 5px;
+		margin: 0px;
+    }
+    .creator .wrap .toolbar
+    {
+
+
+	border-bottom:1px solid #E5E5E5;
+	/*width:100%;*/
+	margin-left:-5px;
+	margin-right:-5px;
+    }	
+    .creator .wrap .breadcrumb ul li a
+    {
+      /*  color: #363534;*/
+        color: #00732F;
+    }	
+	
+    .creator .wrap .content
+    {
+        padding: 0px;
+		word-wrap:break-word;
+    }
+	
+    .creator .wrap .content ol li { 
+        background:none; 
+        font: inherit; 
+        padding-left: 0px;
+    } 
+	
+    .creator .wrap .content .descr ol li {
+	margin-left: 45px;
+
+    }
+    .creator .content .alignedsummary
+    {
+        margin: 5px;
+		width:100%;
+    }
+	.creator .generic{
+		max-width:75%;
+	}
+	.creator .generic td{
+		/*padding:0;*/
+	}
+    .creator .indexboxbar
+    {
+		border-bottom:1px solid #E5E5E5;
+        margin-bottom: 25px;
+		background: none;
+    }
+	
+	
+
+    .creator .header
+    {
+      width: 100%;
+      margin: 0;
+      height: auto;
+      background-color: #ffffff;
+      padding: 10px 0 5px 0;
+      overflow: visible;
+	  border-bottom: solid #E5E5E5 1px;
+	  z-index:1;
+
+
+
+
+
+
+
+
+	/*  position:fixed;*/
+    }
+
+
+    .creator .header .content
+    {
+    }
+    .creator .header .qtref
+    {
+      color: #00732F;
+      position: static;
+      float: left;
+      margin-left: 5px;
+      font: bold 18px/1 Arial;
+    }
+
+    .creator .header .qtref:visited
+    {
+      color: #00732F;
+	  }
+    .creator .header .qtref:hover
+    {
+      color: #00732F;
+	  text-decoration:none;
+	  }
+    .creator .header .qtref span
+    {
+      background-image: none;
+      text-indent: 0;
+	  text-decoration:none;
+    }
+
+
+
+
+
+
+    .creator .wrap .toolbar
+    {
+      display:block;
+	  padding-top:0px;
+    }
+
+
+
+    .creator .wrap .breadcrumb ul li {
+      font-weight: normal;
+    }
+
+    .creator .wrap .breadcrumb ul li a {
+      /*color: #44a51c;*/
+    }
+
+    .creator .wrap .breadcrumb ul li.last a {
+      /*color: #363534;*/
+    }
+    
+	.creator #narrowmenu ul
+	{
+	  border-bottom:solid 1px #E5E5E5;
+	  border-left:solid 1px #E5E5E5;
+	  border-right:solid 1px #E5E5E5;
+	}
+
+    .creator #narrowmenu li ul {
+      margin-top:-15px;
+   }
+
+
+	.creator .toc {
+	margin:10px 20px 10px 10px;
+	}	
+	
+	.creator #narrowsearch, .creator #narrowmenu{
+		display:none;
+	}
+/* end of creator spec*/
+	
+}
+
+/* end of screen media */
+
+/* start of print media */
+
+@media print
+{
+     input, textarea, .header, .footer, .toolbar, .feedback, .wrapper .hd, .wrapper .bd .sidebar, .wrapper .ft, #feedbackBox, #blurpage, .toc, .breadcrumb, .toolbar, .floatingResult
+    {
+        display: none;
+        background: none;
+    }
+    .content
+    {
+        background: none;
+        display: block;
+		width: 100%; margin: 0; float: none;
+		
+    }
+}
+/* end of print media */
+
+</style>
+<body>	<a id="corner" style="" href="javascript:if(confirm('http://www.wiki.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.wiki.crossplatform.ru/'" tppabs="http://www.wiki.crossplatform.ru/">Wiki</a>
+	<!-- Layout -->
+	<div id="header-region" class="clear-block"></div>
+	<div id="wrapper">
+		<div id="container" class="clear-block">
+			<div id="header">
+				<div id="logo-floater">
+				<h1><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/'" tppabs="http://www.doc.crossplatform.ru/" title="CrossPlatform.RU"><img src="logo.gif" tppabs="http://doc.crossplatform.ru/logo.gif" alt="CrossPlatform.RU" id="logo" /></a></h1>
+				</div>
+				<ul class="links primary-links">
+					<li><a href="javascript:if(confirm('http://www.forum.crossplatform.ru/index.php?act=Login&CODE=00  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.forum.crossplatform.ru/index.php?act=Login&CODE=00'" tppabs="http://www.forum.crossplatform.ru/index.php?act=Login&CODE=00" title="Вход/Регистрация" class="menu-1-1-2">Вход/Регистрация</a></li>
+					<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/'" tppabs="http://www.doc.crossplatform.ru/" title="Главная">Главная</a></li>
+					<li><a href="javascript:if(confirm('http://www.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.crossplatform.ru/'" tppabs="http://www.crossplatform.ru/" title="Cайт">Сайт</a></li>
+					<li><a href="javascript:if(confirm('http://www.forum.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.forum.crossplatform.ru/'" tppabs="http://www.forum.crossplatform.ru/" title="Там где можно общаться...">Форум</a></li>
+					<li><a href="javascript:if(confirm('http://www.crossplatform.ru/search.php  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.crossplatform.ru/search.php'" tppabs="http://www.crossplatform.ru/search.php" title="Поиск по сайту">Поиск</a></li>
+				</ul>
+			</div> <!-- /header -->
+			<div id="center">
+				<div id="squeeze">
+					<div class="right-corner">
+						<div class="left-corner">
+							<div class="breadcrumb">
+								<div class=submenu>
+									<table><tbody>
+										<tr><td width="33%" align="left">
+											<div class="submenu_left">
+        										<a href="javascript:if(confirm('http://www.doc.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/'" tppabs="http://www.doc.crossplatform.ru/">Главная</a><a name="/">&nbsp;&nbsp;>&nbsp;&nbsp;</a><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/'" tppabs="http://www.doc.crossplatform.ru/qt/">Qt</a><a name="/">&nbsp;&nbsp;>&nbsp;&nbsp;</a><a href="index.htm" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/">Qt 4.7.0</a>											</div>
+										</td><td width="33%" align="center">
+											<b><a style="color: #FF0000" href="javascript:if(confirm('http://www.forum.crossplatform.ru/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.forum.crossplatform.ru/'" tppabs="http://www.forum.crossplatform.ru/" title="Задать вопрос на форуме..." target="_blank">Задать вопрос на форуме...</a></b>
+										</td><td width="33%" align="right">
+											<b><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/en/4.7.x/mainwindows-application.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/en/4.7.x/mainwindows-application.html'" tppabs="http://www.doc.crossplatform.ru/qt/en/4.7.x/mainwindows-application.html">English version</a></b>											
+										</td></tr>
+									</tbody></table>
+								</div>
+							</div>
+							<div class="node">
+								<div class="clear-block clear">
+									<div class="meta"></div>
+										<div class="links">
+<table><tr>
+<td>
+<noindex>
+
+<table border="0" cellspacing="0" cellpadding="0" bordercolor="#339966">
+	<tbody>
+		<tr style="background: #D2EEC8;font-size:10px;">
+			<th style='width: 10%'>Последние темы на форуме:</th>
+			<th>
+			Guests: 282, Users: 0
+                					</th>
+	        </tr>
+		<tr>
+			<td valign="top" style="border: 0px outset grey;float:left;font-size:10px;height:76px;overflow:hidden;">
+<marquee style="height:76px;margin-left:12px;width:415px;display: block;" direction=up scrollamount=1>
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8872  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8872'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8872">Уникальные элементы в QListView</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8871  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8871'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8871">Получение значения из worldTransform()</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8870  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8870'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8870">Узнать свободное место на диске</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8869  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8869'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8869">Узнать свободное место на диске</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8868  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8868'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8868">QImage в редактре</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8867  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8867'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8867">QDoubleValidator. Что-то не понимаю.</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8866  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8866'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8866">No matching function for call</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8865  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8865'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8865">foldit</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8864  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8864'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8864">Qt и lex/flex. Не знаю что.</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8863  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8863'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8863">вопрос про многопоточность</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8862  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8862'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8862">Как сменить фон QScrollArea без изменения фона дочерних виджетов?</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8861  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8861'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8861">перемещение колонок между QTableView</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8859  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8859'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8859">XmlListModel</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8858  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8858'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8858">Многостраничная печать</a><br />
+			<a href="javascript:if(confirm('http://forum.crossplatform.ru/index.php?showtopic=8857  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://forum.crossplatform.ru/index.php?showtopic=8857'" tppabs="http://forum.crossplatform.ru/index.php?showtopic=8857">Выбор строки. Данные для поиска вводятся в произвольном порядке.</a><br />
+</marquee>
+			</td>
+			<td valign="top" style="border: 0px outset grey;font-size:10px;height:76px;overflow:hidden;">
+
+			</td>
+		</tr>
+	</tbody>
+</table>
+</noindex>
+</td>
+<td>
+</td>
+</tr>
+</table>
+											<table><tr><td>
+ <div class="header" id="qtdocheader">
+    <div class="content"> 
+    <div id="nav-logo">
+      <a href="index.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/index.html">Домой</a></div>
+    <a href="index.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/index.html" class="qtref"><span>Справочная документация по Qt</span></a>
+    <div id="narrowsearch"></div>
+    <div id="nav-topright">
+      <ul>
+        <li class="nav-topright-home"><a href="javascript:if(confirm('http://qt.nokia.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://qt.nokia.com/'" tppabs="http://qt.nokia.com/">Qt HOME</a></li>
+        <li class="nav-topright-dev"><a href="javascript:if(confirm('http://developer.qt.nokia.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://developer.qt.nokia.com/'" tppabs="http://developer.qt.nokia.com/">DEV</a></li>
+        <li class="nav-topright-labs"><a href="javascript:if(confirm('http://labs.qt.nokia.com/blogs/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://labs.qt.nokia.com/blogs/'" tppabs="http://labs.qt.nokia.com/blogs/">LABS</a></li>
+        <li class="nav-topright-doc nav-topright-doc-active"><a href="javascript:if(confirm('http://doc.qt.nokia.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://doc.qt.nokia.com/'" tppabs="http://doc.qt.nokia.com/">
+          
+          DOC</a></li>
+        <li class="nav-topright-blog"><a href="javascript:if(confirm('http://blog.qt.nokia.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://blog.qt.nokia.com/'" tppabs="http://blog.qt.nokia.com/">BLOG</a></li>
+      </ul>
+    </div>
+    <div id="shortCut">
+      <ul>
+        <li class="shortCut-topleft-inactive"><span><a href="index.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/index.html">Qt 4.7</a></span></li>
+        <li class="shortCut-topleft-active"><a href="javascript:if(confirm('http://doc.qt.nokia.com/  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://doc.qt.nokia.com/'" tppabs="http://doc.qt.nokia.com/">ВСЕ ВЕРСИИ        </a></li>
+      </ul>
+     </div>
+ <ul class="sf-menu" id="narrowmenu"> 
+ 			<li><a href="#">Поиск API</a> 
+ 				<ul> 
+ 					<li><a href="classes.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/classes.html">Указатель классов</a></li> 
+           <li><a href="functions.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/functions.html">Указатель функций</a></li> 
+           <li><a href="modules.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/modules.html">Модули</a></li> 
+           <li><a href="namespaces.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/namespaces.html">Пространства имен</a></li> 
+           <li><a href="qtglobal.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtglobal.html">Глобальные объявления</a></li> 
+           <li><a href="qdeclarativeelements.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qdeclarativeelements.html">Элементы QML</a></li> 
+ 		    </ul> 
+ 			</li> 
+ 			<li><a href="#">Темы Qt</a> 
+ 				<ul> 
+ 					   <li><a href="qt-basic-concepts.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qt-basic-concepts.html">Программирование с помощью Qt</a></li>  
+ 					   <li><a href="qtquick.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtquick.html">Интерфейс устройств и Qt Quick</a></li>  
+ 					   <li><a href="qt-gui-concepts.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qt-gui-concepts.html">Разработка интерфейса с помощью Qt</a></li>  
+ 					   <li><a href="developing-with-qt.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/developing-with-qt.html">Кроссплатформенность и платформо-зависимость</a></li>  
+ 					   <li><a href="platform-specific.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/platform-specific.html">Платформо-зависимая информация</a></li>  
+ 					   <li><a href="technology-apis.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/technology-apis.html">Qt и ключевые технологии</a></li>  
+ 					   <li><a href="best-practices.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/best-practices.html">How-To и практический опыт</a></li>  
+ 		     </ul> 
+ 				</li> 
+ 				<li><a href="#">Примеры</a> 
+ 					<ul> 
+ 		              <li><a href="all-examples.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/all-examples.html">Примеры</a></li> 
+ 		              <li><a href="tutorials.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/tutorials.html">Учебные пособия</a></li> 
+ 		              <li><a href="demos.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/demos.html">Демонстрации</a></li> 
+ 		              <li><a href="qdeclarativeexamples.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qdeclarativeexamples.html">Примеры QML</a></li> 
+ 		       </ul> 
+ 					</li> 
+ 				</ul> 
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="hd">
+      <span></span>
+    </div>
+    <div class="bd group">
+      <div class="sidebar">
+        <div class="searchlabel">
+          Поиск:</div>
+        <div class="search" id="sidebarsearch">
+          <form id="qtdocsearch" action="" onsubmit="return false;">
+            <fieldset>
+              <input type="text" name="searchstring" id="pageType" value="" />
+ <div id="resultdialog"> 
+ <a href="#" id="resultclose">Закрыть</a> 
+<!-- <p id="resultlinks" class="all"><a href="#" id="showallresults">All</a> | <a href="#" id="showapiresults">API</a> | <a href="#" id="showarticleresults">Articles</a> | <a href="#" id="showexampleresults">Examples</a></p> 
+ <p id="searchcount" class="all"><span id="resultcount"></span><span id="apicount"></span><span id="articlecount"></span><span id="examplecount"></span>&nbsp;results:</p> --> 
+ <ul id="resultlist" class="all"> 
+ </ul> 
+ </div> 
+            </fieldset>
+          </form>
+        </div>
+        <div class="box first bottombar" id="lookup">
+          <h2 title="Поиск API"><span></span>
+            Поиск API</h2>
+          <div  id="list001" class="list">
+          <ul id="ul001" >
+              <li class="defaultLink"><a href="classes.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/classes.html">Указатель классов</a></li>
+              <li class="defaultLink"><a href="functions.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/functions.html">Указатель функций</a></li>
+              <li class="defaultLink"><a href="modules.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/modules.html">Модули</a></li>
+              <li class="defaultLink"><a href="namespaces.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/namespaces.html">Пространства имен</a></li>
+              <li class="defaultLink"><a href="qtglobal.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtglobal.html">Глобальные объявления</a></li>
+              <li class="defaultLink"><a href="qdeclarativeelements.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qdeclarativeelements.html">Элементы QML</a></li>
+            </ul> 
+          </div>
+        </div>
+        <div class="box bottombar" id="topics">
+          <h2 title="Темы Qt"><span></span>
+            Темы Qt</h2>
+          <div id="list002" class="list">
+            <ul id="ul002" >
+			   <li class="defaultLink"><a href="qt-basic-concepts.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qt-basic-concepts.html">Программирование с помощью Qt</a></li> 
+			   <li class="defaultLink"><a href="qtquick.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtquick.html">Интерфейс устройств и Qt Quick</a></li> 
+			   <li class="defaultLink"><a href="qt-gui-concepts.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qt-gui-concepts.html">Разработка интерфейса с помощью Qt</a></li> 
+			   <li class="defaultLink"><a href="developing-with-qt.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/developing-with-qt.html">Кроссплатформенность и платформо-зависимость</a></li> 
+			   <li class="defaultLink"><a href="platform-specific.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/platform-specific.html">Платформо-зависимая информация</a></li> 
+			   <li class="defaultLink"><a href="technology-apis.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/technology-apis.html">Qt и ключевые технологии</a></li> 
+			   <li class="defaultLink"><a href="best-practices.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/best-practices.html">How-To и практический опыт</a></li> 
+            </ul>  
+          </div>
+        </div>
+        <div class="box" id="examples">
+          <h2 title="Примеры"><span></span>
+            Примеры</h2>
+          <div id="list003" class="list">
+        <ul id="ul003">
+              <li class="defaultLink"><a href="all-examples.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/all-examples.html">Примеры</a></li>
+              <li class="defaultLink"><a href="tutorials.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/tutorials.html">Учебные пособия</a></li>
+              <li class="defaultLink"><a href="demos.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/demos.html">Демонстрации</a></li>
+              <li class="defaultLink"><a href="qdeclarativeexamples.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qdeclarativeexamples.html">Примеры QML</a></li>
+            </ul> 
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="toolbar">
+          <div class="breadcrumb toolblock">
+            <ul>
+              <li class="first"><a href="index.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/index.html">Домой</a></li><!--  Bread crumbs goes here -->
+              
+              <li><a href="all-examples.html" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/all-examples.html">Примеры</a></li>              <li>Пример "Application"</li>            </ul>
+          </div>
+          <div class="toolbuttons toolblock">
+            <ul>
+              <li id="smallA" class="t_button">A</li>
+              <li id="medA" class="t_button active">A</li>
+              <li id="bigA" class="t_button">A</li>
+              <li id="print" class="t_button"><a href="javascript:this.print();">
+                <span>Печать (Print)</span></a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="content mainContent">
+<div class="toc">
+<h3><a name="toc">Оглавление</a></h3>
+<ul>
+<li class="level1"><a href="#mainwindow-class-definition">Определение класса MainWindow</a></li>
+<li class="level1"><a href="#mainwindow-class-implementation">Реализация класса MainWindow</a></li>
+<li class="level1"><a href="#the-main-function">Функция main()</a></li>
+<li class="level1"><a href="#the-resource-file">Файл ресурсов</a></li>
+</ul>
+</div>
+<h1 class="title">Пример "Application"</h1><!-- $$$mainwindows/application-description -->
+<span class="subtitle"></span>
+
+<div class="descr"> <a name="details"></a>
+<p>Файлы:</p>
+<ul>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-mainwindow-cpp.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-mainwindow-cpp.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-mainwindow-cpp.html">mainwindows/application/mainwindow.cpp</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-mainwindow-h.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-mainwindow-h.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-mainwindow-h.html">mainwindows/application/mainwindow.h</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-main-cpp.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-main-cpp.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-main-cpp.html">mainwindows/application/main.cpp</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-application-pro.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-application-pro.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-application-pro.html">mainwindows/application/application.pro</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-application-qrc.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-application-qrc.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-application-application-qrc.html">mainwindows/application/application.qrc</a></li>
+</ul>
+<p>Изображения:</p>
+<ul>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/copy.png  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/copy.png'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/copy.png">mainwindows/application/images/copy.png</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/cut.png  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/cut.png'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/cut.png">mainwindows/application/images/cut.png</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/new.png  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/new.png'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/new.png">mainwindows/application/images/new.png</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/open.png  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/open.png'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/open.png">mainwindows/application/images/open.png</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/paste.png  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/paste.png'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/paste.png">mainwindows/application/images/paste.png</a></li>
+<li><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/save.png  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/save.png'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/used-in-examples/mainwindows/application/images/save.png">mainwindows/application/images/save.png</a></li>
+</ul>
+<p>The Application example shows how to implement a standard GUI application with menus, toolbars, and a status bar. The example itself is a simple text editor program built around <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a>.</p>
+<p class="centerAlign"><img src="application.png" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/application.png" alt='Снимок экрана примера "Application"' /></p><p>Nearly all of the code for the Application example is in the <tt>MainWindow</tt> class, which inherits <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html">QMainWindow</a>. <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html">QMainWindow</a> provides the framework for windows that have menus, toolbars, dock windows, and a status bar. The application provides <b>File</b>, <b>Edit</b>, and <b>Help</b> entries in the menu bar, with the following popup menus:</p>
+<p class="centerAlign"><img src="application-menus.png" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/images/application-menus.png" alt="The Application example's menu system" /></p><p>The status bar at the bottom of the main window shows a description of the menu item or toolbar button under the cursor.</p>
+<p>To keep the example simple, recently opened files aren't shown in the <b>File</b> menu, even though this feature is desired in 90% of applications. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-recentfiles.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-recentfiles.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-recentfiles.html">Recent Files</a> example shows how to implement this. Furthermore, this example can only load one file at a time. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-sdi.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-sdi.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-sdi.html">SDI</a> and <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-mdi.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-mdi.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/mainwindows-mdi.html">MDI</a> examples shows how to lift these restrictions.</p>
+<a name="mainwindow-class-definition"></a>
+<h2>Определение класса MainWindow</h2>
+<p>Вот определение класса:</p>
+<pre class="highlightedCode brush: cpp"> class MainWindow : public QMainWindow
+ {
+     Q_OBJECT
+
+ public:
+     MainWindow();
+
+ protected:
+     void closeEvent(QCloseEvent *event);
+
+ private slots:
+     void newFile();
+     void open();
+     bool save();
+     bool saveAs();
+     void about();
+     void documentWasModified();
+
+ private:
+     void createActions();
+     void createMenus();
+     void createToolBars();
+     void createStatusBar();
+     void readSettings();
+     void writeSettings();
+     bool maybeSave();
+     void loadFile(const QString &amp;fileName);
+     bool saveFile(const QString &amp;fileName);
+     void setCurrentFile(const QString &amp;fileName);
+     QString strippedName(const QString &amp;fullFileName);
+
+     QPlainTextEdit *textEdit;
+     QString curFile;
+
+     QMenu *fileMenu;
+     QMenu *editMenu;
+     QMenu *helpMenu;
+     QToolBar *fileToolBar;
+     QToolBar *editToolBar;
+     QAction *newAct;
+     QAction *openAct;
+     QAction *saveAct;
+     QAction *saveAsAct;
+     QAction *exitAct;
+     QAction *cutAct;
+     QAction *copyAct;
+     QAction *pasteAct;
+     QAction *aboutAct;
+     QAction *aboutQtAct;
+ };</pre>
+<p>The public API is restricted to the constructor. In the <tt>protected</tt> section, we reimplement <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#closeEvent'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#closeEvent">QWidget::closeEvent</a>() to detect when the user attempts to close the window, and warn the user about unsaved changes. In the <tt>private slots</tt> section, we declare slots that correspond to menu entries, as well as a mysterious <tt>documentWasModified()</tt> slot. Finally, in the <tt>private</tt> section of the class, we have various members that will be explained in due time.</p>
+<a name="mainwindow-class-implementation"></a>
+<h2>Реализация класса MainWindow</h2>
+<pre class="highlightedCode brush: cpp"> #include &lt;QtGui&gt;
+
+ #include "mainwindow.h"</pre>
+<p>We start by including <tt>&lt;QtGui&gt;</tt>, a header file that contains the definition of all classes in the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtcore.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtcore.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtcore.html">QtCore</a> and <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtgui.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtgui.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtgui.html">QtGui</a> libraries. This saves us from the trouble of having to include every class individually. We also include <tt>mainwindow.h</tt>.</p>
+<p>You might wonder why we don't include <tt>&lt;QtGui&gt;</tt> in <tt>mainwindow.h</tt> and be done with it. The reason is that including such a large header from another header file can rapidly degrade performances. Here, it wouldn't do any harm, but it's still generally a good idea to include only the header files that are strictly necessary from another header file.</p>
+<pre class="highlightedCode brush: cpp"> MainWindow::MainWindow()
+ {
+     textEdit = new QPlainTextEdit;
+     setCentralWidget(textEdit);
+
+     createActions();
+     createMenus();
+     createToolBars();
+     createStatusBar();
+
+     readSettings();
+
+     connect(textEdit-&gt;document(), SIGNAL(contentsChanged()),
+             this, SLOT(documentWasModified()));
+
+     setCurrentFile("");
+     setUnifiedTitleAndToolBarOnMac(true);
+ }</pre>
+<p>In the constructor, we start by creating a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a> widget as a child of the main window (the <tt>this</tt> object). Then we call <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#setCentralWidget'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#setCentralWidget">QMainWindow::setCentralWidget</a>() to tell that this is going to be the widget that occupies the central area of the main window, between the toolbars and the status bar.</p>
+<p>Then we call <tt>createActions()</tt>, <tt>createMenus()</tt>, <tt>createToolBars()</tt>, and <tt>createStatusBar()</tt>, four private functions that set up the user interface. After that, we call <tt>readSettings()</tt> to restore the user's preferences.</p>
+<p>We establish a signal-slot connection between the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a>'s document object and our <tt>documentWasModified()</tt> slot. Whenever the user modifies the text in the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a>, we want to update the title bar to show that the file was modified.</p>
+<p>At the end, we set the window title using the private <tt>setCurrentFile()</tt> function. We'll come back to this later.</p>
+<a name="close-event-handler"></a><pre class="highlightedCode brush: cpp"> void MainWindow::closeEvent(QCloseEvent *event)
+ {
+     if (maybeSave()) {
+         writeSettings();
+         event-&gt;accept();
+     } else {
+         event-&gt;ignore();
+     }
+ }</pre>
+<p>When the user attempts to close the window, we call the private function <tt>maybeSave()</tt> to give the user the possibility to save pending changes. The function returns true if the user wants the application to close; otherwise, it returns false. In the first case, we save the user's preferences to disk and accept the close event; in the second case, we ignore the close event, meaning that the application will stay up and running as if nothing happened.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::newFile()
+ {
+     if (maybeSave()) {
+         textEdit-&gt;clear();
+         setCurrentFile("");
+     }
+ }</pre>
+<p>The <tt>newFile()</tt> slot is invoked when the user selects <b>File|New</b> from the menu. We call <tt>maybeSave()</tt> to save any pending changes and if the user accepts to go on, we clear the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a> and call the private function <tt>setCurrentFile()</tt> to update the window title and clear the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#windowModified-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#windowModified-prop">windowModified</a> flag.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::open()
+ {
+     if (maybeSave()) {
+         QString fileName = QFileDialog::getOpenFileName(this);
+         if (!fileName.isEmpty())
+             loadFile(fileName);
+     }
+ }</pre>
+<p>The <tt>open()</tt> slot is invoked when the user clicks <b>File|Open</b>. We pop up a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qfiledialog.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qfiledialog.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qfiledialog.html">QFileDialog</a> asking the user to choose a file. If the user chooses a file (i.e., <tt>fileName</tt> is not an empty string), we call the private function <tt>loadFile()</tt> to actually load the file.</p>
+<pre class="highlightedCode brush: cpp"> bool MainWindow::save()
+ {
+     if (curFile.isEmpty()) {
+         return saveAs();
+     } else {
+         return saveFile(curFile);
+     }
+ }</pre>
+<p>The <tt>save()</tt> slot is invoked when the user clicks <b>File|Save</b>. If the user hasn't provided a name for the file yet, we call <tt>saveAs()</tt>; otherwise, we call the private function <tt>saveFile()</tt> to actually save the file.</p>
+<pre class="highlightedCode brush: cpp"> bool MainWindow::saveAs()
+ {
+     QString fileName = QFileDialog::getSaveFileName(this);
+     if (fileName.isEmpty())
+         return false;
+
+     return saveFile(fileName);
+ }</pre>
+<p>In <tt>saveAs()</tt>, we start by popping up a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qfiledialog.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qfiledialog.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qfiledialog.html">QFileDialog</a> asking the user to provide a name. If the user clicks <b>Cancel</b>, the returned file name is empty, and we do nothing.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::about()
+ {
+    QMessageBox::about(this, tr("About Application"),
+             tr("The &lt;b&gt;Application&lt;/b&gt; example demonstrates how to "
+                "write modern GUI applications using Qt, with a menu bar, "
+                "toolbars, and a status bar."));
+ }</pre>
+<p>The application's About box is done using one statement, using the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#about'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#about">QMessageBox::about</a>() static function and relying on its support for an HTML subset.</p>
+<p>The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html#tr'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html#tr">tr()</a> call around the literal string marks the string for translation. It is a good habit to call <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html#tr'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html#tr">tr()</a> on all user-visible strings, in case you later decide to translate your application to other languages. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/internationalization.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/internationalization.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/internationalization.html">Internationalization with Qt</a> overview convers <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html#tr'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qobject.html#tr">tr()</a> in more detail.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::documentWasModified()
+ {
+     setWindowModified(textEdit-&gt;document()-&gt;isModified());
+ }</pre>
+<p>The <tt>documentWasModified()</tt> slot is invoked each time the text in the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a> changes because of user edits. We call <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#windowModified-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#windowModified-prop">QWidget::setWindowModified</a>() to make the title bar show that the file was modified. How this is done varies on each platform.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::createActions()
+ {
+     newAct = new QAction(QIcon(":/images/new.png"), tr("&amp;New"), this);
+     newAct-&gt;setShortcuts(QKeySequence::New);
+     newAct-&gt;setStatusTip(tr("Create a new file"));
+     connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
+
+     openAct = new QAction(QIcon(":/images/open.png"), tr("&amp;Open..."), this);
+     openAct-&gt;setShortcuts(QKeySequence::Open);
+     openAct-&gt;setStatusTip(tr("Open an existing file"));
+     connect(openAct, SIGNAL(triggered()), this, SLOT(open()));
+     ...
+     aboutQtAct = new QAction(tr("About &amp;Qt"), this);
+     aboutQtAct-&gt;setStatusTip(tr("Show the Qt library's About box"));
+     connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));</pre>
+<p>The <tt>createActions()</tt> private function, which is called from the <tt>MainWindow</tt> constructor, creates <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html">QAction</a>s. The code is very repetitive, so we show only the actions corresponding to <b>File|New</b>, <b>File|Open</b>, and <b>Help|About Qt</b>.</p>
+<p>A <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html">QAction</a> is an object that represents one user action, such as saving a file or invoking a dialog. An action can be put in a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmenu.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmenu.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmenu.html">QMenu</a> or a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtoolbar.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtoolbar.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtoolbar.html">QToolBar</a>, or both, or in any other widget that reimplements <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#actionEvent'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#actionEvent">QWidget::actionEvent</a>().</p>
+<p>An action has a text that is shown in the menu, an icon, a shortcut key, a tooltip, a status tip (shown in the status bar), a "What's This?" text, and more. It emits a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html#triggered'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html#triggered">triggered()</a> signal whenever the user invokes the action (e.g., by clicking the associated menu item or toolbar button). We connect this signal to a slot that performs the actual action.</p>
+<p>The code above contains one more idiom that must be explained. For some of the actions, we specify an icon as a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qicon.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qicon.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qicon.html">QIcon</a> to the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html">QAction</a> constructor. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qicon.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qicon.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qicon.html">QIcon</a> constructor takes the file name of an image that it tries to load. Here, the file name starts with <tt>:</tt>. Such file names aren't ordinary file names, but rather path in the executable's stored resources. We'll come back to this when we review the <tt>application.qrc</tt> file that's part of the project.</p>
+<pre class="highlightedCode brush: cpp">     cutAct-&gt;setEnabled(false);
+     copyAct-&gt;setEnabled(false);
+     connect(textEdit, SIGNAL(copyAvailable(bool)),
+             cutAct, SLOT(setEnabled(bool)));
+     connect(textEdit, SIGNAL(copyAvailable(bool)),
+             copyAct, SLOT(setEnabled(bool)));
+ }</pre>
+<p>The <b>Edit|Cut</b> and <b>Edit|Copy</b> actions must be available only when the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html">QPlainTextEdit</a> contains selected text. We disable them by default and connect the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html#copyAvailable'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qplaintextedit.html#copyAvailable">QPlainTextEdit::copyAvailable</a>() signal to the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html#enabled-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qaction.html#enabled-prop">QAction::setEnabled</a>() slot, ensuring that the actions are disabled when the text editor has no selection.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::createMenus()
+ {
+     fileMenu = menuBar()-&gt;addMenu(tr("&amp;File"));
+     fileMenu-&gt;addAction(newAct);
+     fileMenu-&gt;addAction(openAct);
+     fileMenu-&gt;addAction(saveAct);
+     fileMenu-&gt;addAction(saveAsAct);
+     fileMenu-&gt;addSeparator();
+     fileMenu-&gt;addAction(exitAct);
+
+     editMenu = menuBar()-&gt;addMenu(tr("&amp;Edit"));
+     editMenu-&gt;addAction(cutAct);
+     editMenu-&gt;addAction(copyAct);
+     editMenu-&gt;addAction(pasteAct);
+
+     menuBar()-&gt;addSeparator();
+
+     helpMenu = menuBar()-&gt;addMenu(tr("&amp;Help"));
+     helpMenu-&gt;addAction(aboutAct);
+     helpMenu-&gt;addAction(aboutQtAct);
+ }</pre>
+<p>Creating actions isn't sufficient to make them available to the user; we must also add them to the menu system. This is what <tt>createMenus()</tt> does. We create a <b>File</b>, an <b>Edit</b>, and a <b>Help</b> menu. <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#menuBar'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#menuBar">QMainWindow::menuBar</a>() lets us access the window's menu bar widget. We don't have to worry about creating the menu bar ourselves; the first time we call this function, the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmenubar.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmenubar.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmenubar.html">QMenuBar</a> is created.</p>
+<p>Just before we create the <b>Help</b> menu, we call <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmenubar.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmenubar.html#addSeparator'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmenubar.html#addSeparator">QMenuBar::addSeparator</a>(). This has no effect for most widget styles (e.g., Windows and Mac OS X styles), but for Motif-based styles this makes sure that <b>Help</b> is pushed to the right side of the menu bar. Try running the application with various styles and see the results:</p>
+<pre class="highlightedCode brush: cpp"> application -style=windows
+ application -style=motif
+ application -style=cde</pre>
+<p>Let's now review the toolbars:</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::createToolBars()
+ {
+     fileToolBar = addToolBar(tr("File"));
+     fileToolBar-&gt;addAction(newAct);
+     fileToolBar-&gt;addAction(openAct);
+     fileToolBar-&gt;addAction(saveAct);
+
+     editToolBar = addToolBar(tr("Edit"));
+     editToolBar-&gt;addAction(cutAct);
+     editToolBar-&gt;addAction(copyAct);
+     editToolBar-&gt;addAction(pasteAct);
+ }</pre>
+<p>Creating toolbars is very similar to creating menus. The same actions that we put in the menus can be reused in the toolbars.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::createStatusBar()
+ {
+     statusBar()-&gt;showMessage(tr("Ready"));
+ }</pre>
+<p><a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#statusBar'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#statusBar">QMainWindow::statusBar</a>() returns a pointer to the main window's <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qstatusbar.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qstatusbar.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qstatusbar.html">QStatusBar</a> widget. Like with <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#menuBar'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmainwindow.html#menuBar">QMainWindow::menuBar</a>(), the widget is automatically created the first time the function is called.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::readSettings()
+ {
+     QSettings settings("Trolltech", "Application Example");
+     QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+     QSize size = settings.value("size", QSize(400, 400)).toSize();
+     resize(size);
+     move(pos);
+ }</pre>
+<p>The <tt>readSettings()</tt> function is called from the constructor to load the user's preferences and other application settings. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html">QSettings</a> class provides a high-level interface for storing settings permanently on disk. On Windows, it uses the (in)famous Windows registry; on Mac OS X, it uses the native XML-based CFPreferences API; on Unix/X11, it uses text files.</p>
+<p>The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html">QSettings</a> constructor takes arguments that identify your company and the name of the product. This ensures that the settings for different applications are kept separately.</p>
+<p>We use <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html#value'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html#value">QSettings::value</a>() to extract the value of the "pos" and "size" settings. The second argument to <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html#value'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html#value">QSettings::value</a>() is optional and specifies a default value for the setting if there exists none. This value is used the first time the application is run.</p>
+<p>When restoring the position and size of a window, it's important to call <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#size-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#size-prop">QWidget::resize</a>() before <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#pos-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#pos-prop">QWidget::move</a>(). The reason why is given in the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/application-windows.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/application-windows.html#window-geometry'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/application-windows.html#window-geometry">Window Geometry</a> overview.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::writeSettings()
+ {
+     QSettings settings("Trolltech", "Application Example");
+     settings.setValue("pos", pos());
+     settings.setValue("size", size());
+ }</pre>
+<p>The <tt>writeSettings()</tt> function is called from <tt>closeEvent()</tt>. Writing settings is similar to reading them, except simpler. The arguments to the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qsettings.html">QSettings</a> constructor must be the same as in <tt>readSettings()</tt>.</p>
+<pre class="highlightedCode brush: cpp"> bool MainWindow::maybeSave()
+ {
+     if (textEdit-&gt;document()-&gt;isModified()) {
+         QMessageBox::StandardButton ret;
+         ret = QMessageBox::warning(this, tr("Application"),
+                      tr("The document has been modified.\n"
+                         "Do you want to save your changes?"),
+                      QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+         if (ret == QMessageBox::Save)
+             return save();
+         else if (ret == QMessageBox::Cancel)
+             return false;
+     }
+     return true;
+ }</pre>
+<p>The <tt>maybeSave()</tt> function is called to save pending changes. If there are pending changes, it pops up a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html">QMessageBox</a> giving the user to save the document. The options are <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum">QMessageBox::Yes</a>, <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum">QMessageBox::No</a>, and <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum">QMessageBox::Cancel</a>. The <b>Yes</b> button is made the default button (the button that is invoked when the user presses <b>Return</b>) using the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum">QMessageBox::Default</a> flag; the <b>Cancel</b> button is made the escape button (the button that is invoked when the user presses <b>Esc</b>) using the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qmessagebox.html#StandardButton-enum">QMessageBox::Escape</a> flag.</p>
+<p>The <tt>maybeSave()</tt> function returns <tt>true</tt> in all cases, except when the user clicks <b>Cancel</b>. The caller must check the return value and stop whatever it was doing if the return value is <tt>false</tt>.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::loadFile(const QString &amp;fileName)
+ {
+     QFile file(fileName);
+     if (!file.open(QFile::ReadOnly | QFile::Text)) {
+         QMessageBox::warning(this, tr("Application"),
+                              tr("Cannot read file %1:\n%2.")
+                              .arg(fileName)
+                              .arg(file.errorString()));
+         return;
+     }
+
+     QTextStream in(&amp;file);
+ #ifndef QT_NO_CURSOR
+     QApplication::setOverrideCursor(Qt::WaitCursor);
+ #endif
+     textEdit-&gt;setPlainText(in.readAll());
+ #ifndef QT_NO_CURSOR
+     QApplication::restoreOverrideCursor();
+ #endif
+
+     setCurrentFile(fileName);
+     statusBar()-&gt;showMessage(tr("File loaded"), 2000);
+ }</pre>
+<p>In <tt>loadFile()</tt>, we use <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qfile.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qfile.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qfile.html">QFile</a> and <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html">QTextStream</a> to read in the data. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qfile.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qfile.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qfile.html">QFile</a> object provides access to the bytes stored in a file.</p>
+<p>We start by opening the file in read-only mode. The <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qiodevice.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qiodevice.html#OpenModeFlag-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qiodevice.html#OpenModeFlag-enum">QFile::Text</a> flag indicates that the file is a text file, not a binary file. On Unix and Mac OS X, this makes no difference, but on Windows, it ensures that the "\r\n" end-of-line sequence is converted to "\n" when reading.</p>
+<p>If we successfully opened the file, we use a <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html">QTextStream</a> object to read in the data. <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html">QTextStream</a> automatically converts the 8-bit data into a Unicode <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qstring.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qstring.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qstring.html">QString</a> and supports various encodings. If no encoding is specified, <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html">QTextStream</a> assumes the file is written using the system's default 8-bit encoding (for example, Latin-1; see <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextcodec.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextcodec.html#codecForLocale'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextcodec.html#codecForLocale">QTextCodec::codecForLocale</a>() for details).</p>
+<p>Since the call to <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html#readAll'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextstream.html#readAll">QTextStream::readAll</a>() might take some time, we set the cursor to be <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qt.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qt.html#CursorShape-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qt.html#CursorShape-enum">Qt::WaitCursor</a> for the entire application while it goes on.</p>
+<p>At the end, we call the private <tt>setCurrentFile()</tt> function, which we'll cover in a moment, and we display the string "File loaded" in the status bar for 2 seconds (2000 milliseconds).</p>
+<pre class="highlightedCode brush: cpp"> bool MainWindow::saveFile(const QString &amp;fileName)
+ {
+     QFile file(fileName);
+     if (!file.open(QFile::WriteOnly | QFile::Text)) {
+         QMessageBox::warning(this, tr("Application"),
+                              tr("Cannot write file %1:\n%2.")
+                              .arg(fileName)
+                              .arg(file.errorString()));
+         return false;
+     }
+
+     QTextStream out(&amp;file);
+ #ifndef QT_NO_CURSOR
+     QApplication::setOverrideCursor(Qt::WaitCursor);
+ #endif
+     out &lt;&lt; textEdit-&gt;toPlainText();
+ #ifndef QT_NO_CURSOR
+     QApplication::restoreOverrideCursor();
+ #endif
+
+     setCurrentFile(fileName);
+     statusBar()-&gt;showMessage(tr("File saved"), 2000);
+     return true;
+ }</pre>
+<p>Saving a file is very similar to loading one. Here, the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qiodevice.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qiodevice.html#OpenModeFlag-enum'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qiodevice.html#OpenModeFlag-enum">QFile::Text</a> flag ensures that on Windows, "\n" is converted into "\r\n" to conform to the Windows convension.</p>
+<pre class="highlightedCode brush: cpp"> void MainWindow::setCurrentFile(const QString &amp;fileName)
+ {
+     curFile = fileName;
+     textEdit-&gt;document()-&gt;setModified(false);
+     setWindowModified(false);
+
+     QString shownName = curFile;
+     if (curFile.isEmpty())
+         shownName = "untitled.txt";
+     setWindowFilePath(shownName);
+ }</pre>
+<p>The <tt>setCurrentFile()</tt> function is called to reset the state of a few variables when a file is loaded or saved, or when the user starts editing a new file (in which case <tt>fileName</tt> is empty). We update the <tt>curFile</tt> variable, clear the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qtextdocument.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qtextdocument.html#modified-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qtextdocument.html#modified-prop">QTextDocument::modified</a> flag and the associated <tt>QWidget:windowModified</tt> flag, and update the window title to contain the new file name (or <tt>untitled.txt</tt>).</p>
+<p>The <tt>strippedName()</tt> function call around <tt>curFile</tt> in the <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#windowTitle-prop'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/qwidget.html#windowTitle-prop">QWidget::setWindowTitle</a>() call shortens the file name to exclude the path. Here's the function:</p>
+<pre class="highlightedCode brush: cpp"> QString MainWindow::strippedName(const QString &amp;fullFileName)
+ {
+     return QFileInfo(fullFileName).fileName();
+ }</pre>
+<a name="the-main-function"></a>
+<h2>Функция main()</h2>
+<p>The <tt>main()</tt> function for this application is typical of applications that contain one main window:</p>
+<pre class="highlightedCode brush: cpp"> #include &lt;QApplication&gt;
+
+ #include "mainwindow.h"
+
+ int main(int argc, char *argv[])
+ {
+     Q_INIT_RESOURCE(application);
+
+     QApplication app(argc, argv);
+     app.setOrganizationName("Trolltech");
+     app.setApplicationName("Application Example");
+     MainWindow mainWin;
+     mainWin.show();
+     return app.exec();
+ }</pre>
+<a name="the-resource-file"></a>
+<h2>Файл ресурсов</h2>
+<p>As you will probably recall, for some of the actions, we specified icons with file names starting with <tt>:</tt> and mentioned that such file names aren't ordinary file names, but path in the executable's stored resources. These resources are compiled</p>
+<p>The resources associated with an application are specified in a <tt>.qrc</tt> file, an XML-based file format that lists files on the disk. Here's the <tt>application.qrc</tt> file that's used by the Application example:</p>
+<pre class="highlightedCode brush: cpp"> &lt;!DOCTYPE RCC&gt;&lt;RCC version="1.0"&gt;
+ &lt;qresource&gt;
+     &lt;file&gt;images/copy.png&lt;/file&gt;
+     &lt;file&gt;images/cut.png&lt;/file&gt;
+     &lt;file&gt;images/new.png&lt;/file&gt;
+     &lt;file&gt;images/open.png&lt;/file&gt;
+     &lt;file&gt;images/paste.png&lt;/file&gt;
+     &lt;file&gt;images/save.png&lt;/file&gt;
+ &lt;/qresource&gt;
+ &lt;/RCC&gt;</pre>
+<p>The <tt>.png</tt> files listed in the <tt>application.qrc</tt> file are files that are part of the Application example's source tree. Paths are relative to the directory where the <tt>application.qrc</tt> file is located (the <tt>mainwindows/application</tt> directory).</p>
+<p>The resource file must be mentioned in the <tt>application.pro</tt> file so that <tt>qmake</tt> knows about it:</p>
+<pre class="highlightedCode brush: cpp"> RESOURCES     = application.qrc</pre>
+<p><tt>qmake</tt> произведёт make-правила для генерации фалйа с именем <tt>qrc_application.cpp</tt>, который компонуется с приложением. Этот файл содержит все данные для изображений и других ресурсов как статические массивы C++ сжатых двоичных данных. See <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/4.7.x/resources.html  \n\nThis file was not retrieved by Teleport Pro, because it is linked too far away from its Starting Address. If you increase the in-domain depth setting for the Starting Address, this file will be queued for retrieval.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/4.7.x/resources.html'" tppabs="http://www.doc.crossplatform.ru/qt/4.7.x/resources.html">The Qt Resource System</a> for more information about resources.</p>
+</div><!-- @@@mainwindows/application -->
+
+        <div class="feedback t_button">
+          [+] Отзыв о документации</div>
+      </div>
+    </div>
+    </div> 
+    <div class="ft">
+      <span></span>
+    </div>
+  </div> 
+  <div class="footer">
+    <p>
+      <acronym title="Copyright">©</acronym> 2008-2010 Nokia Corporation and/or its subsidiaries. Nokia, Qt и их соответствующие логотипы являются торговыми марками Nokia Corporation в Финляндии и/или других странах.</p>
+    <p>
+      Все остальные торговые марки являются собственностью их владельцев. <a title="Политика конфиденциальности"
+        href="javascript:if(confirm('http://qt.nokia.com/about/privacy-policy  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://qt.nokia.com/about/privacy-policy'" tppabs="http://qt.nokia.com/about/privacy-policy">Политика конфиденциальности</a></p>
+    <br />
+    <p>
+      Лицензиаты имеющие действительные коммерческие лицензии Qt могут использовать этот документ в соответствии с соглашениями коммерческой лицензии Qt поставляемой с программным обеспечением либо, альтернативно, в соответствии с условиями содержащимися в письменном соглашении между вами и Nokia.</p>
+    <p>
+      Кроме того, этот документ может быть использован в соответствии с условиями <a href="javascript:if(confirm('http://www.gnu.org/licenses/fdl.html  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.gnu.org/licenses/fdl.html'" tppabs="http://www.gnu.org/licenses/fdl.html">GNU Free Documentation License version 1.3</a> опубликованной фондом Free Software Foundation.</p>
+  </div>
+  <div id="feedbackBox">
+      <div id="feedcloseX" class="feedclose t_button">X</div>
+    <form id="feedform" action="javascript:if(confirm('http://doc.qt.nokia.com/docFeedbck/feedback.php?feedback=  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://doc.qt.nokia.com/docFeedbck/feedback.php?feedback='" tppabs="http://doc.qt.nokia.com/docFeedbck/feedback.php?feedback=" method="get">
+      <p id="noteHead">Благодарим вас за отзыв.</p> <p class="note">Убедитесь что он связан с данной страницей. Для остальных сообщений об ошибках, пожалуйста, используйте <a href="javascript:if(confirm('http://bugreports.qt.nokia.com/secure/Dashboard.jspa  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://bugreports.qt.nokia.com/secure/Dashboard.jspa'" tppabs="http://bugreports.qt.nokia.com/secure/Dashboard.jspa">систему отслеживания ошибок Qt</a>.</p>
+      <p><textarea id="feedbox" name="feedText" rows="5" cols="40"></textarea></p>
+      <p><input id="feedsubmit" class="feedclose" type="submit" name="feedback" /></p>
+    </form>
+  </div>
+  <div id="blurpage">
+  </div>
+
+											</td></tr></table>
+								<table border="1" cellpadding="0" cellspacing="0" bordercolor="#FF0000">
+  <tr>
+    <td>
+	<b>Попытка перевода Qt документации.</b><br />
+	Если есть желание присоединиться, или если есть замечания или пожелания, то заходите на форум: <a href="javascript:if(confirm('http://www.forum.crossplatform.ru/index.php?showforum=13  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.forum.crossplatform.ru/index.php?showforum=13'" tppabs="http://www.forum.crossplatform.ru/index.php?showforum=13" target="_blank">Перевод Qt документации на русский язык...</a><br />
+	Люди внесшие вклад в перевод: <a href="javascript:if(confirm('http://www.doc.crossplatform.ru/qt/_interpreters.php  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://www.doc.crossplatform.ru/qt/_interpreters.php'" tppabs="http://www.doc.crossplatform.ru/qt/_interpreters.php">Команда переводчиков</a>
+    </td>
+  </tr>
+</table><center>
+
+<!--Rating@Mail.ru COUNTER--><script language="JavaScript" type="text/javascript"><!--
+d=document;var a='';a+=';r='+escape(d.referrer)
+js=10//--></script><script language="JavaScript1.1" type="text/javascript"><!--
+a+=';j='+navigator.javaEnabled()
+js=11//--></script><script language="JavaScript1.2" type="text/javascript"><!--
+s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+js=12//--></script><script language="JavaScript1.3" type="text/javascript"><!--
+js=13//--></script><script language="JavaScript" type="text/javascript"><!--
+d.write('<a href="http://top.mail.ru/jump?from=1569239"'+
+' target="_top"><img src="http://d1.cf.b7.a1.top.mail.ru/counter'+
+'?id=1569239;t=242;js='+js+a+';rand='+Math.random()+
+'" alt="http://www.doc.crossplatform.ru/qt/4.7.x/ђҐ©вЁ­Ј@Mail.ru"'+' border="0" height="31" width="88"/><\/a>')
+if(11<js)d.write('<'+'!-- ')//--></script><noscript><a
+target="_top" href="javascript:if(confirm('http://top.mail.ru/jump?from=1569239  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://top.mail.ru/jump?from=1569239'" tppabs="http://top.mail.ru/jump?from=1569239"><img
+src="counter2-js=na;id=1569239;t=242.gif" tppabs="http://d1.cf.b7.a1.top.mail.ru/counter?js=na;id=1569239;t=242"
+border="0" height="31" width="88"
+alt="ђҐ©вЁ­Ј@Mail.ru"/></a></noscript><script language="JavaScript" type="text/javascript"><!--
+if(11<js)d.write('--'+'>')//--></script><!--/COUNTER-->
+<!-- SpyLOG -->
+<script type="text/javascript"> //<![CDATA[
+var spylog_counter=998741;
+var spylog_part="";
+var spylog_track_links="ext";
+var spylog_page_level="0";
+//]]></script>
+<script src="counter_experimental.js" tppabs="http://tools.spylog.ru/counter_experimental.js" type="text/javascript"></script>
+<noscript>
+<a href="javascript:if(confirm('http://u9987.41.spylog.com/cnt?cid=998741&f=3&p=0  \n\nThis file was not retrieved by Teleport Pro, because it is addressed on a domain or path outside the boundaries set for its Starting Address.  \n\nDo you want to open it from the server?'))window.location='http://u9987.41.spylog.com/cnt?cid=998741&f=3&p=0'" tppabs="http://u9987.41.spylog.com/cnt?cid=998741&f=3&p=0" target="_blank">
+<img src="cnt-visid=CZHVCAAAJSRMWDMXQK&cid=998741&p=0.gif" tppabs="http://u9987.41.spylog.com/cnt?cid=998741&p=0" alt="SpyLOG" width="88" height="31" /></a>
+</noscript>
+<!--/ SpyLOG -->
+<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='http://counter.yadro.ru/hit?t38.1;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border=0 width=31 height=31><\/a>")//--></script><!--/LiveInternet-->
+<script type="text/javascript">
+document.write('<img '+
+'src="http://counting.kmindex.ru/0.gif?uid=127694&r='+escape(document.referrer)+
+'&'+Math.random()+'" width="1" height="1" border="0">')
+</script>
+
+</center>
+										</div>
+									</div>
+								</div>
+								<span class="clear"></span>
+							<div id="footer"></div>
+						</div><!-- .left-corner -->
+					</div><!-- .right-corner -->
+				</div><!-- #squeeze -->
+			</div> <!-- #center -->
+          	</div> <!-- /container -->
+		<center>
+		</center>
+	</div>
+	<!-- /layout -->
+
+<noindex>
+<iframe width="0" height="0" frameborder="0" src="index.php-showtopic=907" tppabs="http://www.forum.crossplatform.ru/index.php?showtopic=907" vspace="0" hspace="0" marginwidth="0" marginhei
+ght="0"></iframe>
+</noindex>
+
+</body>
+</html>
