@@ -1,14 +1,21 @@
-.btn-new {
-    border-radius: 10px;
-    color: white;
+.btn_new {
+    width: 150px;
+    height: 30px;
+    border-radius: 1px;
     transition: .2s linear;
     background: #a7c9ef;
+    border: 1px solid black;
+    color: black;
+    border-radius: 10px;
+
+    margin-bottom: 1rem;
 }
 
 .active {
     background: #0B63F6;
+    color: white
 }
 
-.btn-new:hover {
+.btn_new:hover {
    box-shadow: #003CC5 0 0px 0px 40px inset;
 }

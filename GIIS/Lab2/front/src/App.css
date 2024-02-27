@@ -1,0 +1,27 @@
+#root {
+    display: flex;
+    position: relative;
+    vertical-align: center;
+    align-items: center;
+    background-color: #97d5e3;
+    width: 80%;
+    aspect-ratio: 16/9;
+    margin: 0 auto;
+    border-radius: 30px;
+    top: 1em;
+
+    transition: .2s linear;
+}
+
+.buttons {
+    margin-left: 40px;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.active_tab {
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}

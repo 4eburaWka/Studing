@@ -1,5 +1,7 @@
 from os import system
 
+from prettytable import PrettyTable
+
 
 class PCComponent:
     def __init__(self, **kwargs):
@@ -22,9 +24,11 @@ class PCComponent:
     
     @classmethod
     def show_objects(cls):
-        print("№", *cls.__init__.__code__.co_varnames[1:], sep='\t\t')
+        table = PrettyTable()
+        table.field_names = ['№', *cls.__init__.__code__.co_varnames[1:]]
         for i, object in enumerate(cls.objects, start=1):
-            print(i, *object.__dict__.values(), sep='\t\t')
+            table.add_row([i, *object.__dict__.values()])
+        print(table)
     
     def show(self):
         for characteristic in self.__init__.__code__.co_varnames[1:]:
@@ -60,9 +64,9 @@ class CPU(PCComponent):
         return self.__socket, self.__company_name, self.__cores_count, self.__base_frequency, self.__turbo_frequency, self.__TDP
 
 
-class Motherboard(PCComponent):
+class Motherboard(6):
     objects = []
-    def __init__(self, socket, company_name, form_factor, PCIExpressx16_count, PCIExpressx1_count, sata_count, CPUVideo_support) -> None:
+    def __init__(self, socket, company_name, form_factor, PCIExpressx16_count, PCIExpressx1_count, sata_count, CPUVideo_support, TDP) -> None:
         self.__socket: str = socket
         self.__company_name: str = company_name
         self.__form_factor: str = form_factor
@@ -70,7 +74,7 @@ class Motherboard(PCComponent):
         self.__PCIExpressx1_count: int = PCIExpressx1_count
         self.__sata_count: int = sata_count
         self.__CPUVideo_support: bool = CPUVideo_support
-        self.__TDP: int = 30
+        self.__TDP: int = TDP
 
     def get_data(self):
         return self.__socket, self.__company_name, self.__form_factor, self.__PCIExpressx16_count, self.__PCIExpressx1_count, self.__sata_count, self.__CPUVideo_support, self.__TDP
@@ -229,7 +233,7 @@ if __name__ == '__main__':
                 choose_component().create()
             case '2':
                 for component, name in zip((CPU, Motherboard, RAM, Cooler, GPU, SSD, PowerBlock), ("CPU", "Motherboard", "RAM", "Cooler", "GPU", "SSD", "PowerBlock")):
-                    component.create_from_file(f"SSP\\lab5\\{name}.txt")
+                    component.create_from_file(f"SSP\\lab1\\{name}.txt")
             case '3':
                 choose_component().show_objects()
             case '4':

@@ -60,7 +60,7 @@ def main():
     while running:
         # Обработка событий
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:                  
                 running = False                    
 
         # Движение облака
