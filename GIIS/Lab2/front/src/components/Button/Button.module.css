@@ -1,0 +1,14 @@
+.btn-new {
+    border-radius: 10px;
+    color: white;
+    transition: .2s linear;
+    background: #a7c9ef;
+}
+
+.active {
+    background: #0B63F6;
+}
+
+.btn-new:hover {
+   box-shadow: #003CC5 0 0px 0px 40px inset;
+}
