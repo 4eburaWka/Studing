@@ -1,73 +1,79 @@
-import csv
-from matplotlib import pyplot as plt
+import pandas as pd
 import numpy as np
-
-
-X, Y = [], []
-with open(r"MRZIS\lab1\Seed_Data.csv") as file:
-    reader = csv.reader(file)
-    for i, row in enumerate(reader):
-        X.append([float(value) for value in row[:-1]])
-        Y.append([float(row[-1])])
-X = np.array(X)
-Y = np.array(Y)
-
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 class PCA:
-    def __init__(self, n_components):
-        self.n_components = n_components
-        self.components = None
-        self.mean = None
+    def standardize_data(self, X):
+        mean = np.mean(X, axis=0)
+        std = np.std(X, axis=0)
+        scaled_X = (X - mean) / std
+        return scaled_X, mean, std
 
-    def fit(self, X):
-        # вычисляем среднее значение по каждому признаку
-        self.mean = np.mean(X, axis=0)
-        # центрируем данные
-        X = X - self.mean
-        # вычисляем ковариационную матрицу
-        cov_matrix = np.cov(X.T)
-        # вычисляем собственные векторы и собственные значения
-        eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
-        # сортируем собственные векторы по убыванию собственных значений
-        eigenvectors = eigenvectors.T
-        idxs = np.argsort(eigenvalues)[::-1]
-        eigenvectors = eigenvectors[idxs]
-        # выбираем первые n_components собственных векторов
-        self.components = eigenvectors[0:self.n_components]
-
+    def fit(self, X, n_components):
+        # Стандартизация данных
+        scaled_X, self.mean, self.std = self.standardize_data(X)
+        
+        # Вычисление матрицы ковариации
+        covariance_matrix = np.cov(scaled_X.T)
+        
+        # Вычисление собственных векторов и собственных значений
+        eigen_values, eigen_vectors = np.linalg.eig(covariance_matrix)
+        
+        # Сортировка собственных значений и векторов
+        eigen_pairs = [(np.abs(eigen_values[i]), eigen_vectors[:,i]) for i in range(len(eigen_values))]
+        eigen_pairs.sort(key=lambda x: x[0], reverse=True)
+        
+        # Выбор компонент для проекции
+        self.components = np.hstack([eigen_pairs[i][1].reshape(-1,1) for i in range(n_components)])
+        
+        # Вычисление объясненной дисперсии
+        total_variance = np.sum(eigen_values)
+        self.explained_variance = [(i / total_variance) * 100 for i in eigen_values]
+        
     def transform(self, X):
-        # центрируем данные
-        X = X - self.mean
-        # проецируем данные на главные компоненты
-        return np.dot(X, self.components.T)
+        # Проецирование данных на главные компоненты
+        return np.dot((X - self.mean) / self.std, self.components)
+
+    def inverse_transform(self, X_transformed):
+        # Обратное преобразование PCA
+        return np.dot(X_transformed, self.components.T) * self.std + self.mean
     
+# Загрузка данных Seed_Data
+seed_data = pd.read_csv(r"C:\Users\litvi\Documents\Studing\MRZIS\lab1\Seed_Data.csv", header=None)
 
-np.random.seed(0)
-X = np.random.rand(10, 7)  # 10 примеров, 7 признаков
+# Разделение признаков и меток классов
+X = seed_data.iloc[:, :-1].values  # Признаки
+y = seed_data.iloc[:, -1].values   # Метки классов
 
-# Создаем экземпляр PCA и обучаем его на данных
-pca = PCA(n_components=1)
-pca.fit(X)
+pca = PCA()
+pca.fit(X, n_components=3)
 
-# Преобразуем данные в новое пространство
-X_pca = pca.transform(X)
+# Преобразование данных
+X_transormed = pca.transform(X)
 
-print("Original shape:", X.shape)
-print("Transformed shape:", X_pca.shape)
+# Применение обратного преобразования PCA
+X_reconstructed = pca.inverse_transform(X_transormed)
 
-plt.figure(figsize=(8, 4))
-plt.subplot(1, 2, 1)
-plt.title('Original Data')
-plt.scatter(X[:, 0], X[:, 1], color='blue')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
+mse = mean_squared_error(X, X_reconstructed)
+mae = mean_absolute_error(X, X_reconstructed)
 
-# Визуализация данных после PCA
-plt.subplot(1, 2, 2)
-plt.title('Transformed Data')
-plt.scatter(X_pca, np.zeros_like(X_pca), color='red')
-plt.xlabel('Principal Component 1')
-plt.ylabel('Zero')
+print("Mean Squared Error (MSE):", mse)
+print("Mean Absolute Error (MAE):", mae)
 
-plt.tight_layout()
+# График Scree plot
+labels = ['PC' + str(x) for x in range(1, len(pca.explained_variance) + 1)]
+plt.bar(x=range(1, len(pca.explained_variance) + 1), height=pca.explained_variance, tick_label=labels)
+print(len(pca.explained_variance))
+plt.ylabel('Percentage of Explained Variance')
+plt.xlabel('Principal Component')
+plt.title('Scree Plot')
+plt.show()
+
+# График PCA scatter plot
+plt.scatter(-X_transormed[:, 0], -X_transormed[:, 1], c=y)
+plt.title('PCA Scatter Plot (PC1 vs PC2)')
+plt.xlabel('PC1 - {}%'.format(pca.explained_variance[0]))
+plt.ylabel('PC2 - {}%'.format(pca.explained_variance[1]))
 plt.show()
