@@ -1,53 +1,85 @@
-import nltk
-from nltk.corpus import wordnet as wn
+from nltk.tokenize import word_tokenize
+from nltk.tag import pos_tag
+from collections import defaultdict
 
-# Функция для извлечения лексем из текста
+from striprtf.striprtf import rtf_to_text
+
+import tkinter as tk
+from tkinter import ttk, filedialog
+
+def analyze_text(input_text):
+    words = word_tokenize(input_text.lower())
+
+    # Определяем части речи слов
+    tagged_words = pos_tag(words)
+
+    word_combinations = defaultdict(list)
+
+    for i in range(len(tagged_words) - 1):
+        word, pos = tagged_words[i]
+        next_word, next_pos = tagged_words[i+1]
+        
+        # Учитываем только существительные и глаголы
+        if pos.startswith('N') and next_pos.startswith(('N', 'V')):
+            word_combinations[word].append(next_word)
+
+    result = ""
+    for word, combinations in sorted(word_combinations.items()):
+        result += f"{word}: {', '.join(combinations)}\n"
+
+    return result
+
+def display_scrollable_text(text):
+    # Создаем главное окно tkinter
+    root = tk.Tk()
+    root.title("Scrollable Text")
+
+    # Создаем текстовое поле
+    text_area = tk.Text(root, wrap="word", height=20, width=60)
+    text_area.insert(tk.END, text)
+    text_area.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+    # Создаем вертикальную полосу прокрутки
+    scrollbar = tk. Scrollbar(root, command=text_area.yview)
+    scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+    text_area.config(yscrollcommand=scrollbar.set)
+
+    # Запускаем главный цикл обработки событий
+    root.mainloop()
 
 
-def extract_lemmas(text):
-    lemmas = []
-    for token in nltk.word_tokenize(text):
-        # Лемматизация
-        lemma = wn.morphy(token)
-        if lemma:
-            lemmas.append(lemma)
-    return lemmas
+def main():
+    root = tk.Tk()
+    file_path = tk.StringVar(root)
+    def ask_file_path():
+        path = filedialog.askopenfilename()
+        if path:
+            file_path.set(path)
 
-# Функция для формирования словаря
-
-
-def create_dictionary(lemmas):
-    dictionary = {}
-    for lemma in lemmas:
-        # Получение синонимов
-        synonyms = [syn.name() for syn in wn.synsets(lemma)]
-        # Получение антонимов
-        antonyms = []
-        for synset in wn.synsets(lemma):
-            for antonym in synset.lemmas():
-                antonyms.append(antonym.name())
-        # Добавление информации в словарь
-        dictionary[lemma] = {"synonyms": synonyms, "antonyms": antonyms}
-    return dictionary
-
-# Функция для сортировки словаря
+    file_path_btn = tk.Button(root, text="Выбрать файл", command=ask_file_path)
+    file_path_btn.pack()
 
 
-def sort_dictionary(dictionary):
-    return sorted(dictionary.items(), key=lambda x: x[0])
+    def convert():
+        if file_path.get():
+            try:
+                with open(file_path.get(), 'r', encoding='utf-8') as file:
+                    text = file.read()
+            except FileNotFoundError:
+                print("Файл не найден.")
+            if file_path.get().endswith('.rtf'):
+                text = rtf_to_text(text)
+            analysis_result = analyze_text(text)
 
-# Функция для вывода словаря
+            display_scrollable_text(analysis_result)
+
+    convert_btn = tk.Button(root, text="Преобразовать", command=convert)
+    convert_btn.pack()
+
+    root.mainloop()
 
 
-def print_dictionary(dictionary):
-    for lemma, info in dictionary:
-        print(f"{lemma}: {info}")
+    # file_path = 'EAI/LAB1/file.txt'  #input("Введите путь к файлу с текстом: ")
 
-
-# Пример использования
-with open('EAI/LAB1/file.txt', encoding='utf-8') as file:
-    text = file.read()
-lemmas = extract_lemmas(text)
-dictionary = create_dictionary(lemmas)
-sorted_dictionary = sort_dictionary(dictionary)
-print_dictionary(sorted_dictionary)
+if __name__ == "__main__":
+    main()
