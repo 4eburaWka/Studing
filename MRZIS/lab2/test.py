@@ -1,4 +1,6 @@
+from matplotlib import pyplot as plt
 import numpy as np
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error
 import pandas as pd
 
@@ -18,6 +20,8 @@ class Autoencoder():
         self.prev_delta_weights_encoding_input = np.zeros((encoding_neuron, input_neuron))
         self.prev_delta_bias_encoding = np.zeros((1, encoding_neuron))
         self.prev_delta_bias_input = np.zeros((1, input_neuron))
+
+        self.errors = []
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
@@ -60,6 +64,9 @@ class Autoencoder():
         self.prev_delta_bias_encoding = delta_bias_encoding
         self.prev_delta_bias_input = delta_bias_input
 
+        mse = np.mean((inputs - self.input_layer_output) ** 2)
+        self.errors.append(mse)
+
     def train(self, inputs, epochs=10):
         for _ in range(epochs):
             self.encode(inputs)
@@ -78,9 +85,18 @@ if __name__ == "__main__":
     data = pd.read_csv(r"MRZIS/lab2/Seed_data.csv", header=None)
     X = data.iloc[:, :-1].values
 
-    autoencoder = Autoencoder(input_neuron=X.shape[1], encoding_neuron=7, learning_rate=0.033, alpha=0.9)
+    scaler = StandardScaler()
+    X = scaler.fit_transform(X)
+
+    autoencoder = Autoencoder(input_neuron=X.shape[1], encoding_neuron=4, learning_rate=0.03, alpha=0.9)
     autoencoder.train(X, epochs=2000)
     X_encode_data = autoencoder.encode_data(X)
     X_decode_data = autoencoder.decode_data(X_encode_data)
 
     print(mean_squared_error(X, X_decode_data))
+
+    plt.plot(autoencoder.errors)
+    plt.xlabel('Epochs')
+    plt.ylabel('Mean Squared Error')
+    plt.title('Training Error')
+    plt.show()

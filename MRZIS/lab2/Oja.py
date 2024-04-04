@@ -29,6 +29,7 @@ class Autoencoder():
         self.input_layer_output = self.sigmoid(self.input_layer_input)
 
     def backward_pass(self, inputs):
+    # Кодирование ошибки и обновление весов/смещений для декодирующего слоя
         encoding_error = inputs - self.input_layer_output
         encoding_delta = encoding_error * self.sigmoid_derivative(self.input_layer_output)
 
@@ -38,12 +39,20 @@ class Autoencoder():
         decoding_error = encoding_delta.dot(self.weights_encoding_input.T)
         decoding_delta = decoding_error * self.sigmoid_derivative(self.encoding_layer_output)
 
-        self.weights_input_encoding += self.learning_rate * np.dot(inputs.T, decoding_delta) / inputs.shape[0]
+        # Правильное обновление с использованием правила Ойи
+        # Необходимо выполнить операцию для каждого нейрона в кодирующем слое
+        for i in range(self.encoding_neuron):
+            # Корректировка выражения для oja_delta
+            delta_w = self.learning_rate * (self.encoding_layer_output[:, i][:, np.newaxis] * (inputs - self.encoding_layer_output[:, i][:, np.newaxis] * self.weights_input_encoding[:, i])).mean(axis=0)
+            self.weights_input_encoding[:, i] += delta_w
+
         self.bias_encoding += self.learning_rate * np.mean(decoding_delta, axis=0, keepdims=True)
 
-        # Вычисляем среднеквадратичную ошибку и добавляем в список
+        # Вычисление и сохранение среднеквадратичной ошибки
         mse = np.mean((inputs - self.input_layer_output) ** 2)
         self.errors.append(mse)
+
+
 
     def train(self, inputs, epochs=10):
         self.errors = []
@@ -66,8 +75,8 @@ if __name__ == "__main__":
 
     scaler = StandardScaler()
     X = scaler.fit_transform(X)
-    autoencoder = Autoencoder(input_neuron=X.shape[1], encoding_neuron=5, learning_rate=0.033)
-    autoencoder.train(X, epochs=10000)
+    autoencoder = Autoencoder(input_neuron=X.shape[1], encoding_neuron=5, learning_rate=0.093)
+    autoencoder.train(X, epochs=1000)
     X_encode_data = autoencoder.encode_data(X)
     X_decode_data = autoencoder.decode_data(X_encode_data)
 
