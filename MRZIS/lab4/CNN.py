@@ -99,31 +99,70 @@ def train_loop(images, labels, model, criterion, print_log_freq, lr, change_weig
                   f'Acc: {acc_avg:.4f}, time: {loop_time:.1f}')
 
 def train(model, change_weights):
-    imgs = read_idxfile('MRZIS/lab4/4_for_danik/train-images.idx3-ubyte') # [[0, 255, 34, ... 784], ...]
-    lbls = read_idxfile('MRZIS/lab4/4_for_danik/train-labels.idx1-ubyte') # [[0, 0, 1, 0 ... 9], ...]
+    imgs = read_idxfile('MRZIS/lab4/train-images-idx3-ubyte') # [[0, 255, 34, ... 784], ...]
+    lbls = read_idxfile('MRZIS/lab4/train-labels-idx1-ubyte') # [[0, 0, 1, 0 ... 9], ...]
     
     # Поиск картинок с 1, 4, 8
     poss = []
     for i in range(len(lbls)):
-        if lbls[i] in (1, 4, 8):
-            poss.append(i)
+        # if lbls[i] in (1, 4, 8, 9):
+        poss.append(i)
     images = []
     labels = []
-    for i in poss[:1000]:
+    for i in poss[:700]:
         images.append(imgs[i])
         labels.append(lbls[i])
     images = np.array(images)
     labels = get_labels(np.array(labels))
         
 
-    train_images, test_images, train_labels, test_labels = train_test_split(images, labels, test_size=0.2)
     criterion = CrossEntropyLoss()
 
     for epoch in range(1):
-        train_loop(train_images, train_labels, model, criterion, print_log_freq=100, lr=0.04, change_weights_file=change_weights)
+        train_loop(images, labels, model, criterion, print_log_freq=100, lr=0.04, change_weights_file=change_weights)
+    print("Train complete!")
+
+def test(model):
+    loss_log = []
+    acc_log = []
+
+    print('\nTest:')
+    imgs = read_idxfile('MRZIS/lab4/t10k-images-idx3-ubyte') # [[0, 255, 34, ... 784], ...]
+    lbls = read_idxfile('MRZIS/lab4/t10k-labels-idx1-ubyte') # [[0, 0, 1, 0 ... 9], ...]
+    
+    # Поиск картинок с 1, 4, 8
+    poss = []
+    for i in range(len(lbls)):
+        if lbls[i] in (1, 4, 8, 9):
+            poss.append(i)
+    images = []
+    labels = []
+    for i in poss[:500]:
+        images.append(imgs[i])
+        labels.append(lbls[i])
+    images = np.array(images)
+    labels = get_labels(np.array(labels))
+        
+
+    criterion = CrossEntropyLoss()
+
+    for idx, (image, target) in enumerate(zip(images, labels)):
+        pred = model([image])
+        loss = criterion(target, pred)
+
+        loss_log.append(loss.sum())
+        acc_log.append(pred.argmax() == target.argmax())
+        
+        loss_avg = loss_log[-1]
+        acc_avg = acc_log[-1]
+    print(f'Train results: avg acc: {np.average(acc_log)}.\nCount right: {np.count_nonzero(acc_log)}\
+          Count errors: {len(acc_log)-np.count_nonzero(acc_log)}')
+
+
 
 if __name__ == '__main__':
-    model = CnnFromScratch(load_weights=True)
+    model = CnnFromScratch(load_weights=False)
     train(model, change_weights=False)
+    test(model)
         # ^ change_weights_file нужно указывать true если нужно сохранять веса в файле при обучении ^^^^^^^^^^^^^^
 
