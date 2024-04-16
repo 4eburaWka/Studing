@@ -29,7 +29,7 @@ class Autoencoder(nn.Module):
         x = self.decoder(x)
         return x
     
-data = pd.read_csv("sonar.all-data.csv", header=None)
+data = pd.read_csv("Seed_Data.csv", header=None)
 X = data.iloc[:, :-1].values
 
 scaler = StandardScaler()

@@ -118,7 +118,7 @@ def train(model, change_weights):
 
     criterion = CrossEntropyLoss()
 
-    for epoch in range(1):
+    for epoch in range(3):
         train_loop(images, labels, model, criterion, print_log_freq=100, lr=0.04, change_weights_file=change_weights)
     print("Train complete!")
 

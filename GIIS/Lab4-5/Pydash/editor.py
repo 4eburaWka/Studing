@@ -114,7 +114,6 @@ class Editor:
         ### EDITOR LOGIC
         level_frame = tk.Frame(self.root, borderwidth=1, relief='solid')
         level_object = Level(level_frame, self.selected_block, btn_icons=self.btn_icons)
-        level_object.read_csv(r'C:\Users\litvi\Projects\Pydash\levels\kobrin gas.csv')
 
         level_object.show()
         ###
