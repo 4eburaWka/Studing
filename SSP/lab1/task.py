@@ -26,7 +26,7 @@ class PCComponent:
     def show_objects(cls):
         table = PrettyTable()
         table.field_names = ['№', *cls.__init__.__code__.co_varnames[1:]]
-        for i, object in enumerate(cls.objects, start=1):
+        for i, object in enumerate(cls.objects, start=0):
             table.add_row([i, *object.__dict__.values()])
         print(table)
     
@@ -64,7 +64,7 @@ class CPU(PCComponent):
         return self.__socket, self.__company_name, self.__cores_count, self.__base_frequency, self.__turbo_frequency, self.__TDP
 
 
-class Motherboard(6):
+class Motherboard(PCComponent):
     objects = []
     def __init__(self, socket, company_name, form_factor, PCIExpressx16_count, PCIExpressx1_count, sata_count, CPUVideo_support, TDP) -> None:
         self.__socket: str = socket

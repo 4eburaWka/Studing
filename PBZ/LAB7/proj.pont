@@ -1,0 +1,253 @@
+; Wed Apr 24 08:56:49 VET 2024
+; 
+;+ (version "3.5")
+;+ (build "Build 663")
+
+
+(defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
+	(is-a USER)
+	(role abstract)
+	(single-slot %D0%9C%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D0%BD%D1%8B%D0%B9+%D0%BD%D0%B0%D0%BA%D0%BE%D0%BD%D0%B5%D1%87%D0%BD%D0%B8%D0%BA
+;+		(comment "Наличие магнитного наконечника для удержания винтов")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB
+;+		(comment "Материал из которого сделано полотно")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A7%D0%B8%D1%81%D0%BB%D0%BE+%D0%BD%D0%B0%D1%81%D0%B0%D0%B4%D0%BE%D0%BA
+;+		(comment "Количество сменных насадок")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB+%D1%80%D1%83%D1%87%D0%BA%D0%B8
+;+		(comment "Материал, из которого сделана ручка")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9E%D1%81%D1%82%D1%80%D0%BE%D1%82%D0%B0+%D0%BB%D0%B5%D0%B7%D0%B2%D0%B8%D1%8F
+;+		(comment "Оценка остроты лезвия (минимум: 1, максимум: 10, значение по умолчанию: 5)")
+		(type INTEGER)
+		(range 1 10)
+		(default 5)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%93%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D0%B0+%D1%80%D0%B5%D0%B7%D0%BA%D0%B8
+;+		(comment "Глубина резки рубанка в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A2%D0%B8%D0%BF+%D0%BD%D0%B0%D0%BA%D0%BE%D0%BD%D0%B5%D1%87%D0%BD%D0%B8%D0%BA%D0%B0
+;+		(comment "Тип наконечника отвёртки (крестовая, шлицевая)")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB+%D0%B4%D0%BB%D1%8F+%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8
+;+		(comment "Материал для которого предназначен инструмент")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%91%D1%8B%D1%81%D1%82%D1%80%D0%BE%D1%80%D0%B0%D0%B7%D1%8A%D0%B5%D0%BC%D0%BD%D1%8B%D0%B9+%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC
+;+		(comment "Наличие механизма для быстрого снятия и установки струбцины")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%94%D0%BB%D0%B8%D0%BD%D0%B0+%D1%87%D0%B5%D0%BB%D1%8E%D1%81%D1%82%D0%B5%D0%B9
+;+		(comment "Длина зажимных челюстей в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A7%D0%B8%D1%81%D0%BB%D0%BE+%D0%B7%D1%83%D0%B1%D1%8C%D0%B5%D0%B2
+;+		(comment "Количество зубьев на инструменте")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot KB_306985_Class3
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A0%D0%B5%D0%B3%D1%83%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B3%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D1%8B+%D1%80%D0%B5%D0%B7%D0%BA%D0%B8
+;+		(comment "Возможность регулировки глубины резки")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A3%D0%B3%D0%BE%D0%BB+%D0%BE%D1%82%D0%BA%D1%80%D1%82%D1%8B%D0%B8%D1%8F+%D1%80%D1%83%D1%87%D0%B5%D0%BA
+;+		(comment "Угол, на который могут открываться ручки для удобства резки")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B0%D1%8F+%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1%D0%BD%D0%BE%D1%81%D1%82%D1%8C
+;+		(comment "Максимальная толщина провода, которую могут перерезать кусачки")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9+%D0%B7%D0%B0%D0%B6%D0%B8%D0%BC
+;+		(comment "Максимальная ширина зажима в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%94%D0%BB%D0%B8%D0%BD%D0%B0
+;+		(comment "Размер инструмента в сантиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%98%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F+%D1%80%D1%83%D1%87%D0%BA%D0%B0
+;+		(comment "Наличие изоляции на ручке для защиты от электричества")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%94%D0%B8%D0%B0%D0%BF%D0%B0%D0%B7%D0%BE%D0%BD+%D0%B7%D0%B0%D0%B6%D0%B8%D0%BC%D0%B0
+;+		(comment "Максимальный диапазон зажима в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B
+	(is-a USER)
+	(role abstract)
+	(single-slot %D0%94%D0%BB%D0%B8%D0%BD%D0%B0
+;+		(comment "Размер инструмента в сантиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB+%D0%B4%D0%BB%D1%8F+%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8
+;+		(comment "Материал для которого предназначен инструмент")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B8%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B
+	(is-a %D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B)
+	(role abstract)
+	(single-slot %D0%A7%D0%B8%D1%81%D0%BB%D0%BE+%D0%B7%D1%83%D0%B1%D1%8C%D0%B5%D0%B2
+;+		(comment "Количество зубьев на инструменте")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%A0%D1%83%D0%B1%D0%B0%D0%BD%D0%BE%D0%BA
+	(is-a %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B8%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%93%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D0%B0+%D1%80%D0%B5%D0%B7%D0%BA%D0%B8
+;+		(comment "Глубина резки рубанка в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A0%D0%B5%D0%B3%D1%83%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0+%D0%B3%D0%BB%D1%83%D0%B1%D0%B8%D0%BD%D1%8B+%D1%80%D0%B5%D0%B7%D0%BA%D0%B8
+;+		(comment "Возможность регулировки глубины резки")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%A1%D1%82%D0%B0%D0%BC%D0%B5%D1%81%D0%BA%D0%B0
+	(is-a %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B8%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB+%D1%80%D1%83%D1%87%D0%BA%D0%B8
+;+		(comment "Материал, из которого сделана ручка")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%97%D1%83%D0%B1%D0%B8%D0%BB%D0%BE
+	(is-a %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B8%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%9E%D1%81%D1%82%D1%80%D0%BE%D1%82%D0%B0+%D0%BB%D0%B5%D0%B7%D0%B2%D0%B8%D1%8F
+;+		(comment "Оценка остроты лезвия (минимум: 1, максимум: 10, значение по умолчанию: 5)")
+		(type INTEGER)
+		(range 1 10)
+		(default 5)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%9F%D0%B8%D0%BB%D0%B0
+	(is-a %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B8%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB
+;+		(comment "Материал из которого сделано полотно")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%9A%D1%80%D1%83%D1%82%D1%8F%D1%89%D0%B8%D0%B5%D1%81%D1%8F+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B
+	(is-a %D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B)
+	(role abstract)
+	(single-slot %D0%A7%D0%B8%D1%81%D0%BB%D0%BE+%D0%BD%D0%B0%D1%81%D0%B0%D0%B4%D0%BE%D0%BA
+;+		(comment "Количество сменных насадок")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%9E%D1%82%D0%B2%D0%B5%D1%80%D1%82%D0%BA%D0%B0
+	(is-a %D0%9A%D1%80%D1%83%D1%82%D1%8F%D1%89%D0%B8%D0%B5%D1%81%D1%8F+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%A2%D0%B8%D0%BF+%D0%BD%D0%B0%D0%BA%D0%BE%D0%BD%D0%B5%D1%87%D0%BD%D0%B8%D0%BA%D0%B0
+;+		(comment "Тип наконечника отвёртки (крестовая, шлицевая)")
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%9C%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D0%BD%D1%8B%D0%B9+%D0%BD%D0%B0%D0%BA%D0%BE%D0%BD%D0%B5%D1%87%D0%BD%D0%B8%D0%BA
+;+		(comment "Наличие магнитного наконечника для удержания винтов")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%97%D0%B0%D0%B6%D0%B8%D0%BC%D0%BD%D1%8B%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B
+	(is-a %D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D1%8B)
+	(role abstract)
+	(single-slot %D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9+%D0%B7%D0%B0%D0%B6%D0%B8%D0%BC
+;+		(comment "Максимальная ширина зажима в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%9F%D0%BB%D0%BE%D1%81%D0%BA%D0%BE%D0%B3%D1%83%D0%B1%D1%86%D1%8B
+	(is-a %D0%97%D0%B0%D0%B6%D0%B8%D0%BC%D0%BD%D1%8B%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%98%D0%B7%D0%BE%D0%BB%D1%8F%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D0%B0%D1%8F+%D1%80%D1%83%D1%87%D0%BA%D0%B0
+;+		(comment "Наличие изоляции на ручке для защиты от электричества")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%94%D0%BB%D0%B8%D0%BD%D0%B0+%D1%87%D0%B5%D0%BB%D1%8E%D1%81%D1%82%D0%B5%D0%B9
+;+		(comment "Длина зажимных челюстей в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%9A%D1%83%D1%81%D0%B0%D1%87%D0%BA%D0%B8
+	(is-a %D0%97%D0%B0%D0%B6%D0%B8%D0%BC%D0%BD%D1%8B%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%A0%D0%B5%D0%B6%D1%83%D1%89%D0%B0%D1%8F+%D1%81%D0%BF%D0%BE%D1%81%D0%BE%D0%B1%D0%BD%D0%BE%D1%81%D1%82%D1%8C
+;+		(comment "Максимальная толщина провода, которую могут перерезать кусачки")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%A3%D0%B3%D0%BE%D0%BB+%D0%BE%D1%82%D0%BA%D1%80%D1%82%D1%8B%D0%B8%D1%8F+%D1%80%D1%83%D1%87%D0%B5%D0%BA
+;+		(comment "Угол, на который могут открываться ручки для удобства резки")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass %D0%A1%D1%82%D1%80%D1%83%D0%B1%D1%86%D0%B8%D0%BD%D0%B0
+	(is-a %D0%97%D0%B0%D0%B6%D0%B8%D0%BC%D0%BD%D1%8B%D0%B5+%D0%B8%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D1%82%D1%8B)
+	(role concrete)
+	(single-slot %D0%94%D0%B8%D0%B0%D0%BF%D0%B0%D0%B7%D0%BE%D0%BD+%D0%B7%D0%B0%D0%B6%D0%B8%D0%BC%D0%B0
+;+		(comment "Максимальный диапазон зажима в миллиметрах")
+		(type INTEGER)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %D0%91%D1%8B%D1%81%D1%82%D1%80%D0%BE%D1%80%D0%B0%D0%B7%D1%8A%D0%B5%D0%BC%D0%BD%D1%8B%D0%B9+%D0%BC%D0%B5%D1%85%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC
+;+		(comment "Наличие механизма для быстрого снятия и установки струбцины")
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
+;+		(cardinality 0 1)
+		(create-accessor read-write)))
