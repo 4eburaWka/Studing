@@ -1,6 +1,6 @@
 venv
 .idea
-.vscode
+.vscode/
 *.sqlite3
 migrations
 __pycache__
