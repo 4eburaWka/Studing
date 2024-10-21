@@ -74,13 +74,12 @@
   #include <math.h>
   #include <ctype.h>
   #include <stdio.h>
-  #include <windows.h>
 
   int yylex (void);
   void yyerror (char const *);
   
 
-#line 84 "y.tab.c"
+#line 83 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -554,8 +553,8 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    20,    20,    21,    24,    25,    28,    29,    30,    31,
-      32,    34,    36
+       0,    19,    19,    20,    23,    24,    27,    28,    29,    30,
+      31,    33,    35
 };
 #endif
 
@@ -1119,55 +1118,55 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* line: exp '\n'  */
-#line 25 "calc.y"
+#line 24 "calc.y"
                         { printf ("\t%.10g\n", yyvsp[-1]); }
-#line 1125 "y.tab.c"
+#line 1124 "y.tab.c"
     break;
 
   case 6: /* exp: NUM  */
-#line 28 "calc.y"
+#line 27 "calc.y"
                         { yyval = yyvsp[0];           }
-#line 1131 "y.tab.c"
+#line 1130 "y.tab.c"
     break;
 
   case 7: /* exp: exp exp '+'  */
-#line 29 "calc.y"
+#line 28 "calc.y"
                         { yyval = yyvsp[-2] + yyvsp[-1];      }
-#line 1137 "y.tab.c"
+#line 1136 "y.tab.c"
     break;
 
   case 8: /* exp: exp exp '-'  */
-#line 30 "calc.y"
+#line 29 "calc.y"
                         { yyval = yyvsp[-2] - yyvsp[-1];      }
-#line 1143 "y.tab.c"
+#line 1142 "y.tab.c"
     break;
 
   case 9: /* exp: exp exp '*'  */
-#line 31 "calc.y"
+#line 30 "calc.y"
                         { yyval = yyvsp[-2] * yyvsp[-1];      }
-#line 1149 "y.tab.c"
+#line 1148 "y.tab.c"
     break;
 
   case 10: /* exp: exp exp '/'  */
-#line 32 "calc.y"
+#line 31 "calc.y"
                         { yyval = yyvsp[-2] / yyvsp[-1];      }
-#line 1155 "y.tab.c"
+#line 1154 "y.tab.c"
     break;
 
   case 11: /* exp: exp exp '^'  */
-#line 34 "calc.y"
+#line 33 "calc.y"
                         { yyval = pow (yyvsp[-2], yyvsp[-1]); }
-#line 1161 "y.tab.c"
+#line 1160 "y.tab.c"
     break;
 
   case 12: /* exp: exp 'n'  */
-#line 36 "calc.y"
+#line 35 "calc.y"
                         { yyval = -yyvsp[-1];          }
-#line 1167 "y.tab.c"
+#line 1166 "y.tab.c"
     break;
 
 
-#line 1171 "y.tab.c"
+#line 1170 "y.tab.c"
 
       default: break;
     }
@@ -1360,7 +1359,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 38 "calc.y"
+#line 37 "calc.y"
 
 
 

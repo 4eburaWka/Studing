@@ -6,7 +6,6 @@
   #include <math.h>
   #include <ctype.h>
   #include <stdio.h>
-  #include <windows.h>
 
   int yylex (void);
   void yyerror (char const *);

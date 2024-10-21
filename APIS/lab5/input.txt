@@ -1,0 +1,5 @@
+record Myrecord;
+integer a; 
+real b; 
+string[30] str; 
+{ This is a comment }
